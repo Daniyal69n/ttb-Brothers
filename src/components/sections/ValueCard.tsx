@@ -8,28 +8,28 @@ interface ValueCardProps {
 
 export function ValueCard({ value }: ValueCardProps) {
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200/90 dark:border-slate-800 p-6 sm:p-8 hover:border-blue-200 dark:hover:border-blue-900 transition-colors flex flex-col justify-between">
+    <div className="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200/90 dark:border-neutral-800 p-6 sm:p-8 hover:border-[#f0c8f0] dark:hover:border-[#521352] transition-colors flex flex-col justify-between">
       <div>
-        <div className="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-5">
+        <div className="w-12 h-12 rounded-lg bg-[#faf0fa] dark:bg-[#2d0a2d] border border-[#f0c8f0] dark:border-[#521352] text-[#8c1f8c] dark:text-[#f0b8f0] flex items-center justify-center mb-5">
           <DynamicIcon name={value.iconName} className="w-6 h-6" />
         </div>
 
-        <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+        <h3 className="text-lg sm:text-xl font-bold text-black dark:text-white mb-2">
           {value.title}
         </h3>
 
-        <p className="text-sm font-medium text-blue-600 dark:text-blue-400 mb-3">
+        <p className="text-sm font-medium text-[#8c1f8c] dark:text-[#f0b8f0] mb-3">
           {value.shortDescription}
         </p>
 
-        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+        <p className="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
           {value.fullDescription}
         </p>
       </div>
 
-      <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+      <div className="mt-6 pt-4 border-t border-gray-100 dark:border-neutral-800 flex items-center justify-between text-xs text-gray-400">
         <span>Principle ID</span>
-        <span className="font-mono">{value.id}</span>
+        <span className="font-mono text-gray-500">{value.id}</span>
       </div>
     </div>
   );

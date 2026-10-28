@@ -29,13 +29,13 @@ export function Button({
 
   const variantStyles = {
     primary:
-      "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-sm hover:shadow focus:ring-blue-500",
+      "bg-[#a329a3] text-white hover:bg-[#8a238a] active:bg-[#731d73] shadow-sm hover:shadow focus:ring-[#a329a3]",
     secondary:
-      "bg-slate-900 text-white hover:bg-slate-800 active:bg-slate-950 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white shadow-sm focus:ring-slate-500",
+      "bg-black text-white hover:bg-neutral-800 active:bg-neutral-900 dark:bg-white dark:text-black dark:hover:bg-neutral-100 shadow-sm focus:ring-neutral-500",
     outline:
-      "border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 active:bg-slate-100 focus:ring-blue-500",
+      "border border-gray-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 bg-white dark:bg-neutral-900 hover:bg-gray-50 dark:hover:bg-neutral-800 hover:border-[#a329a3] dark:hover:border-[#a329a3] active:bg-gray-100 focus:ring-[#a329a3]",
     ghost:
-      "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:ring-slate-400",
+      "text-neutral-700 dark:text-neutral-300 hover:bg-gray-100 dark:hover:bg-neutral-800 focus:ring-[#a329a3]",
   };
 
   const combinedClass = `${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;

@@ -43,43 +43,43 @@ export default function HomePage() {
       <Hero />
 
       {/* 2. Introduction to TTB Section */}
-      <section className="py-20 bg-white dark:bg-slate-900 border-b border-slate-200/80 dark:border-slate-800">
+      <section className="py-20 bg-white dark:bg-neutral-900 border-b border-gray-200/80 dark:border-neutral-800">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/70 dark:border-blue-800">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#faf0fa] dark:bg-[#2d0a2d] text-[#8c1f8c] dark:text-[#f0b8f0] border border-[#f0c8f0] dark:border-[#521352]">
                 <Building className="w-3.5 h-3.5" />
                 About TTB
               </div>
 
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-black dark:text-white">
                 Committed to Long-Term Corporate Resilience
               </h2>
 
-              <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed">
                 {companyData.description}
               </p>
 
               <div className="space-y-3 pt-2">
                 <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
-                  <p className="text-sm text-slate-700 dark:text-slate-200">
+                  <CheckCircle className="w-5 h-5 text-[#a329a3] mt-0.5 shrink-0" />
+                  <p className="text-sm text-neutral-800 dark:text-neutral-200">
                     <strong>Rigorous Methodologies:</strong> Standardized operating
                     protocols that deliver consistent, verifiable results.
                   </p>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
-                  <p className="text-sm text-slate-700 dark:text-slate-200">
+                  <CheckCircle className="w-5 h-5 text-[#a329a3] mt-0.5 shrink-0" />
+                  <p className="text-sm text-neutral-800 dark:text-neutral-200">
                     <strong>Ethical Alignment:</strong> Transparency in stakeholder
                     reporting and bilateral compliance.
                   </p>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
-                  <p className="text-sm text-slate-700 dark:text-slate-200">
+                  <CheckCircle className="w-5 h-5 text-[#a329a3] mt-0.5 shrink-0" />
+                  <p className="text-sm text-neutral-800 dark:text-neutral-200">
                     <strong>Adaptive Execution:</strong> Practical strategies
                     structured to perform across dynamic commercial cycles.
                   </p>
@@ -89,69 +89,69 @@ export default function HomePage() {
               <div className="pt-4">
                 <Link
                   href="/about-us/"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-[#8c1f8c] dark:text-[#f0b8f0] hover:text-[#731d73] dark:hover:text-white transition-colors"
                 >
                   Read full corporate profile &rarr;
                 </Link>
               </div>
             </div>
 
-            <div className="lg:col-span-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 p-8 sm:p-10 space-y-6">
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+            <div className="lg:col-span-6 bg-gray-50 dark:bg-neutral-800/50 rounded-2xl border border-gray-200/80 dark:border-neutral-700/80 p-8 sm:p-10 space-y-6">
+              <h3 className="text-xl font-bold text-black dark:text-white">
                 Operating Benchmarks
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800">
-                  <span className="text-xs uppercase tracking-wider text-slate-600 dark:text-slate-400 font-semibold block mb-1">
+                <div className="p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200/60 dark:border-neutral-800">
+                  <span className="text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-semibold block mb-1">
                     Governance Structure
                   </span>
-                  <p className="text-base font-bold text-slate-900 dark:text-white">
+                  <p className="text-base font-bold text-black dark:text-white">
                     Direct Oversight
                   </p>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-neutral-500 mt-1">
                     Board-level compliance alignment on all programs.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800">
-                  <span className="text-xs uppercase tracking-wider text-slate-600 dark:text-slate-400 font-semibold block mb-1">
+                <div className="p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200/60 dark:border-neutral-800">
+                  <span className="text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-semibold block mb-1">
                     Quality Standards
                   </span>
-                  <p className="text-base font-bold text-slate-900 dark:text-white">
+                  <p className="text-base font-bold text-black dark:text-white">
                     Strict Verification
                   </p>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-neutral-500 mt-1">
                     Milestone-driven deliverable sign-offs.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800">
-                  <span className="text-xs uppercase tracking-wider text-slate-600 dark:text-slate-400 font-semibold block mb-1">
+                <div className="p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200/60 dark:border-neutral-800">
+                  <span className="text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-semibold block mb-1">
                     Partnership Model
                   </span>
-                  <p className="text-base font-bold text-slate-900 dark:text-white">
+                  <p className="text-base font-bold text-black dark:text-white">
                     Long-Term Value
                   </p>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-neutral-500 mt-1">
                     Enduring stakeholder collaboration.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800">
-                  <span className="text-xs uppercase tracking-wider text-slate-600 dark:text-slate-400 font-semibold block mb-1">
+                <div className="p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200/60 dark:border-neutral-800">
+                  <span className="text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-semibold block mb-1">
                     Confidentiality
                   </span>
-                  <p className="text-base font-bold text-slate-900 dark:text-white">
+                  <p className="text-base font-bold text-black dark:text-white">
                     NDA Protected
                   </p>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-neutral-500 mt-1">
                     Complete proprietary data security.
                   </p>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/70 dark:border-blue-900 text-xs text-blue-900 dark:text-blue-200">
+              <div className="p-4 rounded-xl bg-[#faf0fa] dark:bg-[#2d0a2d] border border-[#f0c8f0] dark:border-[#521352] text-xs text-[#6b146b] dark:text-[#f0b8f0]">
                 All metrics and engagements follow verified corporate audit
                 standards.
               </div>
@@ -161,7 +161,7 @@ export default function HomePage() {
       </section>
 
       {/* 3. Overview of Services */}
-      <section className="py-20 bg-slate-50/60 dark:bg-slate-950/50 border-b border-slate-200/80 dark:border-slate-800">
+      <section className="py-20 bg-gray-50/60 dark:bg-neutral-950/50 border-b border-gray-200/80 dark:border-neutral-800">
         <Container>
           <SectionHeader
             badge="Services & Capabilities"
@@ -178,7 +178,7 @@ export default function HomePage() {
           <div className="mt-12 text-center">
             <Link
               href="/services/"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-neutral-800 dark:text-neutral-200 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-800 hover:border-[#a329a3] transition-colors shadow-sm"
             >
               View All 6 Service Portfolios
               <ArrowRight className="w-4 h-4" />
@@ -188,7 +188,7 @@ export default function HomePage() {
       </section>
 
       {/* 4. Company Strengths or Values */}
-      <section className="py-20 bg-white dark:bg-slate-900 border-b border-slate-200/80 dark:border-slate-800">
+      <section className="py-20 bg-white dark:bg-neutral-900 border-b border-gray-200/80 dark:border-neutral-800">
         <Container>
           <SectionHeader
             badge="Core Philosophy"
@@ -205,7 +205,7 @@ export default function HomePage() {
           <div className="mt-12 text-center">
             <Link
               href="/our-values/"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#8c1f8c] dark:text-[#f0b8f0] hover:text-[#731d73] dark:hover:text-white"
             >
               Explore our complete governance principles &rarr;
             </Link>
@@ -214,7 +214,7 @@ export default function HomePage() {
       </section>
 
       {/* 5. Featured Projects */}
-      <section className="py-20 bg-slate-50/60 dark:bg-slate-950/50 border-b border-slate-200/80 dark:border-slate-800">
+      <section className="py-20 bg-gray-50/60 dark:bg-neutral-950/50 border-b border-gray-200/80 dark:border-neutral-800">
         <Container>
           <SectionHeader
             badge="Selected Engagements"
@@ -231,7 +231,7 @@ export default function HomePage() {
           <div className="mt-12 text-center">
             <Link
               href="/projects/"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-neutral-800 dark:text-neutral-200 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-800 hover:border-[#a329a3] transition-colors shadow-sm"
             >
               Access Complete Project Portfolio
               <ArrowRight className="w-4 h-4" />
@@ -241,7 +241,7 @@ export default function HomePage() {
       </section>
 
       {/* 6. Clients Section */}
-      <section className="py-20 bg-white dark:bg-slate-900 border-b border-slate-200/80 dark:border-slate-800">
+      <section className="py-20 bg-white dark:bg-neutral-900 border-b border-gray-200/80 dark:border-neutral-800">
         <Container>
           <SectionHeader
             badge="Institutional Network"
@@ -254,7 +254,7 @@ export default function HomePage() {
           <div className="mt-8 text-center">
             <Link
               href="/clients/"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#8c1f8c] dark:text-[#f0b8f0] hover:text-[#731d73] dark:hover:text-white"
             >
               Review client engagement framework &rarr;
             </Link>
@@ -263,18 +263,18 @@ export default function HomePage() {
       </section>
 
       {/* 7. Careers Call to Action */}
-      <section className="py-16 bg-gradient-to-r from-slate-900 to-blue-950 text-white">
+      <section className="py-16 bg-gradient-to-r from-black via-neutral-900 to-black text-white border-y border-neutral-800">
         <Container>
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-800/60 text-blue-200 border border-blue-700/60">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#2d0a2d] text-[#f0b8f0] border border-[#521352]">
                 <Users2 className="w-3.5 h-3.5" />
                 Talent & Leadership
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
                 Interested in Joining the TTB Team?
               </h2>
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
                 We welcome high-caliber professionals seeking to contribute to
                 rigorous corporate engagements. Discover our culture and submit
                 your credentials.
@@ -284,7 +284,7 @@ export default function HomePage() {
             <div className="flex items-center gap-4 shrink-0">
               <Link
                 href="/careers/"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold text-slate-950 bg-white hover:bg-slate-100 transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold text-white bg-[#a329a3] hover:bg-[#8a238a] active:bg-[#731d73] transition-colors shadow-sm"
               >
                 Explore Careers & Culture
                 <ArrowRight className="w-4 h-4" />
@@ -295,33 +295,33 @@ export default function HomePage() {
       </section>
 
       {/* 8. Contact Section */}
-      <section className="py-20 bg-slate-50 dark:bg-slate-950">
+      <section className="py-20 bg-gray-50 dark:bg-neutral-950">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             <div className="lg:col-span-5 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#faf0fa] dark:bg-[#2d0a2d] text-[#8c1f8c] dark:text-[#f0b8f0] border border-[#f0c8f0] dark:border-[#521352]">
                 <PhoneCall className="w-3.5 h-3.5" />
                 Initiate Inquiry
               </div>
 
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+              <h2 className="text-3xl font-bold tracking-tight text-black dark:text-white">
                 Start a Conversation with TTB Leadership
               </h2>
 
-              <p className="text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
                 Connect directly with our corporate operations team to discuss
                 service engagements, partnership opportunities, or institutional
                 advisory needs.
               </p>
 
-              <div className="p-6 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 space-y-4">
+              <div className="p-6 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200/90 dark:border-neutral-800 space-y-4">
                 <div className="flex items-start gap-3">
-                  <ShieldCheck className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
+                  <ShieldCheck className="w-5 h-5 text-[#a329a3] mt-0.5 shrink-0" />
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    <h4 className="text-sm font-bold text-black dark:text-white">
                       Direct Executive Routing
                     </h4>
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="text-xs text-neutral-500 mt-0.5">
                       Messages are securely received and routed directly to
                       relevant practice leaders.
                     </p>
@@ -329,12 +329,12 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Target className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
+                  <Target className="w-5 h-5 text-[#a329a3] mt-0.5 shrink-0" />
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    <h4 className="text-sm font-bold text-black dark:text-white">
                       Guaranteed Response Window
                     </h4>
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="text-xs text-neutral-500 mt-0.5">
                       Standard business inquiries are acknowledged within one
                       business day.
                     </p>

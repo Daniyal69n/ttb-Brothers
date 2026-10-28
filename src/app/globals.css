@@ -2,7 +2,26 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #111827;
+  
+  /* TTB Brand Colors: Primary Purple (CMYK 20, 80, 0, 20), Black, Gray, White */
+  --brand-purple: #a329a3;
+  --brand-purple-hover: #8a238a;
+  --brand-purple-active: #731d73;
+  --brand-purple-text: #8c1f8c;
+  --brand-purple-light: #faf0fa;
+  --brand-purple-border: #f0c8f0;
+  --brand-purple-dark: #2d0a2d;
+  --brand-purple-dark-text: #f0b8f0;
+  
+  --brand-black: #0a0a0a;
+  --brand-charcoal: #171717;
+  
+  --brand-gray-50: #f9fafb;
+  --brand-gray-100: #f3f4f6;
+  --brand-gray-200: #e5e7eb;
+  --brand-gray-700: #374151;
+  --brand-gray-900: #111827;
 }
 
 @theme inline {
@@ -10,12 +29,20 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  --color-brand-purple: var(--brand-purple);
+  --color-brand-purple-hover: var(--brand-purple-hover);
+  --color-brand-purple-active: var(--brand-purple-active);
+  --color-brand-purple-text: var(--brand-purple-text);
+  --color-brand-purple-light: var(--brand-purple-light);
+  --color-brand-purple-border: var(--brand-purple-border);
+  --color-brand-black: var(--brand-black);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #f3f4f6;
   }
 }
 
