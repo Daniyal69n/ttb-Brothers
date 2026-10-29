@@ -134,10 +134,10 @@ export function Navbar() {
           {/* Desktop Right CTA (Refined Purple Action Button) */}
           <div className="hidden lg:flex items-center gap-2 shrink-0">
             <Link
-              href="/contact-us/"
+              href="/about-us/#directors-message"
               className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs xl:text-sm font-semibold text-white bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] transition-all duration-200 ease-out shadow-sm hover:shadow-md hover:shadow-brand-purple/25 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple"
             >
-              <span>Contact Us</span>
+              <span>Director&apos;s Message</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
             </Link>
           </div>
@@ -218,11 +218,11 @@ export function Navbar() {
               }`}
             >
               <Link
-                href="/contact-us/"
+                href="/about-us/#directors-message"
                 onClick={handleLinkClick}
                 className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold text-white bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] transition-all shadow-md group"
               >
-                <span>Contact Us</span>
+                <span>Director&apos;s Message</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>
             </div>

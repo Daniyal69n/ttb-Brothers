@@ -224,7 +224,10 @@ export default function AboutUsPage() {
       </section>
 
       {/* 5. DIRECTOR'S MESSAGE SECTION (with authentic editorial layout) */}
-      <section className="py-20 bg-black text-white border-b border-black-70 overflow-hidden">
+      <section
+        id="directors-message"
+        className="scroll-mt-24 sm:scroll-mt-28 py-20 bg-black text-white border-b border-black-70 overflow-hidden"
+      >
         <Container>
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
