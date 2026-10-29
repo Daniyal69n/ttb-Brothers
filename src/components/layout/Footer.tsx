@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { useContent } from "@/context/ContentContext";
 import { footerQuickLinks } from "@/content/company";
 import { Container } from "../ui/Container";
-import { Mail, Phone, MapPin, ArrowUpRight, ShieldCheck, Clock, Settings } from "lucide-react";
+import { Mail, MapPin, ArrowUpRight, ShieldCheck, Clock, Settings } from "lucide-react";
 
 export function Footer() {
   const pathname = usePathname();
@@ -46,7 +46,7 @@ export function Footer() {
                   {companyData.name}
                 </span>
                 <span className="text-xs text-black-40 font-medium tracking-wide">
-                  Est. 25 August 1988 • Sole Proprietor
+                  Est. 25 August 1988 • ISO 45001:2008 Certified
                 </span>
               </div>
             </Link>
@@ -138,24 +138,6 @@ export function Footer() {
                   >
                     {companyData.emailGeneral}
                   </a>
-                  <a
-                    href={`mailto:${companyData.emailDirector}`}
-                    className="hover:text-white transition-colors text-black-40 hover:underline"
-                  >
-                    {companyData.emailDirector} (Director)
-                  </a>
-                </div>
-              </li>
-              {/* Phones */}
-              <li className="flex items-start gap-2.5">
-                <Phone className="w-4 h-4 text-brand-purple mt-0.5 shrink-0" />
-                <div className="flex flex-col">
-                  <a href={`tel:${companyData.phoneMobile.replace(/[^+\d]/g, "")}`} className="hover:text-white transition-colors">
-                    {companyData.phoneMobile} (Mobile)
-                  </a>
-                  <a href={`tel:${companyData.phoneLandline.replace(/[^+\d]/g, "")}`} className="hover:text-white transition-colors text-black-40">
-                    {companyData.phoneLandline} (Landline / Fax)
-                  </a>
                 </div>
               </li>
             </ul>
@@ -177,7 +159,7 @@ export function Footer() {
             &copy; {currentYear} {companyData.name}. All rights reserved.
           </div>
           <div className="flex items-center gap-6">
-            <span>Proprietor: {companyData.proprietor}</span>
+            <span>ISO 45001:2008 &bull; ICCI Member</span>
             <Link
               href="/privacy-policy/"
               className="hover:text-white transition-colors underline-offset-4 hover:underline"

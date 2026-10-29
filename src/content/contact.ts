@@ -6,8 +6,8 @@ export const contactConfig: ContactConfig = {
   formEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT || "",
   formServiceConfigured: Boolean(process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT),
   notificationEmail: "info@ttb.org.pk",
-  directorEmail: "touqeer@ttb.org.pk",
-  supportPhone: "+92 345 9023368",
+  directorEmail: "info@ttb.org.pk",
+  supportPhone: "",
   registeredAddress: "Irshad House, near Caltex Depot, G.T. Road, Taru Jabba, Peshawar, Pakistan",
   branchAddress: "Office #807, Street #19, I-10/4, near CDA Stop, Islamabad, Pakistan",
 };

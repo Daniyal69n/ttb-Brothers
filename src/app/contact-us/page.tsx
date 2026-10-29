@@ -10,7 +10,7 @@ import { contactPageContent } from "@/content/contact";
 export const metadata: Metadata = {
   title: "Contact Us | T & T Brothers (TTB)",
   description:
-    "Official contact directory for T & T Brothers (TTB): Peshawar Head Office, Islamabad Branch, telephone numbers, emails, and inquiry form.",
+    "Official contact directory for T & T Brothers (TTB): Peshawar Head Office, Islamabad Branch, official inboxes, and inquiry form.",
 };
 
 export default function ContactUsPage() {

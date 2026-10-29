@@ -93,7 +93,7 @@ const defaultContent: SiteContent = {
       "Established on 25 August 1988, TTB is an established Pakistani one-source solution provider uniting professional engineering, real estate development acumen, and seasoned project execution across commercial construction, downstream oil and gas, and electro-mechanical maintenance.",
     legacyTitle: "A Legacy of Engineering Precision Since 1988",
     legacyText:
-      "Founded as a sole proprietorship by Muhammad Touqeer Irshad on 25 August 1988, T & T Brothers (TTB) has grown from a regional engineering enterprise into one of Pakistan’s most reliable contractors for corporate infrastructure, retail petroleum stations, and automated car care installations.",
+      "Founded by Muhammad Touqeer Irshad on 25 August 1988, T & T Brothers (TTB) has grown from a regional engineering enterprise into one of Pakistan’s most reliable contractors for corporate infrastructure, retail petroleum stations, and automated car care installations.",
     directorHeading: directorMessage.heading,
     directorName: directorMessage.directorName,
     directorTitle: directorMessage.directorTitle,
@@ -122,7 +122,7 @@ const defaultContent: SiteContent = {
   contactIntro: contactPageContent,
 };
 
-const STORAGE_KEY = "ttb_corporate_content_v1";
+const STORAGE_KEY = "ttb_corporate_content_v2";
 
 interface ContentContextType {
   content: SiteContent;

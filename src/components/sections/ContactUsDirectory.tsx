@@ -5,9 +5,7 @@ import { useContent } from "@/context/ContentContext";
 import {
   Building2,
   ExternalLink,
-  UserCheck,
   Mail,
-  Phone,
   Globe,
   Clock,
 } from "lucide-react";
@@ -54,15 +52,6 @@ export function ContactUsDirectory() {
 
         <div className="pt-2 text-xs text-black-50 space-y-1">
           <p>Postal Address: {companyData.postalAddress}</p>
-          <p>
-            Landline / Fax:{" "}
-            <a
-              href={`tel:${companyData.phoneLandline.replace(/[^+\d]/g, "")}`}
-              className="text-brand-purple hover:underline"
-            >
-              {companyData.phoneLandline}
-            </a>
-          </p>
         </div>
 
         <div className="pt-2">
@@ -100,18 +89,6 @@ export function ContactUsDirectory() {
           {companyData.islamabadBranch.country ? `, ${companyData.islamabadBranch.country}` : ""}
         </p>
 
-        <div className="pt-2 text-xs text-black-50 space-y-1">
-          <p>
-            Direct Mobile:{" "}
-            <a
-              href={`tel:${companyData.phoneMobile.replace(/[^+\d]/g, "")}`}
-              className="text-brand-purple hover:underline"
-            >
-              {companyData.phoneMobile}
-            </a>
-          </p>
-        </div>
-
         <div className="pt-2">
           <a
             href="https://www.google.com/maps/search/?api=1&query=Office+807+Street+19+I-10+4+Islamabad"
@@ -124,56 +101,20 @@ export function ContactUsDirectory() {
         </div>
       </div>
 
-      {/* Phone & Email Fast Directory */}
+      {/* Official Communications & Inboxes */}
       <div className="card-lift p-6 rounded-2xl bg-white dark:bg-black border border-black-20 dark:border-black-70 space-y-4 shadow-sm hover:border-brand-purple/50 hover:shadow-xl transition-all duration-300">
         <h4 className="text-sm font-bold text-black dark:text-white border-b border-black-20 dark:border-black-70 pb-2">
-          Direct Communications &amp; Contact Persons
+          Official Communications &amp; Inboxes
         </h4>
 
         <div className="space-y-3 text-xs sm:text-sm">
-          {/* Key Contact Persons */}
-          <div className="flex items-start gap-3 group">
-            <UserCheck className="w-4 h-4 text-brand-purple mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
-            <div>
-              <p className="font-semibold text-black dark:text-white">Official Contact Persons:</p>
-              {companyData.contactPersons.map((person, idx) => (
-                <p key={idx} className="text-black-70 dark:text-black-20">
-                  {person.name} ({person.title})
-                </p>
-              ))}
-            </div>
-          </div>
-
           {/* Emails */}
           <div className="flex items-start gap-3 group">
             <Mail className="w-4 h-4 text-brand-purple mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
             <div>
               <p className="font-semibold text-black dark:text-white">Official Inboxes:</p>
               <a href={`mailto:${companyData.emailGeneral}`} className="text-brand-purple hover:underline block">
-                {companyData.emailGeneral} (General Enquiries)
-              </a>
-              <a href={`mailto:${companyData.emailDirector}`} className="text-black-60 dark:text-black-40 hover:underline block">
-                {companyData.emailDirector} (Managing Director)
-              </a>
-            </div>
-          </div>
-
-          {/* Phones */}
-          <div className="flex items-start gap-3 group">
-            <Phone className="w-4 h-4 text-brand-purple mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
-            <div>
-              <p className="font-semibold text-black dark:text-white">Phone &amp; Fax:</p>
-              <a
-                href={`tel:${companyData.phoneMobile.replace(/[^+\d]/g, "")}`}
-                className="text-brand-purple hover:underline block"
-              >
-                {companyData.phoneMobile} (Direct Mobile)
-              </a>
-              <a
-                href={`tel:${companyData.phoneLandline.replace(/[^+\d]/g, "")}`}
-                className="text-black-60 dark:text-black-40 hover:underline block"
-              >
-                {companyData.phoneLandline} (Landline / Fax)
+                {companyData.emailGeneral} (General Enquiries &amp; Tenders)
               </a>
             </div>
           </div>

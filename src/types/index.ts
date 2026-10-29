@@ -18,6 +18,8 @@ export interface CompanyInfo {
   shortName: string;
   businessType: string;
   proprietor: string;
+  membership?: string;
+  certification?: string;
   establishedDate: string;
   establishedYear: string;
   workforce: string;

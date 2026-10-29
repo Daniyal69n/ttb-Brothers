@@ -55,7 +55,7 @@ export default function AboutUsPage() {
               />
 
               <p className="text-base text-black-70 dark:text-black-20 leading-relaxed">
-                Founded as a sole proprietorship by <strong>{companyData.proprietor}</strong> on <strong>25 August 1988</strong>, T & T Brothers (TTB) has grown from a regional engineering enterprise into one of Pakistan’s most reliable contractors for corporate infrastructure, retail petroleum stations, and automated car care installations.
+                Founded by <strong>{companyData.proprietor}</strong> on <strong>25 August 1988</strong>, T & T Brothers (TTB) has grown from a regional engineering enterprise into one of Pakistan’s most reliable contractors for corporate infrastructure, retail petroleum stations, and automated car care installations.
               </p>
 
               <p className="text-base text-black-70 dark:text-black-20 leading-relaxed">
@@ -108,13 +108,13 @@ export default function AboutUsPage() {
                 </div>
 
                 <div className="pt-2.5 flex justify-between items-center">
-                  <span className="text-black-60 dark:text-black-40">Legal Structure</span>
-                  <span className="font-semibold text-black dark:text-white">Sole Proprietor</span>
+                  <span className="text-black-60 dark:text-black-40">Membership</span>
+                  <span className="font-semibold text-black dark:text-white">ICCI member</span>
                 </div>
 
                 <div className="pt-2.5 flex justify-between items-center">
-                  <span className="text-black-60 dark:text-black-40">Proprietor</span>
-                  <span className="font-semibold text-black dark:text-white">Muhammad Touqeer Irshad</span>
+                  <span className="text-black-60 dark:text-black-40">Certification</span>
+                  <span className="font-semibold text-black dark:text-white">ISO 45001:2008</span>
                 </div>
 
                 <div className="pt-2.5 flex justify-between items-center">

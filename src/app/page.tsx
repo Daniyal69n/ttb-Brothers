@@ -16,7 +16,7 @@ import {
   ShieldCheck,
   Calendar,
   CheckCircle2,
-  PhoneCall,
+  Mail,
   Clock,
 } from "lucide-react";
 
@@ -39,7 +39,7 @@ export default function HomePage() {
             <AnimateOnScroll variant="fade-right" className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-purple/10 text-brand-purple border border-brand-purple/20">
                 <Calendar className="w-3.5 h-3.5" />
-                Established 25 August 1988 • Sole Proprietor
+                Established 25 August 1988
               </div>
 
               <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black dark:text-white leading-tight">
@@ -126,16 +126,16 @@ export default function HomePage() {
                 </div>
 
                 <div className="pt-3 flex justify-between items-center">
-                  <span className="text-black-60 dark:text-black-40">Business Structure</span>
+                  <span className="text-black-60 dark:text-black-40">Membership</span>
                   <span className="font-semibold text-black dark:text-white text-right">
-                    Sole Proprietor
+                    ICCI member
                   </span>
                 </div>
 
                 <div className="pt-3 flex justify-between items-center">
-                  <span className="text-black-60 dark:text-black-40">Proprietor</span>
+                  <span className="text-black-60 dark:text-black-40">Certification</span>
                   <span className="font-semibold text-black dark:text-white text-right">
-                    Muhammad Touqeer Irshad
+                    ISO 45001:2008
                   </span>
                 </div>
 
@@ -276,7 +276,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             <AnimateOnScroll variant="fade-right" className="lg:col-span-5 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-purple/10 text-brand-purple border border-brand-purple/20">
-                <PhoneCall className="w-3.5 h-3.5" />
+                <Mail className="w-3.5 h-3.5" />
                 Direct Inquiry Desk
               </div>
 

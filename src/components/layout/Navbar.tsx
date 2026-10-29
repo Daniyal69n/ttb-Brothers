@@ -79,7 +79,7 @@ export function Navbar() {
           >
             <div className="relative h-10 w-[63px] sm:h-11 sm:w-[70px] shrink-0">
               <Image
-                src="/images/company/ttb-logo.png"
+                src={isScrolled ? "/images/company/ttb-logo.png" : "/images/company/ttb-logo-dark.png"}
                 alt="T&T Brothers (TTB) Logo"
                 fill
                 className="object-contain group-hover:scale-105 transition-transform duration-200"
@@ -97,10 +97,10 @@ export function Navbar() {
               </span>
               <span
                 className={`text-[10px] sm:text-[11px] font-medium tracking-wider uppercase transition-colors duration-300 ${
-                  isScrolled ? "text-white/60" : "text-gray-500"
+                  isScrolled ? "text-white/60" : "text-neutral-700 font-semibold"
                 }`}
               >
-                One-Source Solutions • Est. 1988
+                Integrity | Quality | Commitment
               </span>
             </div>
           </Link>

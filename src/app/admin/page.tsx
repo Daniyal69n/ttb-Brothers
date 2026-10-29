@@ -34,6 +34,7 @@ import {
   Clock,
   LogOut,
   FolderGit2,
+  Camera,
 } from "lucide-react";
 
 type AdminTab =
@@ -112,6 +113,84 @@ export default function AdminPage() {
   // Search queries for lists
   const [projectSearch, setProjectSearch] = useState("");
   const [clientSearch, setClientSearch] = useState("");
+
+  // Live Image Upload & Preview states
+  const [projectImagePreview, setProjectImagePreview] = useState<string>("");
+  const [clientLogoPreview, setClientLogoPreview] = useState<string>("");
+
+  // Helper to read and compress image from user device
+  const handleImageFile = (
+    file: File,
+    onSuccess: (dataUrl: string) => void
+  ) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      alert("Please select a valid image file (PNG, JPG, WEBP, or SVG).");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onerror = () => {
+      alert("Could not read image file from your device.");
+    };
+    reader.onload = (e) => {
+      const src = e.target?.result as string;
+      if (file.type === "image/svg+xml") {
+        onSuccess(src);
+        return;
+      }
+      const img = new window.Image();
+      img.onerror = () => onSuccess(src);
+      img.onload = () => {
+        const maxDimension = 1200;
+        let { width, height } = img;
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          } else {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          onSuccess(src);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, width, height);
+        const optimized = canvas.toDataURL("image/jpeg", 0.85);
+        onSuccess(optimized);
+      };
+      img.src = src;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const openAddProject = () => {
+    setEditingProject(null);
+    setProjectImagePreview("/images/projects/total-wash-project.jpg");
+    setIsAddingProject(true);
+  };
+
+  const openEditProject = (proj: ProjectItem) => {
+    setEditingProject(proj);
+    setProjectImagePreview(proj.imagePath || "/images/projects/total-wash-project.jpg");
+  };
+
+  const openAddClient = () => {
+    setEditingClient(null);
+    setClientLogoPreview("/images/clients/shell-pakistan-logo.png");
+    setIsAddingClient(true);
+  };
+
+  const openEditClient = (client: ClientItem) => {
+    setEditingClient(client);
+    setClientLogoPreview(client.logoUrl || "/images/clients/shell-pakistan-logo.png");
+  };
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -443,7 +522,7 @@ export default function AdminPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      setIsAddingProject(true);
+                      openAddProject();
                       setActiveTab("projects");
                     }}
                     className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-brand-purple/50 text-left transition-all cursor-pointer"
@@ -459,7 +538,7 @@ export default function AdminPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      setIsAddingClient(true);
+                      openAddClient();
                       setActiveTab("clients");
                     }}
                     className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-brand-purple/50 text-left transition-all cursor-pointer"
@@ -481,7 +560,7 @@ export default function AdminPage() {
                       <Edit3 className="w-4 h-4" /> Update Contact Info
                     </div>
                     <p className="text-xs text-neutral-400">
-                      Update phones, emails, branch offices, and working hours.
+                      Update official inboxes, branch offices, and working hours.
                     </p>
                   </button>
                 </div>
@@ -519,7 +598,7 @@ export default function AdminPage() {
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setIsAddingProject(true)}
+                    onClick={openAddProject}
                     className="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-purple hover:bg-brand-purple/90 text-white rounded-xl text-xs font-semibold shadow-md transition-all cursor-pointer"
                   >
                     <Plus className="w-4 h-4" />
@@ -581,7 +660,7 @@ export default function AdminPage() {
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         type="button"
-                        onClick={() => setEditingProject(proj)}
+                        onClick={() => openEditProject(proj)}
                         className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white transition-colors cursor-pointer"
                         title="Edit Project"
                       >
@@ -739,11 +818,11 @@ export default function AdminPage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-800">
                 <div>
                   <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                    <Phone className="w-6 h-6 text-brand-purple" />
+                    <Mail className="w-6 h-6 text-brand-purple" />
                     <span>Contact Directory &amp; Branch Offices</span>
                   </h2>
                   <p className="text-xs text-neutral-400 mt-1">
-                    Update corporate telephone numbers, official inboxes, head office, and Islamabad branch details.
+                    Update official inboxes, head office, and Islamabad branch details.
                   </p>
                 </div>
                 <Link
@@ -761,10 +840,7 @@ export default function AdminPage() {
                 onSubmit={(e) => {
                   e.preventDefault();
                   const form = e.currentTarget;
-                  const mobile = (form.elements.namedItem("phoneMobile") as HTMLInputElement).value;
-                  const landline = (form.elements.namedItem("phoneLandline") as HTMLInputElement).value;
                   const emailGeneral = (form.elements.namedItem("emailGeneral") as HTMLInputElement).value;
-                  const emailDirector = (form.elements.namedItem("emailDirector") as HTMLInputElement).value;
                   const postalAddress = (form.elements.namedItem("postalAddress") as HTMLInputElement).value;
                   const officeHoursNotice = (form.elements.namedItem("officeHoursNotice") as HTMLInputElement).value;
                   const peshawarStreet = (form.elements.namedItem("peshawarStreet") as HTMLInputElement).value;
@@ -772,21 +848,23 @@ export default function AdminPage() {
                   const formEndpoint = (form.elements.namedItem("formEndpoint") as HTMLInputElement).value;
 
                   updateCompany({
-                    phoneMobile: mobile,
-                    phone: mobile,
-                    phoneLandline: landline,
-                    fax: landline,
+                    phoneMobile: "",
+                    phone: "",
+                    phoneLandline: "",
+                    fax: "",
                     emailGeneral,
                     email: emailGeneral,
-                    emailDirector,
+                    emailDirector: emailGeneral,
                     postalAddress,
                     registeredOffice: {
                       ...content.company.registeredOffice,
                       street: peshawarStreet,
+                      phone: "",
                     },
                     islamabadBranch: {
                       ...content.company.islamabadBranch,
                       street: islamabadStreet,
+                      phone: "",
                     },
                   });
 
@@ -795,69 +873,30 @@ export default function AdminPage() {
                     formEndpoint,
                     formServiceConfigured: Boolean(formEndpoint),
                     notificationEmail: emailGeneral,
-                    directorEmail: emailDirector,
-                    supportPhone: mobile,
+                    directorEmail: emailGeneral,
+                    supportPhone: "",
                   });
 
                   showToast("Contact information saved successfully!");
                 }}
                 className="space-y-6"
               >
-                {/* 1. Official Communication Numbers & Emails */}
+                {/* 1. Official Communication Inboxes */}
                 <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4">
                   <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <Mail className="w-4 h-4 text-brand-purple" />
-                    Inboxes &amp; Phones
+                    Official Inboxes
                   </h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
+                    <div className="sm:col-span-2">
                       <label className="block text-xs text-neutral-300 font-medium mb-1">
-                        General Inquiry Email
+                        General Inquiry &amp; Tenders Email
                       </label>
                       <input
                         type="email"
                         name="emailGeneral"
                         defaultValue={content.company.emailGeneral}
-                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs text-neutral-300 font-medium mb-1">
-                        Managing Director Email
-                      </label>
-                      <input
-                        type="email"
-                        name="emailDirector"
-                        defaultValue={content.company.emailDirector}
-                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs text-neutral-300 font-medium mb-1">
-                        Direct Mobile Phone
-                      </label>
-                      <input
-                        type="text"
-                        name="phoneMobile"
-                        defaultValue={content.company.phoneMobile}
-                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs text-neutral-300 font-medium mb-1">
-                        Landline / Fax
-                      </label>
-                      <input
-                        type="text"
-                        name="phoneLandline"
-                        defaultValue={content.company.phoneLandline}
                         className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
                         required
                       />
@@ -1687,7 +1726,8 @@ export default function AdminPage() {
                 const category = (form.elements.namedItem("category") as HTMLSelectElement).value as ProjectItem["category"];
                 const summary = (form.elements.namedItem("summary") as HTMLInputElement).value;
                 const description = (form.elements.namedItem("description") as HTMLTextAreaElement).value;
-                const imagePath = (form.elements.namedItem("imagePath") as HTMLInputElement).value;
+                const imagePathInput = (form.elements.namedItem("imagePath") as HTMLInputElement)?.value;
+                const finalImagePath = projectImagePreview || imagePathInput || "/images/projects/total-wash-project.jpg";
                 const deliverablesText = (form.elements.namedItem("deliverables") as HTMLTextAreaElement).value;
                 const featured = (form.elements.namedItem("featured") as HTMLInputElement).checked;
 
@@ -1704,7 +1744,7 @@ export default function AdminPage() {
                     category,
                     summary,
                     description,
-                    imagePath: imagePath || editingProject.imagePath || "/images/projects/total-wash-project.jpg",
+                    imagePath: finalImagePath,
                     deliverables,
                     featured,
                   });
@@ -1719,7 +1759,7 @@ export default function AdminPage() {
                     summary,
                     description,
                     status: "Completed",
-                    imagePath: imagePath || "/images/projects/total-wash-project.jpg",
+                    imagePath: finalImagePath,
                     deliverables,
                     featured,
                   };
@@ -1775,7 +1815,7 @@ export default function AdminPage() {
                   />
                 </div>
 
-                <div>
+                <div className="sm:col-span-2">
                   <label className="block text-xs text-neutral-300 font-medium mb-1">
                     Category *
                   </label>
@@ -1791,17 +1831,93 @@ export default function AdminPage() {
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-xs text-neutral-300 font-medium mb-1">
-                    Image Path or Upload
-                  </label>
-                  <input
-                    type="text"
-                    name="imagePath"
-                    defaultValue={editingProject?.imagePath || "/images/projects/total-wash-project.jpg"}
-                    placeholder="/images/projects/... or https://..."
-                    className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
-                  />
+                {/* Project Image: Upload from Device + Presets + Preview */}
+                <div className="sm:col-span-2 space-y-2 bg-neutral-950/80 p-3.5 rounded-xl border border-neutral-800">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs text-neutral-200 font-semibold flex items-center gap-1.5">
+                      <Camera className="w-3.5 h-3.5 text-brand-purple" />
+                      <span>Project Photograph</span>
+                    </label>
+                    <span className="text-[11px] text-neutral-400">
+                      Upload from phone/PC or select photo
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                    {/* Live Preview */}
+                    <div className="relative w-full sm:w-36 h-24 rounded-lg overflow-hidden bg-neutral-900 border border-neutral-700 flex-shrink-0">
+                      {projectImagePreview ? (
+                        <Image
+                          src={projectImagePreview}
+                          alt="Project Preview"
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center text-neutral-500 text-[10px]">
+                          <Camera className="w-5 h-5 mb-1" />
+                          <span>No Image</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Controls */}
+                    <div className="flex-1 w-full space-y-2">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <label className="inline-flex items-center gap-1.5 px-3 py-2 bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] text-white rounded-lg text-xs font-semibold cursor-pointer shadow-sm transition-all">
+                          <Upload className="w-3.5 h-3.5" />
+                          <span>Upload from Device</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleImageFile(file, (dataUrl) => {
+                                  setProjectImagePreview(dataUrl);
+                                });
+                              }
+                            }}
+                          />
+                        </label>
+
+                        <select
+                          className="flex-1 bg-neutral-900 border border-neutral-700 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-purple"
+                          onChange={(e) => {
+                            if (e.target.value) {
+                              setProjectImagePreview(e.target.value);
+                            }
+                          }}
+                          value={
+                            projectImagePreview.startsWith("data:")
+                              ? "uploaded"
+                              : projectImagePreview
+                          }
+                        >
+                          {projectImagePreview.startsWith("data:") && (
+                            <option value="uploaded">Uploaded File from Device (Selected)</option>
+                          )}
+                          <option value="/images/projects/total-wash-project.jpg">Preset: Total Wash Automated Bay</option>
+                          <option value="/images/projects/shell-retail-project.jpg">Preset: Shell Retail Station</option>
+                          <option value="/images/projects/pso-commercial-project.jpg">Preset: PSO Commercial Fueling</option>
+                          <option value="/images/projects/retail-shop-project.jpg">Preset: Modern Retail Convenience</option>
+                          <option value="/images/projects/canopy-structure-project.jpg">Preset: Canopy &amp; Steel Structure</option>
+                          <option value="/images/projects/electrical-switchgear-project.jpg">Preset: Electrical Switchgear</option>
+                        </select>
+                      </div>
+
+                      <input
+                        type="text"
+                        name="imagePath"
+                        value={projectImagePreview}
+                        onChange={(e) => setProjectImagePreview(e.target.value)}
+                        placeholder="Or enter image URL or path (/images/projects/...)"
+                        className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-1.5 text-[11px] text-neutral-300 focus:outline-none focus:border-brand-purple font-mono"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="sm:col-span-2">
@@ -1911,14 +2027,15 @@ export default function AdminPage() {
                 const form = e.currentTarget;
                 const name = (form.elements.namedItem("clientName") as HTMLInputElement).value;
                 const industry = (form.elements.namedItem("industry") as HTMLInputElement).value;
-                const logoUrl = (form.elements.namedItem("logoUrl") as HTMLInputElement).value;
+                const logoUrlInput = (form.elements.namedItem("logoUrl") as HTMLInputElement).value;
+                const finalLogoUrl = clientLogoPreview || logoUrlInput || "/images/clients/shell-pakistan-logo.png";
                 const notes = (form.elements.namedItem("notes") as HTMLTextAreaElement).value;
 
                 if (editingClient) {
                   updateClient(editingClient.id, {
                     name,
                     industry,
-                    logoUrl,
+                    logoUrl: finalLogoUrl,
                     notes,
                   });
                   showToast(`Updated client: ${name}`);
@@ -1929,7 +2046,7 @@ export default function AdminPage() {
                     industry,
                     source: "Profile Client",
                     confirmedInProfile: true,
-                    logoUrl: logoUrl || "/images/clients/shell-pakistan-logo.png",
+                    logoUrl: finalLogoUrl,
                     notes,
                   };
                   addClient(newClient);
@@ -1969,17 +2086,95 @@ export default function AdminPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-xs text-neutral-300 font-medium mb-1">
-                  Logo Image Path or URL
-                </label>
-                <input
-                  type="text"
-                  name="logoUrl"
-                  defaultValue={editingClient?.logoUrl || "/images/clients/shell-pakistan-logo.png"}
-                  placeholder="/images/clients/... or https://..."
-                  className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
-                />
+              {/* Client Logo: Upload from Device + Presets + Preview */}
+              <div className="space-y-2 bg-neutral-950/80 p-3.5 rounded-xl border border-neutral-800">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs text-neutral-200 font-semibold flex items-center gap-1.5">
+                    <Building2 className="w-3.5 h-3.5 text-brand-purple" />
+                    <span>Client Brand Logo</span>
+                  </label>
+                  <span className="text-[11px] text-neutral-400">
+                    Upload PNG/SVG logo from device
+                  </span>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                  {/* Live Preview on crisp white badge */}
+                  <div className="relative w-full sm:w-28 h-20 rounded-lg overflow-hidden bg-white border border-neutral-700 flex-shrink-0 p-2 flex items-center justify-center">
+                    {clientLogoPreview ? (
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={clientLogoPreview}
+                          alt="Logo Preview"
+                          fill
+                          className="object-contain"
+                          unoptimized
+                        />
+                      </div>
+                    ) : (
+                      <span className="text-neutral-400 text-[10px]">No Logo</span>
+                    )}
+                  </div>
+
+                  {/* Controls */}
+                  <div className="flex-1 w-full space-y-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <label className="inline-flex items-center gap-1.5 px-3 py-2 bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] text-white rounded-lg text-xs font-semibold cursor-pointer shadow-sm transition-all">
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Upload Logo from Device</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              handleImageFile(file, (dataUrl) => {
+                                setClientLogoPreview(dataUrl);
+                              });
+                            }
+                          }}
+                        />
+                      </label>
+
+                      <select
+                        className="flex-1 bg-neutral-900 border border-neutral-700 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-purple"
+                        onChange={(e) => {
+                          if (e.target.value) {
+                            setClientLogoPreview(e.target.value);
+                          }
+                        }}
+                        value={
+                          clientLogoPreview.startsWith("data:")
+                            ? "uploaded"
+                            : clientLogoPreview
+                        }
+                      >
+                        {clientLogoPreview.startsWith("data:") && (
+                          <option value="uploaded">Uploaded Logo from Device (Selected)</option>
+                        )}
+                        <option value="/images/clients/shell-pakistan-logo.png">Preset: Shell Pakistan</option>
+                        <option value="/images/clients/total-parco-logo.png">Preset: Total Parco</option>
+                        <option value="/images/clients/pso-logo.png">Preset: Pakistan State Oil (PSO)</option>
+                        <option value="/images/clients/changan-logo.png">Preset: Changan Motors</option>
+                        <option value="/images/clients/metro-cash-carry-logo.png">Preset: Metro Cash &amp; Carry</option>
+                        <option value="/images/clients/habib-bank-logo.png">Preset: Habib Bank Limited</option>
+                        <option value="/images/clients/jazz-pakistan-logo.png">Preset: Jazz Pakistan</option>
+                        <option value="/images/clients/descon-logo.png">Preset: Descon Engineering</option>
+                        <option value="/images/clients/engro-corp-logo.png">Preset: Engro Corp</option>
+                      </select>
+                    </div>
+
+                    <input
+                      type="text"
+                      name="logoUrl"
+                      value={clientLogoPreview}
+                      onChange={(e) => setClientLogoPreview(e.target.value)}
+                      placeholder="Or enter logo URL or path (/images/clients/...)"
+                      className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-1.5 text-[11px] text-neutral-300 focus:outline-none focus:border-brand-purple font-mono"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div>
