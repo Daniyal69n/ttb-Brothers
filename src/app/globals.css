@@ -2,52 +2,221 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #111827;
-  
-  /* TTB Brand Colors: Primary Purple (CMYK 20, 80, 0, 20), Black, Gray, White */
-  --brand-purple: #a329a3;
-  --brand-purple-hover: #8a238a;
-  --brand-purple-active: #731d73;
-  --brand-purple-text: #8c1f8c;
-  --brand-purple-light: #faf0fa;
-  --brand-purple-border: #f0c8f0;
-  --brand-purple-dark: #2d0a2d;
-  --brand-purple-dark-text: #f0b8f0;
-  
-  --brand-black: #0a0a0a;
-  --brand-charcoal: #171717;
-  
-  --brand-gray-50: #f9fafb;
-  --brand-gray-100: #f3f4f6;
-  --brand-gray-200: #e5e7eb;
-  --brand-gray-700: #374151;
-  --brand-gray-900: #111827;
+  --foreground: #000000;
+  --brand-purple: #a329cc;
+  --palette-black: #000000;
+  --palette-black-70: #4d4d4d;
+  --palette-black-60: #666666;
+  --palette-black-50: #808080;
+  --palette-black-40: #999999;
+  --palette-black-20: #cccccc;
+
+  /* Premium Easing Curves */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --color-brand-purple: var(--brand-purple);
-  --color-brand-purple-hover: var(--brand-purple-hover);
-  --color-brand-purple-active: var(--brand-purple-active);
-  --color-brand-purple-text: var(--brand-purple-text);
-  --color-brand-purple-light: var(--brand-purple-light);
-  --color-brand-purple-border: var(--brand-purple-border);
-  --color-brand-black: var(--brand-black);
+  --color-black: var(--palette-black);
+  --color-black-70: var(--palette-black-70);
+  --color-black-60: var(--palette-black-60);
+  --color-black-50: var(--palette-black-50);
+  --color-black-40: var(--palette-black-40);
+  --color-black-20: var(--palette-black-20);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #f3f4f6;
-  }
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================================================
+   PREMIUM MICRO-INTERACTION UTILITIES
+   ========================================================================= */
+
+/* Card Lift & Glow Interaction */
+.card-lift {
+  transition: transform 300ms var(--ease-smooth),
+              box-shadow 300ms var(--ease-smooth),
+              border-color 250ms ease;
+  will-change: transform;
+}
+
+.card-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px -12px rgba(163, 41, 204, 0.15), 0 8px 16px -8px rgba(0, 0, 0, 0.2);
+}
+
+/* Button & Link Micro-Interactions */
+.btn-press {
+  transition: transform 180ms var(--ease-smooth),
+              box-shadow 200ms ease,
+              background-color 200ms ease,
+              border-color 200ms ease;
+  will-change: transform;
+}
+
+.btn-press:hover {
+  transform: translateY(-2px);
+}
+
+.btn-press:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Image Zoom Container */
+.image-zoom-box {
+  overflow: hidden;
+}
+
+.image-zoom-box img,
+.image-zoom-box .zoom-target {
+  transition: transform 600ms var(--ease-smooth), filter 300ms ease;
+  will-change: transform;
+}
+
+.image-zoom-box:hover img,
+.image-zoom-box:hover .zoom-target {
+  transform: scale(1.06);
+}
+
+/* =========================================================================
+   KEYFRAME ANIMATIONS
+   ========================================================================= */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(163, 41, 204, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 16px 4px rgba(163, 41, 204, 0.25);
+  }
+}
+
+/* CSS Animation Utility Classes */
+.animate-fade-in-up {
+  animation: fadeInUp 500ms var(--ease-smooth) forwards;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 400ms var(--ease-smooth) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 400ms ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: fadeInScale 450ms var(--ease-smooth) forwards;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 500ms var(--ease-smooth) forwards;
+}
+
+.animate-slide-right {
+  animation: slideInRight 500ms var(--ease-smooth) forwards;
+}
+
+/* =========================================================================
+   ACCESSIBILITY: PREFERS REDUCED MOTION
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .card-lift:hover,
+  .btn-press:hover,
+  .btn-press:active,
+  .image-zoom-box:hover img,
+  .image-zoom-box:hover .zoom-target {
+    transform: none !important;
+  }
 }

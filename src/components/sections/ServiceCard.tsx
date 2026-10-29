@@ -1,39 +1,53 @@
 import React from "react";
 import Link from "next/link";
-import { ServiceItem } from "@/types";
+import { ServiceCategory, ServiceItem } from "@/types";
 import { DynamicIcon } from "../ui/IconHelper";
 import { ArrowRight, Check } from "lucide-react";
 
 interface ServiceCardProps {
-  service: ServiceItem;
+  service: ServiceCategory | ServiceItem;
 }
 
 export function ServiceCard({ service }: ServiceCardProps) {
+  const letter = "letter" in service ? service.letter : undefined;
+  const description = "fullDescription" in service ? service.fullDescription : service.description;
+
   return (
-    <div className="bg-white dark:bg-neutral-900 rounded-xl border border-gray-200/90 dark:border-neutral-800 p-6 sm:p-8 flex flex-col justify-between hover:shadow-md hover:border-[#f0c8f0] dark:hover:border-[#521352] transition-all group">
+    <div
+      id={service.id}
+      className="card-lift bg-white dark:bg-black rounded-xl border border-black-20 dark:border-black-70 p-6 sm:p-8 flex flex-col justify-between hover:shadow-xl hover:shadow-brand-purple/10 hover:border-brand-purple dark:hover:border-brand-purple transition-all duration-300 ease-out group scroll-mt-28"
+    >
       <div>
-        {/* Icon & Title */}
-        <div className="w-12 h-12 rounded-lg bg-[#faf0fa] dark:bg-[#2d0a2d] border border-[#f0c8f0] dark:border-[#521352] text-[#8c1f8c] dark:text-[#f0b8f0] flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-          <DynamicIcon name={service.iconName} className="w-6 h-6" />
+        {/* Header with Letter badge & Icon */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="w-12 h-12 rounded-lg bg-black-20/40 dark:bg-black-70/60 border border-black-20 dark:border-black-70 text-brand-purple flex items-center justify-center group-hover:scale-110 group-hover:bg-brand-purple/15 group-hover:border-brand-purple/40 transition-all duration-300">
+            <DynamicIcon name={service.iconName} className="w-6 h-6 transition-transform duration-300 group-hover:scale-105" />
+          </div>
+
+          {letter && (
+            <span className="w-8 h-8 rounded-full bg-brand-purple text-white text-xs font-bold flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+              {letter}
+            </span>
+          )}
         </div>
 
-        <h3 className="text-xl font-bold text-black dark:text-white tracking-tight mb-3">
+        <h3 className="text-xl font-bold text-black dark:text-white tracking-tight mb-3 group-hover:text-brand-purple transition-colors duration-200">
           {service.title}
         </h3>
 
-        <p className="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6">
-          {service.description}
+        <p className="text-sm text-black-70 dark:text-black-20 leading-relaxed mb-6">
+          {description}
         </p>
 
         {/* Capabilities list */}
-        <div className="space-y-2 pt-4 border-t border-gray-100 dark:border-neutral-800 mb-6">
-          <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">
-            Core Competencies
+        <div className="space-y-2 pt-4 border-t border-black-20/60 dark:border-black-70 mb-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-black-50">
+            Verified Scope & Capabilities
           </p>
-          <ul className="space-y-1.5 text-xs text-neutral-600 dark:text-neutral-300">
+          <ul className="space-y-2 text-xs text-black-70 dark:text-black-20">
             {service.capabilities.map((cap, index) => (
               <li key={index} className="flex items-start gap-2">
-                <Check className="w-3.5 h-3.5 text-[#a329a3] mt-0.5 shrink-0" />
+                <Check className="w-3.5 h-3.5 text-brand-purple mt-0.5 shrink-0" />
                 <span>{cap}</span>
               </li>
             ))}
@@ -41,13 +55,20 @@ export function ServiceCard({ service }: ServiceCardProps) {
         </div>
       </div>
 
-      <div className="pt-4 mt-auto">
+      <div className="pt-4 mt-auto border-t border-black-20/60 dark:border-black-70 flex items-center justify-between">
         <Link
           href={`/contact-us/?service=${encodeURIComponent(service.id)}`}
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#8c1f8c] dark:text-[#f0b8f0] hover:text-[#731d73] dark:hover:text-white transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-brand-purple hover:text-white transition-colors"
         >
-          Inquire regarding this capability
+          Request an Enquiry
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+
+        <Link
+          href="/projects/"
+          className="text-xs text-black-50 hover:text-black dark:hover:text-white transition-colors"
+        >
+          View Projects &rarr;
         </Link>
       </div>
     </div>

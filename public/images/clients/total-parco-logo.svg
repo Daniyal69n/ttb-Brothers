@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="100%" height="100%" fill="none" />
+  <circle cx="40" cy="40" r="28" fill="#E60000" />
+  <path d="M40 18 A22 22 0 0 1 62 40 A12 12 0 0 0 40 28 Z" fill="#003399" />
+  <path d="M40 40 A12 12 0 0 0 52 52 A22 22 0 0 1 20 40 Z" fill="#FFCC00" />
+  <text x="80" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="900" fill="#E60000" letter-spacing="1">TOTAL<tspan fill="#003399">PARCO</tspan></text>
+</svg>
+

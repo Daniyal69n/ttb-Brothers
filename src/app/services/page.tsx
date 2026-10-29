@@ -4,126 +4,125 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
-import { ServiceCard } from "@/components/sections/ServiceCard";
-import { corporateServices, servicesIntroduction } from "@/content/services";
+import { ServicesGrid } from "@/components/sections/ServicesGrid";
+import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
+import { servicesIntroduction } from "@/content/services";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Services & Capabilities",
+  title: "Services & Capabilities | T & T Brothers (TTB)",
   description:
-    "Comprehensive corporate services offered by TTB: advisory, process optimization, enterprise project management, and infrastructure modernization.",
+    "Explore T & T Brothers (TTB) 6 core service disciplines: Civil Construction, Architecture & Interior Design, Oil & Gas Retail Solutions, Electro-Mechanical Maintenance, Signage/Supplies, and Facility Management.",
 };
 
 export default function ServicesPage() {
   return (
     <div className="flex flex-col">
-      {/* Header */}
-      <section className="bg-black text-white py-16 md:py-24 border-b border-neutral-850">
+      {/* 1. Header */}
+      <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
         <Container>
           <div className="max-w-3xl space-y-4">
-            <Badge variant="accent">{servicesIntroduction.badge}</Badge>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
+            <div className="animate-fade-in-down">
+              <Badge variant="accent">{servicesIntroduction.badge}</Badge>
+            </div>
+            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight animate-fade-in-up [animation-delay:100ms]">
               {servicesIntroduction.title}
             </h1>
-            <p className="text-lg text-gray-300 leading-relaxed">
+            <p className="text-lg text-black-20 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
               {servicesIntroduction.subtitle}
             </p>
           </div>
         </Container>
       </section>
 
-      {/* Services Portfolio Grid */}
-      <section className="py-20 bg-gray-50 dark:bg-neutral-950 border-b border-gray-200/80 dark:border-neutral-800">
+      {/* 2. 6 Core Service Portfolios Grid */}
+      <section className="py-20 bg-black-20/10 dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
-          <SectionHeader
-            title="Operational & Advisory Portfolios"
-            subtitle="Explore our specialized practice areas. Each engagement is customized according to client milestones and verified delivery matrices."
-          />
+          <AnimateOnScroll variant="fade-up">
+            <SectionHeader
+              title="Six Specialized Service Disciplines"
+              subtitle="Extracted directly from the verified TTB Company Profile. We provide complete turnkey execution and SLA-backed maintenance across each discipline."
+            />
+          </AnimateOnScroll>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {corporateServices.map((service) => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
-          </div>
+          <ServicesGrid />
         </Container>
       </section>
 
-      {/* How We Engage Section */}
-      <section className="py-20 bg-white dark:bg-neutral-900 border-b border-gray-200/80 dark:border-neutral-800">
+      {/* 3. Delivery Framework & Maintenance Commitment */}
+      <section className="py-20 bg-white dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
           <div className="max-w-4xl mx-auto space-y-10">
-            <SectionHeader
-              badge="Engagement Models"
-              title="Tailored Service Structures"
-              subtitle="We align our engagement model with your governance needs, organizational structure, and timeline constraints."
-            />
+            <AnimateOnScroll variant="fade-up">
+              <SectionHeader
+                badge="Execution Framework"
+                title="How TTB Delivers Projects &amp; SLA Maintenance"
+                subtitle="Our proven project management framework guarantees milestone adherence, strict HSSE compliance, and around-the-clock facility uptime."
+              />
+            </AnimateOnScroll>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 rounded-xl bg-gray-50 dark:bg-neutral-800/50 border border-gray-200 dark:border-neutral-700 space-y-3">
-                <span className="text-xs uppercase tracking-wider font-semibold text-[#8c1f8c] dark:text-[#f0b8f0]">
-                  Model 01
-                </span>
-                <h3 className="text-lg font-bold text-black dark:text-white">
-                  Strategic Advisory Retainer
+              <AnimateOnScroll variant="fade-up" delay={100} className="card-lift p-6 rounded-xl bg-black-20/10 dark:bg-black-70/20 border border-black-20 dark:border-black-70 space-y-3 hover:border-brand-purple hover:shadow-xl transition-all duration-300 group">
+                <div className="w-9 h-9 rounded-lg bg-brand-purple/10 text-brand-purple flex items-center justify-center font-bold text-xs group-hover:scale-110 group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
+                  01
+                </div>
+                <h3 className="text-lg font-bold text-black dark:text-white group-hover:text-brand-purple transition-colors duration-200">
+                  Turnkey EPC Delivery
                 </h3>
-                <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed">
-                  Ongoing executive counsel, governance reviews, and risk
-                  assessments aligned with quarterly planning cycles.
+                <p className="text-xs sm:text-sm text-black-70 dark:text-black-20 leading-relaxed">
+                  End-to-end engineering, procurement, and construction for commercial buildings, retail filling stations, and automated wash bays with single-point accountability.
                 </p>
-              </div>
+              </AnimateOnScroll>
 
-              <div className="p-6 rounded-xl bg-gray-50 dark:bg-neutral-800/50 border border-gray-200 dark:border-neutral-700 space-y-3">
-                <span className="text-xs uppercase tracking-wider font-semibold text-[#8c1f8c] dark:text-[#f0b8f0]">
-                  Model 02
-                </span>
-                <h3 className="text-lg font-bold text-black dark:text-white">
-                  Milestone Project Delivery
+              <AnimateOnScroll variant="fade-up" delay={200} className="card-lift p-6 rounded-xl bg-black-20/10 dark:bg-black-70/20 border border-black-20 dark:border-black-70 space-y-3 hover:border-brand-purple hover:shadow-xl transition-all duration-300 group">
+                <div className="w-9 h-9 rounded-lg bg-brand-purple/10 text-brand-purple flex items-center justify-center font-bold text-xs group-hover:scale-110 group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
+                  02
+                </div>
+                <h3 className="text-lg font-bold text-black dark:text-white group-hover:text-brand-purple transition-colors duration-200">
+                  Scheduled Preventive Maintenance
                 </h3>
-                <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed">
-                  Defined scope initiatives with concrete KPIs, structured
-                  deliverable stages, and predetermined timeline gates.
+                <p className="text-xs sm:text-sm text-black-70 dark:text-black-20 leading-relaxed">
+                  Routine scheduled inspections, tank sump cleaning, dispenser calibration, re-lamping, and electrical testing to prevent operational downtime.
                 </p>
-              </div>
+              </AnimateOnScroll>
 
-              <div className="p-6 rounded-xl bg-gray-50 dark:bg-neutral-800/50 border border-gray-200 dark:border-neutral-700 space-y-3">
-                <span className="text-xs uppercase tracking-wider font-semibold text-[#8c1f8c] dark:text-[#f0b8f0]">
-                  Model 03
-                </span>
-                <h3 className="text-lg font-bold text-black dark:text-white">
-                  Embedded Governance
+              <AnimateOnScroll variant="fade-up" delay={300} className="card-lift p-6 rounded-xl bg-black-20/10 dark:bg-black-70/20 border border-black-20 dark:border-black-70 space-y-3 hover:border-brand-purple hover:shadow-xl transition-all duration-300 group">
+                <div className="w-9 h-9 rounded-lg bg-brand-purple/10 text-brand-purple flex items-center justify-center font-bold text-xs group-hover:scale-110 group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
+                  03
+                </div>
+                <h3 className="text-lg font-bold text-black dark:text-white group-hover:text-brand-purple transition-colors duration-200">
+                  24-Hour Reactive Emergency Service
                 </h3>
-                <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed">
-                  Integration of senior advisory specialists into project teams
-                  to steer complex operational transitions.
+                <p className="text-xs sm:text-sm text-black-70 dark:text-black-20 leading-relaxed">
+                  Rapid deployment response teams available 24/7 for critical electrical faults, hydraulic failures, storm canopy damage, and petroleum pump emergencies.
                 </p>
-              </div>
+              </AnimateOnScroll>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* Direct CTA */}
-      <section className="py-16 bg-black text-white border-t border-neutral-850">
+      {/* 4. Direct CTA */}
+      <section className="py-16 bg-black text-white border-t border-black-70 overflow-hidden">
         <Container>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 max-w-4xl mx-auto text-center md:text-left">
+          <AnimateOnScroll variant="fade-up" className="flex flex-col md:flex-row items-center justify-between gap-8 max-w-4xl mx-auto text-center md:text-left">
             <div className="space-y-2">
               <h3 className="text-2xl font-bold">
-                Discuss an Engagement with Our Team
+                Ready to Request an Engineering Quote or Maintenance Contract?
               </h3>
-              <p className="text-sm text-gray-300">
-                Contact our practice directors to assess how TTB can support your
-                operational priorities.
+              <p className="text-sm text-black-20">
+                Contact our engineering operations desk at our Peshawar Head Office or Islamabad Branch.
               </p>
             </div>
 
             <Link
               href="/contact-us/"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold text-white bg-[#a329a3] hover:bg-[#8a238a] active:bg-[#731d73] transition-colors shadow-sm shrink-0"
+              className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold text-white bg-brand-purple hover:opacity-95 active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-brand-purple/25 hover:-translate-y-0.5 shrink-0"
             >
-              Initiate Contact
-              <ArrowRight className="w-4 h-4" />
+              Request an Enquiry
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
-          </div>
+          </AnimateOnScroll>
         </Container>
       </section>
     </div>

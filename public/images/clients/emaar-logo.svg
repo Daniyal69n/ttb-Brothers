@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="100%" height="100%" fill="none" />
+  <path d="M25 58 L42 22 L59 58 L52 58 L42 36 L32 58 Z" fill="#B38A38" />
+  <text x="68" y="47" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="800" fill="#B38A38" letter-spacing="3">EMAAR</text>
+  <text x="68" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="600" fill="#666666" letter-spacing="1.5">PAKISTAN</text>
+</svg>
+

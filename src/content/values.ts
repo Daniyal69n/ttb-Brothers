@@ -1,65 +1,110 @@
 import { ValueItem } from "@/types";
 
 export const valuesIntroduction = {
-  badge: "Corporate Principles",
-  title: "The Pillars That Guide Every Engagement",
+  badge: "Core Operating Philosophy",
+  title: "Values Grounded in Over 35 Years of Integrity",
   subtitle:
-    "At TTB, our corporate governance and operating philosophy are anchored in clear, enduring principles designed to foster trust and long-term resilience.",
+    "At T & T Brothers (TTB), our corporate philosophy is rooted in family and community commitment, uncompromising safety, ethical conduct, and respect for every individual. These foundational values guide how our 60-strong workforce builds lasting partnerships across Pakistan.",
 };
 
 export const corporateValues: ValueItem[] = [
   {
-    id: "integrity-governance",
-    title: "Integrity & Governance",
+    id: "fairness-honesty-integrity",
+    title: "Fairness, Honesty & Integrity",
     shortDescription:
-      "Upholding the highest standards of transparency, accountability, and ethical conduct.",
+      "Conducting business with transparent terms, upright ethics, and mutual accountability.",
     fullDescription:
-      "We operate with an uncompromised commitment to honest dealings, regulatory adherence, and transparent business conduct across every level of our organization.",
+      "Integrity is the cornerstone of TTB since our founding in 1988. We build long-term relationships through honest communication, realistic pricing, transparent accounting, and delivering exactly what we promise on every project site.",
     iconName: "ShieldCheck",
+    imageHint: "Staff recognition ceremonies and transparent client coordination",
+    imagePath: "/images/values/staff-recognition.jpg",
   },
   {
-    id: "operational-excellence",
-    title: "Operational Excellence",
+    id: "safety-hsse-compliance",
+    title: "Safety & HSSE Compliance",
     shortDescription:
-      "Disciplined execution, quality assurance, and continuous process refinement.",
+      "Rigorous Health, Safety, Security, and Environmental protocols across all active sites.",
     fullDescription:
-      "We pursue rigorous methodology, consistency in delivery, and measurable performance standards that ensure reliability for all stakeholders.",
-    iconName: "TrendingUp",
+      "Working in hazardous petroleum retail and high-risk construction environments requires zero tolerance for shortcuts. All TTB personnel undergo comprehensive HSSE training, ensuring full personal protective equipment (PPE) compliance, permit-to-work systems, and zero-accident targets.",
+    iconName: "HardHat",
+    imageHint: "Staff safety briefings and on-site HSSE compliance training",
+    imagePath: "/images/values/safety-training.jpg",
   },
   {
-    id: "sustainable-value",
-    title: "Sustainable Long-Term Value",
+    id: "quality-pride-in-workmanship",
+    title: "Quality & Pride in Workmanship",
     shortDescription:
-      "Focusing on enduring strategic outcomes rather than transient short-term shortcuts.",
+      "Uncompromising engineering standards, premium materials, and precision finishing.",
     fullDescription:
-      "Every project, partnership, and investment is evaluated through the lens of long-term sustainability, risk mitigation, and lasting societal impact.",
-    iconName: "Target",
-  },
-  {
-    id: "collaborative-partnership",
-    title: "Collaborative Partnership",
-    shortDescription:
-      "Building mutual trust through deep listening, transparency, and shared objectives.",
-    fullDescription:
-      "We view our clients, partners, and teams as long-term allies, aligning our efforts directly with their core strategic priorities.",
-    iconName: "Users",
-  },
-  {
-    id: "adaptive-innovation",
-    title: "Disciplined Innovation",
-    shortDescription:
-      "Embracing smart modernization while safeguarding core business fundamentals.",
-    fullDescription:
-      "We actively incorporate proven modern methodologies and technologies while maintaining strict risk controls and stability.",
-    iconName: "Cpu",
-  },
-  {
-    id: "social-responsibility",
-    title: "Responsibility & Stewardship",
-    shortDescription:
-      "Respecting our communities, environmental footprint, and societal obligations.",
-    fullDescription:
-      "We hold ourselves accountable to our social environment, fostering fair workplace practices and conscientious resource stewardship.",
+      "We take personal pride in every structure, forecourt slab, and electrical panel we deliver. Utilizing equipment from world-leading manufacturers and vetted materials, we ensure long-term durability and operational resilience.",
     iconName: "Award",
+    imageHint: "Engineering precision inspection and completed retail forecourts",
+    imagePath: "/images/projects/total-quartz-retail-interior.jpg",
+  },
+  {
+    id: "respect-for-individuals-teamwork",
+    title: "Respect for Individuals & Teamwork",
+    shortDescription:
+      "Fostering a collaborative, inclusive environment where every team member is valued.",
+    fullDescription:
+      "Our workforce of approximately 60 engineers, supervisors, technicians, and craftspeople is our greatest strength. We treat each person with dignity, encourage open dialogue, and achieve extraordinary results through unified teamwork.",
+    iconName: "Users",
+    imageHint: "Team group photographs and field crew gatherings",
+    imagePath: "/images/team/team-group-photo.jpg",
+  },
+  {
+    id: "established-systems-procedures",
+    title: "Following Established Systems & Procedures",
+    shortDescription:
+      "Disciplined execution adhering strictly to verified SOPs and engineering codes.",
+    fullDescription:
+      "From underground fuel piping pressure testing to concrete curing benchmarks, we maintain rigorous standard operating procedures. Adhering to structured workflows ensures project predictability, safety, and consistent delivery.",
+    iconName: "FileCheck2",
+    imageHint: "Technical process adherence and field audit documentation",
+    imagePath: "/images/values/systems-procedures.jpg",
+  },
+  {
+    id: "innovation-technology",
+    title: "Innovation & Modern Technology",
+    shortDescription:
+      "Adopting advanced construction methods, automated wash systems, and digital inventory tooling.",
+    fullDescription:
+      "While respecting proven craftsmanship, TTB continuously integrates modern technological equipment, digital petroleum record-keeping solutions, and automated car wash technologies from world-class global manufacturers.",
+    iconName: "Cpu",
+    imageHint: "Automated car wash engineering and modern dispenser calibration",
+    imagePath: "/images/projects/total-wash-project.jpg",
+  },
+  {
+    id: "customer-satisfaction-responsiveness",
+    title: "Customer Satisfaction & 24-Hour Service",
+    shortDescription:
+      "Responsive communication, personalized client focus, and rapid-response support.",
+    fullDescription:
+      "We adopt an individual approach for every customer. Beyond turnkey handover, our dedicated after-sales support and 24-hour reactive maintenance teams ensure our clients' operations run smoothly without interruption.",
+    iconName: "Clock",
+    imageHint: "Rapid response site coordination and after-sales service",
+    imagePath: "/images/values/staff-training.jpg",
+  },
+  {
+    id: "employee-growth-development",
+    title: "Employee Growth, Training & Recognition",
+    shortDescription:
+      "Investing continuously in vocational upskilling, technical seminars, and merit recognition.",
+    fullDescription:
+      "TTB actively invests in its people through continuous safety seminars, vocational skills enhancement, and technical workshops (such as Johnson Controls partner events). We regularly celebrate staff dedication through formal certificate presentations and merit awards.",
+    iconName: "GraduationCap",
+    imageHint: "Staff certificate presentation and Johnson Controls partner event",
+    imagePath: "/images/values/certificate-presentation.jpg",
+  },
+  {
+    id: "family-community-commitment",
+    title: "Family & Community Commitment",
+    shortDescription:
+      "Deep-rooted stewardship, responsible growth, and social responsibility in our localities.",
+    fullDescription:
+      "As a proud Pakistani enterprise founded by Muhammad Touqeer Irshad, TTB operates with a deep sense of social responsibility. We actively support local employment, environmental containment, and ethical community stewardship across Khyber Pakhtunkhwa and Islamabad.",
+    iconName: "Target",
+    imageHint: "Community welfare and regional team cohesion",
+    imagePath: "/images/team/staff-gathering.jpg",
   },
 ];

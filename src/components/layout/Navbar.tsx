@@ -2,14 +2,25 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { mainNavItems, companyData } from "@/content/company";
-import { Container } from "../ui/Container";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+
+  // Track scroll position for subtle depth enhancement
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Prevent background scrolling when mobile menu is open
   useEffect(() => {
@@ -37,33 +48,66 @@ export function Navbar() {
     setIsOpen(false);
   };
 
+  // Do not render public navbar on admin console pages
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/95 dark:bg-black/95 backdrop-blur-md border-b border-gray-200/80 dark:border-neutral-800 transition-colors">
-      <Container>
-        <div className="flex items-center justify-between h-20">
-          {/* Brand Wordmark / Logo */}
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ease-out ${
+        isScrolled
+          ? "bg-transparent border-b border-transparent pt-2.5 sm:pt-3.5 px-3 sm:px-6 pointer-events-none"
+          : "bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-xs px-0 pointer-events-auto"
+      }`}
+    >
+      {/* Morphing Navbar Container: Full-width clean header at top, floating pill when scrolled */}
+      <div
+        className={`transition-all duration-300 ease-out pointer-events-auto ${
+          isScrolled
+            ? "w-[94%] max-w-[1180px] mx-auto rounded-2xl sm:rounded-[22px] bg-black/92 backdrop-blur-xl border border-white/15 shadow-[0_12px_36px_-6px_rgba(0,0,0,0.85),0_0_20px_rgba(163,41,204,0.12)] py-2 sm:py-2.5 px-3.5 sm:px-6"
+            : "w-full max-w-7xl mx-auto rounded-none border-0 shadow-none bg-transparent py-3 sm:py-3.5 px-4 sm:px-6 lg:px-8"
+        }`}
+      >
+        <div className="flex items-center justify-between min-h-[50px] sm:min-h-[54px] gap-2 lg:gap-4">
+          {/* Brand Wordmark & Official Logo */}
           <Link
             href="/"
             onClick={handleLinkClick}
-            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a329a3] rounded-md py-1"
+            className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple rounded-xl py-0.5 shrink-0"
             aria-label={`${companyData.shortName} Homepage`}
           >
-            <div className="w-10 h-10 rounded-lg bg-black text-white flex items-center justify-center font-bold tracking-wider text-base shadow-sm group-hover:bg-[#a329a3] transition-colors duration-200 border border-neutral-800">
-              TTB
+            <div className="relative h-10 w-[63px] sm:h-11 sm:w-[70px] shrink-0">
+              <Image
+                src="/images/company/ttb-logo.png"
+                alt="T&T Brothers (TTB) Logo"
+                fill
+                className="object-contain group-hover:scale-105 transition-transform duration-200"
+                sizes="70px"
+                priority
+              />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-bold tracking-tight text-black dark:text-white leading-tight">
+              <span
+                className={`text-sm sm:text-base font-bold tracking-tight leading-tight transition-colors duration-300 ${
+                  isScrolled ? "text-white" : "text-black"
+                }`}
+              >
                 {companyData.name}
               </span>
-              <span className="text-[11px] font-medium tracking-wide text-gray-500 dark:text-gray-400 uppercase">
-                Corporate Group
+              <span
+                className={`text-[10px] sm:text-[11px] font-medium tracking-wider uppercase transition-colors duration-300 ${
+                  isScrolled ? "text-white/60" : "text-gray-500"
+                }`}
+              >
+                One-Source Solutions • Est. 1988
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation Links (Centered, balanced items) */}
           <nav
-            className="hidden lg:flex items-center gap-1 xl:gap-2"
+            className="hidden lg:flex items-center gap-0.5 xl:gap-1.5"
             aria-label="Main Navigation"
           >
             {mainNavItems.map((item) => {
@@ -72,10 +116,12 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  className={`px-2.5 xl:px-3 py-1.5 text-xs xl:text-sm font-medium rounded-xl transition-all duration-200 ease-out whitespace-nowrap ${
                     active
-                      ? "text-[#8c1f8c] dark:text-[#f0b8f0] font-semibold bg-[#faf0fa] dark:bg-[#2d0a2d]"
-                      : "text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-neutral-800"
+                      ? "text-white font-semibold bg-brand-purple shadow-sm shadow-brand-purple/30"
+                      : isScrolled
+                      ? "text-white/80 hover:text-white hover:bg-white/10 hover:-translate-y-0.5"
+                      : "text-neutral-700 hover:text-black hover:bg-gray-100/90 hover:-translate-y-0.5"
                   }`}
                   aria-current={active ? "page" : undefined}
                 >
@@ -85,14 +131,14 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Desktop Right CTA */}
-          <div className="hidden lg:flex items-center gap-3">
+          {/* Desktop Right CTA (Refined Purple Action Button) */}
+          <div className="hidden lg:flex items-center gap-2 shrink-0">
             <Link
               href="/contact-us/"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-[#a329a3] hover:bg-[#8a238a] active:bg-[#731d73] transition-colors shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a329a3]"
+              className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs xl:text-sm font-semibold text-white bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] transition-all duration-200 ease-out shadow-sm hover:shadow-md hover:shadow-brand-purple/25 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple"
             >
-              Contact Us
-              <ArrowRight className="w-4 h-4" />
+              <span>Contact Us</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
             </Link>
           </div>
 
@@ -101,7 +147,11 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => setIsOpen((prev) => !prev)}
-              className="p-2 rounded-lg text-neutral-800 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-[#a329a3] cursor-pointer"
+              className={`p-2 rounded-xl active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all cursor-pointer ${
+                isScrolled
+                  ? "text-white hover:bg-white/10"
+                  : "text-black hover:bg-gray-100"
+              }`}
               aria-expanded={isOpen}
               aria-label={
                 isOpen
@@ -109,50 +159,80 @@ export function Navbar() {
                   : "Open main navigation menu"
               }
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
-      </Container>
+      </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Floating Mobile Drawer Menu */}
       {isOpen && (
-        <div className="fixed inset-0 top-20 z-40 lg:hidden bg-black/60 backdrop-blur-sm">
-          <div className="bg-white dark:bg-neutral-900 border-b border-gray-200 dark:border-neutral-800 shadow-xl max-h-[calc(100vh-5rem)] overflow-y-auto">
-            <div className="px-5 py-6 space-y-2">
-              {mainNavItems.map((item) => {
-                const active = isActive(item.href);
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={handleLinkClick}
-                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
-                      active
-                        ? "text-[#8c1f8c] dark:text-[#f0b8f0] bg-[#faf0fa] dark:bg-[#2d0a2d] font-semibold"
-                        : "text-neutral-800 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-neutral-800"
-                    }`}
-                    aria-current={active ? "page" : undefined}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
+        <div
+          className={`fixed inset-0 z-40 lg:hidden px-3 sm:px-6 pointer-events-auto transition-all duration-300 ${
+            isScrolled ? "top-[72px] sm:top-[80px]" : "top-[64px] sm:top-[70px]"
+          }`}
+        >
+          {/* Subtle Dim Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm -z-10 animate-fade-in"
+            onClick={() => setIsOpen(false)}
+            aria-hidden="true"
+          />
 
-              <div className="pt-4 border-t border-gray-200 dark:border-neutral-800">
+          {/* Floating Menu Card matching the floating bar */}
+          <div
+            className={`w-full max-w-7xl mx-auto rounded-2xl shadow-2xl p-4 sm:p-5 overflow-y-auto max-h-[calc(100vh-6rem)] animate-fade-in-down space-y-1.5 ${
+              isScrolled
+                ? "bg-black/95 backdrop-blur-xl border border-white/15"
+                : "bg-white backdrop-blur-xl border border-gray-200"
+            }`}
+          >
+            {mainNavItems.map((item, idx) => {
+              const active = isActive(item.href);
+              return (
                 <Link
-                  href="/contact-us/"
+                  key={item.href}
+                  href={item.href}
                   onClick={handleLinkClick}
-                  className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-base font-semibold text-white bg-[#a329a3] hover:bg-[#8a238a] transition-colors shadow-sm"
+                  style={{ animationDelay: `${idx * 25}ms` }}
+                  className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    active
+                      ? "text-white bg-brand-purple font-semibold shadow-sm"
+                      : isScrolled
+                      ? "text-white/80 hover:text-white hover:bg-white/10 hover:translate-x-1"
+                      : "text-neutral-800 hover:text-black hover:bg-gray-100 hover:translate-x-1"
+                  }`}
+                  aria-current={active ? "page" : undefined}
                 >
-                  Contact Us
-                  <ArrowRight className="w-4 h-4" />
+                  <span>{item.label}</span>
+                  {active && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-white shadow-xs" />
+                  )}
                 </Link>
-              </div>
+              );
+            })}
 
-              <div className="pt-2 text-center text-xs text-gray-500 dark:text-gray-400">
-                Designed & Developed for TTB by {companyData.developerCredit}
-              </div>
+            <div
+              className={`pt-3 border-t ${
+                isScrolled ? "border-white/10" : "border-gray-200"
+              }`}
+            >
+              <Link
+                href="/contact-us/"
+                onClick={handleLinkClick}
+                className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold text-white bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] transition-all shadow-md group"
+              >
+                <span>Contact Us</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+              </Link>
+            </div>
+
+            <div
+              className={`pt-2 text-center text-[11px] font-mono ${
+                isScrolled ? "text-white/40" : "text-gray-500"
+              }`}
+            >
+              {companyData.name} • Established 25 August 1988
             </div>
           </div>
         </div>

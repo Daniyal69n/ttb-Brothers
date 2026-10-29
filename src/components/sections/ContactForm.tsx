@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { contactConfig } from "@/content/contact";
-import { companyData } from "@/content/company";
+import { useContent } from "@/context/ContentContext";
 import {
   Send,
   AlertCircle,
@@ -31,6 +30,9 @@ const initialFormState: FormState = {
 };
 
 export function ContactForm() {
+  const { content } = useContent();
+  const contactConfig = content.contactConfig;
+  const companyData = content.company;
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>(
     {}
@@ -150,12 +152,12 @@ export function ContactForm() {
   };
 
   return (
-    <div className="bg-white dark:bg-neutral-900 border border-gray-200/90 dark:border-neutral-800 rounded-2xl p-6 sm:p-10 shadow-sm">
+    <div className="bg-white dark:bg-black-70 border border-black-20 dark:border-black-70 rounded-2xl p-6 sm:p-10 shadow-sm">
       <div className="mb-6">
         <h3 className="text-xl sm:text-2xl font-bold text-black dark:text-white">
           Direct Corporate Dispatch
         </h3>
-        <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+        <p className="mt-1 text-sm text-black-70 dark:text-black-20">
           Complete the dispatch fields below to reach our management and advisory
           desk.
         </p>
@@ -163,15 +165,15 @@ export function ContactForm() {
 
       {/* Honest Status / Form Service Notice */}
       {!contactConfig.formServiceConfigured && (
-        <div className="mb-6 p-4 rounded-lg bg-[#faf0fa] dark:bg-[#2d0a2d] border border-[#f0c8f0] dark:border-[#521352] text-xs text-[#6b146b] dark:text-[#f0b8f0] flex items-start gap-3">
-          <Info className="w-5 h-5 text-[#a329a3] shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-lg bg-black-20 dark:bg-black-70 border border-black-40 dark:border-black-70 text-xs text-black-70 dark:text-black-20 flex items-start gap-3">
+          <Info className="w-5 h-5 text-brand-purple shrink-0 mt-0.5" />
           <div className="space-y-1">
             <p className="font-semibold text-black dark:text-white">
               Direct Email Routing Active
             </p>
-            <p className="text-neutral-700 dark:text-neutral-300">
+            <p className="text-black-70 dark:text-black-20">
               Form dispatch is set to open your verified email client directly to{" "}
-              <code className="font-mono bg-[#f0c8f0]/50 dark:bg-[#521352]/60 px-1 py-0.5 rounded text-black dark:text-white">
+              <code className="font-mono bg-black-40/40 dark:bg-black-70/60 px-1 py-0.5 rounded text-black dark:text-white">
                 {companyData.email}
               </code>
               . To route through an external gateway (such as Formspree or
@@ -183,13 +185,13 @@ export function ContactForm() {
       )}
 
       {status === "success" && (
-        <div className="mb-6 p-4 rounded-lg bg-[#faf0fa] dark:bg-[#2d0a2d] border border-[#f0c8f0] dark:border-[#521352] text-xs text-[#6b146b] dark:text-[#f0b8f0] flex items-start gap-3">
-          <CheckCircle2 className="w-5 h-5 text-[#a329a3] shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-lg bg-black-20 dark:bg-black-70 border border-black-40 dark:border-black-70 text-xs text-black-70 dark:text-black-20 flex items-start gap-3">
+          <CheckCircle2 className="w-5 h-5 text-brand-purple shrink-0 mt-0.5" />
           <div>
             <p className="font-semibold text-sm text-black dark:text-white">
               Inquiry Transmitted
             </p>
-            <p className="mt-0.5 text-neutral-700 dark:text-neutral-300">
+            <p className="mt-0.5 text-black-70 dark:text-black-20">
               {statusMessage}
             </p>
           </div>
@@ -197,8 +199,8 @@ export function ContactForm() {
       )}
 
       {status === "error" && (
-        <div className="mb-6 p-4 rounded-lg bg-gray-100 dark:bg-neutral-800 border border-gray-300 dark:border-neutral-700 text-xs text-neutral-900 dark:text-neutral-200 flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-[#a329a3] shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 rounded-lg bg-black-20/10 dark:bg-black/60 border border-black-20 dark:border-black-70 text-xs text-black dark:text-white flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-brand-purple shrink-0 mt-0.5" />
           <div>
             <p className="font-semibold text-sm">Submission Error</p>
             <p className="mt-0.5">{statusMessage}</p>
@@ -206,7 +208,7 @@ export function ContactForm() {
               Alternative direct contact:{" "}
               <a
                 href={`mailto:${companyData.email}`}
-                className="underline font-semibold text-[#a329a3] hover:text-[#8a238a]"
+                className="underline font-semibold text-brand-purple hover:text-brand-purple"
               >
                 {companyData.email}
               </a>
@@ -221,9 +223,9 @@ export function ContactForm() {
           <div>
             <label
               htmlFor="fullName"
-              className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5"
+              className="block text-xs font-semibold uppercase tracking-wider text-black-70 dark:text-black-20 mb-1.5"
             >
-              Full Name <span className="text-[#a329a3]">*</span>
+              Full Name <span className="text-brand-purple">*</span>
             </label>
             <input
               type="text"
@@ -232,14 +234,14 @@ export function ContactForm() {
               value={formData.fullName}
               onChange={handleChange}
               placeholder="e.g. Elizabeth Vance"
-              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-black dark:text-white bg-gray-50/50 dark:bg-neutral-800/60 focus:bg-white dark:focus:bg-neutral-800 focus:outline-none focus:ring-2 transition-colors ${
+              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-black dark:text-white bg-black-20/10 dark:bg-black-70/10 focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-2 transition-colors ${
                 errors.fullName
-                  ? "border-[#a329a3] focus:ring-[#a329a3]"
-                  : "border-gray-300 dark:border-neutral-700 focus:ring-[#a329a3]"
+                  ? "border-brand-purple focus:ring-brand-purple"
+                  : "border-black-20 dark:border-black-70 focus:ring-brand-purple"
               }`}
             />
             {errors.fullName && (
-              <p className="mt-1 text-xs text-[#8c1f8c] dark:text-[#f0b8f0] flex items-center gap-1">
+              <p className="mt-1 text-xs text-brand-purple dark:text-brand-purple flex items-center gap-1">
                 <AlertCircle className="w-3.5 h-3.5" /> {errors.fullName}
               </p>
             )}
@@ -249,9 +251,9 @@ export function ContactForm() {
           <div>
             <label
               htmlFor="email"
-              className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5"
+              className="block text-xs font-semibold uppercase tracking-wider text-black-70 dark:text-black-20 mb-1.5"
             >
-              Business Email <span className="text-[#a329a3]">*</span>
+              Business Email <span className="text-brand-purple">*</span>
             </label>
             <input
               type="email"
@@ -260,14 +262,14 @@ export function ContactForm() {
               value={formData.email}
               onChange={handleChange}
               placeholder="name@organization.com"
-              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-black dark:text-white bg-gray-50/50 dark:bg-neutral-800/60 focus:bg-white dark:focus:bg-neutral-800 focus:outline-none focus:ring-2 transition-colors ${
+              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-black dark:text-white bg-black-20/10 dark:bg-black-70/10 focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-2 transition-colors ${
                 errors.email
-                  ? "border-[#a329a3] focus:ring-[#a329a3]"
-                  : "border-gray-300 dark:border-neutral-700 focus:ring-[#a329a3]"
+                  ? "border-brand-purple focus:ring-brand-purple"
+                  : "border-black-20 dark:border-black-70 focus:ring-brand-purple"
               }`}
             />
             {errors.email && (
-              <p className="mt-1 text-xs text-[#8c1f8c] dark:text-[#f0b8f0] flex items-center gap-1">
+              <p className="mt-1 text-xs text-brand-purple dark:text-brand-purple flex items-center gap-1">
                 <AlertCircle className="w-3.5 h-3.5" /> {errors.email}
               </p>
             )}
@@ -279,7 +281,7 @@ export function ContactForm() {
           <div>
             <label
               htmlFor="organization"
-              className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5"
+              className="block text-xs font-semibold uppercase tracking-wider text-black-70 dark:text-black-20 mb-1.5"
             >
               Organization / Company
             </label>
@@ -290,7 +292,7 @@ export function ContactForm() {
               value={formData.organization}
               onChange={handleChange}
               placeholder="Company or institution name"
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-neutral-700 text-sm text-black dark:text-white bg-gray-50/50 dark:bg-neutral-800/60 focus:bg-white dark:focus:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-[#a329a3] transition-colors"
+              className="w-full px-4 py-2.5 rounded-lg border border-black-20 dark:border-black-70 text-sm text-black dark:text-white bg-black-20/10 dark:bg-black-70/10 focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-2 focus:ring-brand-purple transition-colors"
             />
           </div>
 
@@ -298,7 +300,7 @@ export function ContactForm() {
           <div>
             <label
               htmlFor="inquiryType"
-              className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5"
+              className="block text-xs font-semibold uppercase tracking-wider text-black-70 dark:text-black-20 mb-1.5"
             >
               Inquiry Domain
             </label>
@@ -307,7 +309,7 @@ export function ContactForm() {
               name="inquiryType"
               value={formData.inquiryType}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-neutral-700 text-sm text-black dark:text-white bg-gray-50/50 dark:bg-neutral-800/60 focus:bg-white dark:focus:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-[#a329a3] transition-colors"
+              className="w-full px-4 py-2.5 rounded-lg border border-black-20 dark:border-black-70 text-sm text-black dark:text-white bg-black-20/10 dark:bg-black-70/10 focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-2 focus:ring-brand-purple transition-colors"
             >
               <option value="Corporate Advisory">Corporate Advisory</option>
               <option value="Operations Optimization">
@@ -328,9 +330,9 @@ export function ContactForm() {
         <div>
           <label
             htmlFor="subject"
-            className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5"
+            className="block text-xs font-semibold uppercase tracking-wider text-black-70 dark:text-black-20 mb-1.5"
           >
-            Subject Line <span className="text-[#a329a3]">*</span>
+            Subject Line <span className="text-brand-purple">*</span>
           </label>
           <input
             type="text"
@@ -339,14 +341,14 @@ export function ContactForm() {
             value={formData.subject}
             onChange={handleChange}
             placeholder="Brief summary of inquiry"
-            className={`w-full px-4 py-2.5 rounded-lg border text-sm text-black dark:text-white bg-gray-50/50 dark:bg-neutral-800/60 focus:bg-white dark:focus:bg-neutral-800 focus:outline-none focus:ring-2 transition-colors ${
+            className={`w-full px-4 py-2.5 rounded-lg border text-sm text-black dark:text-white bg-black-20/10 dark:bg-black-70/10 focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-2 transition-colors ${
               errors.subject
-                ? "border-[#a329a3] focus:ring-[#a329a3]"
-                : "border-gray-300 dark:border-neutral-700 focus:ring-[#a329a3]"
+                ? "border-brand-purple focus:ring-brand-purple"
+                : "border-black-20 dark:border-black-70 focus:ring-brand-purple"
             }`}
           />
           {errors.subject && (
-            <p className="mt-1 text-xs text-[#8c1f8c] dark:text-[#f0b8f0] flex items-center gap-1">
+            <p className="mt-1 text-xs text-brand-purple dark:text-brand-purple flex items-center gap-1">
               <AlertCircle className="w-3.5 h-3.5" /> {errors.subject}
             </p>
           )}
@@ -356,9 +358,9 @@ export function ContactForm() {
         <div>
           <label
             htmlFor="message"
-            className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5"
+            className="block text-xs font-semibold uppercase tracking-wider text-black-70 dark:text-black-20 mb-1.5"
           >
-            Detailed Inquiry <span className="text-[#a329a3]">*</span>
+            Detailed Inquiry <span className="text-brand-purple">*</span>
           </label>
           <textarea
             id="message"
@@ -367,14 +369,14 @@ export function ContactForm() {
             value={formData.message}
             onChange={handleChange}
             placeholder="Please detail your scope, objectives, or questions..."
-            className={`w-full px-4 py-2.5 rounded-lg border text-sm text-black dark:text-white bg-gray-50/50 dark:bg-neutral-800/60 focus:bg-white dark:focus:bg-neutral-800 focus:outline-none focus:ring-2 transition-colors resize-y ${
+            className={`w-full px-4 py-2.5 rounded-lg border text-sm text-black dark:text-white bg-black-20/10 dark:bg-black-70/10 focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-2 transition-colors resize-y ${
               errors.message
-                ? "border-[#a329a3] focus:ring-[#a329a3]"
-                : "border-gray-300 dark:border-neutral-700 focus:ring-[#a329a3]"
+                ? "border-brand-purple focus:ring-brand-purple"
+                : "border-black-20 dark:border-black-70 focus:ring-brand-purple"
             }`}
           />
           {errors.message && (
-            <p className="mt-1 text-xs text-[#8c1f8c] dark:text-[#f0b8f0] flex items-center gap-1">
+            <p className="mt-1 text-xs text-brand-purple dark:text-brand-purple flex items-center gap-1">
               <AlertCircle className="w-3.5 h-3.5" /> {errors.message}
             </p>
           )}
@@ -385,7 +387,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={status === "submitting"}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg text-sm font-semibold text-white bg-[#a329a3] hover:bg-[#8a238a] active:bg-[#731d73] disabled:opacity-50 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-[#a329a3] focus:ring-offset-2 cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg text-sm font-semibold text-white bg-brand-purple hover:opacity-95 active:scale-[0.98] disabled:opacity-50 transition-all duration-200 ease-out shadow-sm hover:shadow-md hover:shadow-brand-purple/25 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 cursor-pointer group"
           >
             {status === "submitting" ? (
               <>
@@ -394,12 +396,12 @@ export function ContactForm() {
               </>
             ) : contactConfig.formServiceConfigured ? (
               <>
-                <Send className="w-4 h-4" />
+                <Send className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
                 Submit Corporate Inquiry
               </>
             ) : (
               <>
-                <Mail className="w-4 h-4" />
+                <Mail className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
                 Dispatch via Verified Email Client
               </>
             )}

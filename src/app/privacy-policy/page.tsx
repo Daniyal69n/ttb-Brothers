@@ -16,14 +16,16 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="flex flex-col">
       {/* Header */}
-      <section className="bg-black text-white py-16 md:py-20 border-b border-neutral-850">
+      <section className="bg-black text-white py-16 md:py-20 border-b border-black-70 overflow-hidden">
         <Container>
           <div className="max-w-3xl space-y-4">
-            <Badge variant="accent">Legal & Compliance</Badge>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            <div className="animate-fade-in-down">
+              <Badge variant="accent">Legal &amp; Compliance</Badge>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight animate-fade-in-up [animation-delay:100ms]">
               Corporate Privacy Policy
             </h1>
-            <p className="text-base text-gray-300 leading-relaxed">
+            <p className="text-base text-black-20 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
               General disclosure regarding corporate data handling, website
               usage, and information governance principles.
             </p>
@@ -32,13 +34,13 @@ export default function PrivacyPolicyPage() {
       </section>
 
       {/* Main Legal Content */}
-      <section className="py-16 bg-white dark:bg-neutral-900">
+      <section className="py-16 bg-white dark:bg-black">
         <Container size="md">
-          <div className="prose dark:prose-invert max-w-none space-y-8 text-neutral-700 dark:text-neutral-300">
+          <div className="prose dark:prose-invert max-w-none space-y-8 text-black-70 dark:text-black-20">
             {/* Legal Notice Disclaimer */}
-            <div className="p-4 rounded-xl bg-gray-50 dark:bg-neutral-800/60 border border-gray-200 dark:border-neutral-700 text-xs text-neutral-500 space-y-1">
+            <div className="p-4 rounded-xl bg-black-20/10 dark:bg-black-70/10 border border-black-20 dark:border-black-70 text-xs text-black-60 dark:text-black-20 space-y-1">
               <p className="font-semibold text-black dark:text-white flex items-center gap-1.5">
-                <Info className="w-4 h-4 text-[#a329a3]" />
+                <Info className="w-4 h-4 text-brand-purple" />
                 Administrative Disclaimer
               </p>
               <p>
@@ -76,7 +78,7 @@ export default function PrivacyPolicyPage() {
               <p className="text-sm leading-relaxed">
                 Submitted information is utilized solely to:
               </p>
-              <ul className="list-disc pl-5 text-sm space-y-1 text-neutral-600 dark:text-neutral-300">
+              <ul className="list-disc pl-5 text-sm space-y-1 text-black-70 dark:text-black-20">
                 <li>Evaluate and respond to corporate inquiries and project requests.</li>
                 <li>Process expressions of interest and job applications.</li>
                 <li>Maintain internal corporate administrative and audit records.</li>
@@ -122,11 +124,11 @@ export default function PrivacyPolicyPage() {
               </p>
             </section>
 
-            <div className="pt-6 border-t border-gray-200 dark:border-neutral-800 flex justify-between items-center text-xs text-gray-500">
+            <div className="pt-6 border-t border-black-20 dark:border-black-70 flex justify-between items-center text-xs text-black-60 dark:text-black-20">
               <span>Last Updated: Corporate Revision 1.0</span>
               <Link
                 href="/"
-                className="text-[#8c1f8c] dark:text-[#f0b8f0] hover:text-[#731d73] dark:hover:text-white hover:underline font-medium"
+                className="text-brand-purple dark:text-brand-purple hover:text-brand-purple dark:hover:text-white hover:underline font-medium"
               >
                 Return to Homepage &rarr;
               </Link>

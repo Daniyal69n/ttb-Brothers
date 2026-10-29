@@ -3,16 +3,39 @@ export interface NavItem {
   href: string;
 }
 
+export interface OfficeAddress {
+  label: string;
+  street: string;
+  landmark?: string;
+  city: string;
+  region?: string;
+  country: string;
+  phone?: string;
+}
+
 export interface CompanyInfo {
   name: string;
   shortName: string;
-  tagline: string;
-  developerCredit: string;
-  description: string;
+  businessType: string;
+  proprietor: string;
+  establishedDate: string;
   establishedYear: string;
-  headquarters: string;
-  email: string;
+  workforce: string;
+  tagline: string;
+  description: string;
+  contactPersons: { name: string; title: string }[];
+  registeredOffice: OfficeAddress;
+  islamabadBranch: OfficeAddress;
+  postalAddress: string;
+  phoneMobile: string;
+  phoneLandline: string;
   phone: string;
+  fax: string;
+  emailGeneral: string;
+  emailDirector: string;
+  email: string;
+  website: string;
+  workingHours: string;
   address: {
     street: string;
     city: string;
@@ -20,7 +43,7 @@ export interface CompanyInfo {
     country: string;
     postalCode: string;
   };
-  workingHours: string;
+  benefits: { title: string; description: string }[];
 }
 
 export interface ValueItem {
@@ -29,6 +52,19 @@ export interface ValueItem {
   shortDescription: string;
   fullDescription: string;
   iconName: string;
+  imageHint?: string;
+  imagePath?: string;
+}
+
+export interface ServiceCategory {
+  id: string;
+  letter: string;
+  title: string;
+  shortDescription: string;
+  fullDescription: string;
+  capabilities: string[];
+  iconName: string;
+  imagePath?: string;
 }
 
 export interface ServiceItem {
@@ -43,21 +79,26 @@ export interface ServiceItem {
 export interface ProjectItem {
   id: string;
   title: string;
-  category: string;
+  client: string;
+  year: string;
+  category: "Filling Stations & KDR" | "Civil & Construction" | "Electrical & Mechanical" | "Retail Shops & Auto Wash";
   summary: string;
   description: string;
-  status: "Completed" | "In Progress" | "Confidential / Case Study";
-  year: string;
-  deliverables: string[];
-  placeholderImage: string;
+  status: "Completed" | "In Progress";
+  deliverables?: string[];
+  imagePath?: string;
+  galleryImages?: string[];
+  featured?: boolean;
 }
 
 export interface ClientItem {
   id: string;
   name: string;
   industry: string;
-  isPlaceholder: boolean;
-  statusText: string;
+  source: "Profile Client" | "Supplied Partner Logo" | "Major Project Client";
+  logoUrl?: string;
+  confirmedInProfile: boolean;
+  notes?: string;
 }
 
 export interface JobOpening {
@@ -70,9 +111,11 @@ export interface JobOpening {
 }
 
 export interface ContactConfig {
-  formEndpoint: string; // e.g. Formspree, Web3Forms, or empty string for mailto mode
-  notificationEmail: string;
-  supportPhone: string;
-  addressSummary: string;
+  formEndpoint: string;
   formServiceConfigured: boolean;
+  notificationEmail: string;
+  directorEmail: string;
+  supportPhone: string;
+  registeredAddress: string;
+  branchAddress: string;
 }

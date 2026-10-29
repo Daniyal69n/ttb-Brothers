@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="100%" height="100%" fill="none" />
+  <path d="M40 16 C30 28 24 38 24 48 C24 58 32 64 40 64 C48 64 56 58 56 48 C56 38 50 28 40 16 Z" fill="#D32F2F" />
+  <path d="M40 32 C36 38 32 44 32 50 C32 56 36 60 40 60 C44 60 48 56 48 50 C48 44 44 38 40 32 Z" fill="#FFC107" />
+  <text x="68" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="900" fill="#D32F2F" letter-spacing="0.5">ATTOCK</text>
+  <text x="68" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#212121" letter-spacing="1">PETROLEUM</text>
+</svg>
+

@@ -4,348 +4,320 @@ import Link from "next/link";
 import { Hero } from "@/components/sections/Hero";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { ServiceCard } from "@/components/sections/ServiceCard";
-import { ProjectCard } from "@/components/sections/ProjectCard";
-import { ValueCard } from "@/components/sections/ValueCard";
+import { HomeFeaturedServices } from "@/components/sections/HomeFeaturedServices";
+import { HomeFeaturedValues } from "@/components/sections/HomeFeaturedValues";
+import { HomeFeaturedProjects } from "@/components/sections/HomeFeaturedProjects";
 import { ClientLogoGrid } from "@/components/sections/ClientLogoGrid";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { corporateServices } from "@/content/services";
-import { corporateProjects } from "@/content/projects";
-import { corporateValues } from "@/content/values";
+import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { companyData } from "@/content/company";
 import {
   ArrowRight,
   ShieldCheck,
-  Building,
-  Target,
-  Users2,
+  Calendar,
+  CheckCircle2,
   PhoneCall,
-  CheckCircle,
+  Clock,
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Home | TTB Corporate Group",
+  title: "T & T Brothers (TTB) — Construction, Maintenance & Engineering Services",
   description:
-    "Official corporate portal of TTB. Enterprise advisory, project governance, and operational stewardship.",
+    "Established in 1988, T & T Brothers (TTB) is a leading Pakistani one-source contractor specializing in commercial construction, oil & gas filling station commissioning, and electro-mechanical maintenance.",
 };
 
 export default function HomePage() {
-  // Select top 3 services for the homepage overview
-  const featuredServices = corporateServices.slice(0, 3);
-  // Select top 3 projects for the homepage overview
-  const featuredProjects = corporateProjects.slice(0, 3);
-  // Select top 3 core values
-  const featuredValues = corporateValues.slice(0, 3);
-
   return (
     <div className="flex flex-col">
       {/* 1. Hero Section */}
       <Hero />
 
-      {/* 2. Introduction to TTB Section */}
-      <section className="py-20 bg-white dark:bg-neutral-900 border-b border-gray-200/80 dark:border-neutral-800">
+      {/* 2. Professional Introduction & History */}
+      <section className="py-20 bg-white dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#faf0fa] dark:bg-[#2d0a2d] text-[#8c1f8c] dark:text-[#f0b8f0] border border-[#f0c8f0] dark:border-[#521352]">
-                <Building className="w-3.5 h-3.5" />
-                About TTB
+            <AnimateOnScroll variant="fade-right" className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-purple/10 text-brand-purple border border-brand-purple/20">
+                <Calendar className="w-3.5 h-3.5" />
+                Established 25 August 1988 • Sole Proprietor
               </div>
 
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-black dark:text-white">
-                Committed to Long-Term Corporate Resilience
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black dark:text-white leading-tight">
+                Pakistan’s Premier One-Source Engineering &amp; Construction Solution
               </h2>
 
-              <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              <p className="text-base sm:text-lg text-black-70 dark:text-black-20 leading-relaxed">
                 {companyData.description}
               </p>
 
-              <div className="space-y-3 pt-2">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#a329a3] mt-0.5 shrink-0" />
-                  <p className="text-sm text-neutral-800 dark:text-neutral-200">
-                    <strong>Rigorous Methodologies:</strong> Standardized operating
-                    protocols that deliver consistent, verifiable results.
-                  </p>
+              <p className="text-sm sm:text-base text-black-70 dark:text-black-20 leading-relaxed">
+                Founded by <strong>{companyData.proprietor}</strong> over 35 years ago, TTB brings together certified professional engineers, real estate development acumen, and an experienced execution team of approximately <strong>60 full-time staff</strong>. We bridge the gap between initial architectural planning and ongoing multi-site facility management.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div className="flex items-start gap-3 group">
+                  <CheckCircle2 className="w-5 h-5 text-brand-purple mt-0.5 shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                  <div>
+                    <strong className="text-sm text-black dark:text-white block">Turnkey Downstream Retail</strong>
+                    <span className="text-xs text-black-60 dark:text-black-40">Complete forecourts, fuel dispensers, and automated car washes.</span>
+                  </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#a329a3] mt-0.5 shrink-0" />
-                  <p className="text-sm text-neutral-800 dark:text-neutral-200">
-                    <strong>Ethical Alignment:</strong> Transparency in stakeholder
-                    reporting and bilateral compliance.
-                  </p>
+                <div className="flex items-start gap-3 group">
+                  <CheckCircle2 className="w-5 h-5 text-brand-purple mt-0.5 shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                  <div>
+                    <strong className="text-sm text-black dark:text-white block">Strict HSSE Compliance</strong>
+                    <span className="text-xs text-black-60 dark:text-black-40">Zero-compromise safety protocols across hazardous petroleum sites.</span>
+                  </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#a329a3] mt-0.5 shrink-0" />
-                  <p className="text-sm text-neutral-800 dark:text-neutral-200">
-                    <strong>Adaptive Execution:</strong> Practical strategies
-                    structured to perform across dynamic commercial cycles.
-                  </p>
+                <div className="flex items-start gap-3 group">
+                  <CheckCircle2 className="w-5 h-5 text-brand-purple mt-0.5 shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                  <div>
+                    <strong className="text-sm text-black dark:text-white block">24-Hour Reactive Support</strong>
+                    <span className="text-xs text-black-60 dark:text-black-40">Rapid mechanical and electrical emergency troubleshooting teams.</span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 group">
+                  <CheckCircle2 className="w-5 h-5 text-brand-purple mt-0.5 shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                  <div>
+                    <strong className="text-sm text-black dark:text-white block">Multi-National Client Trust</strong>
+                    <span className="text-xs text-black-60 dark:text-black-40">Long-term contracts with Shell, Total Parco, and PSO.</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="pt-4">
+              <div className="pt-4 flex items-center gap-4">
                 <Link
                   href="/about-us/"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-[#8c1f8c] dark:text-[#f0b8f0] hover:text-[#731d73] dark:hover:text-white transition-colors"
+                  className="group inline-flex items-center gap-2 text-sm font-semibold text-brand-purple hover:underline underline-offset-4"
                 >
-                  Read full corporate profile &rarr;
+                  Read our full company profile &amp; director message
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                 </Link>
               </div>
-            </div>
+            </AnimateOnScroll>
 
-            <div className="lg:col-span-6 bg-gray-50 dark:bg-neutral-800/50 rounded-2xl border border-gray-200/80 dark:border-neutral-700/80 p-8 sm:p-10 space-y-6">
-              <h3 className="text-xl font-bold text-black dark:text-white">
-                Operating Benchmarks
-              </h3>
+            {/* Fact Matrix Card */}
+            <AnimateOnScroll variant="fade-left" delay={150} className="lg:col-span-5 bg-black-20/10 dark:bg-black-70/20 rounded-2xl border border-black-20 dark:border-black-70 p-6 sm:p-8 space-y-6 card-lift hover:shadow-xl hover:border-brand-purple/50 transition-all duration-300">
+              <div className="flex items-center justify-between pb-4 border-b border-black-20 dark:border-black-70">
+                <span className="text-xs font-mono uppercase tracking-wider text-black-50">
+                  Company Fact Sheet
+                </span>
+                <span className="text-xs font-semibold text-brand-purple bg-brand-purple/10 px-2.5 py-0.5 rounded">
+                  Official Record
+                </span>
+              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200/60 dark:border-neutral-800">
-                  <span className="text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-semibold block mb-1">
-                    Governance Structure
+              <div className="space-y-4 text-sm divide-y divide-black-20/60 dark:divide-black-70/60">
+                <div className="pt-3 first:pt-0 flex justify-between items-center">
+                  <span className="text-black-60 dark:text-black-40">Company Name</span>
+                  <span className="font-semibold text-black dark:text-white text-right">
+                    T &amp; T Brothers (TTB)
                   </span>
-                  <p className="text-base font-bold text-black dark:text-white">
-                    Direct Oversight
-                  </p>
-                  <p className="text-xs text-neutral-500 mt-1">
-                    Board-level compliance alignment on all programs.
-                  </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200/60 dark:border-neutral-800">
-                  <span className="text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-semibold block mb-1">
-                    Quality Standards
+                <div className="pt-3 flex justify-between items-center">
+                  <span className="text-black-60 dark:text-black-40">Established</span>
+                  <span className="font-semibold text-black dark:text-white text-right">
+                    25 August 1988 (35+ Yrs)
                   </span>
-                  <p className="text-base font-bold text-black dark:text-white">
-                    Strict Verification
-                  </p>
-                  <p className="text-xs text-neutral-500 mt-1">
-                    Milestone-driven deliverable sign-offs.
-                  </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200/60 dark:border-neutral-800">
-                  <span className="text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-semibold block mb-1">
-                    Partnership Model
+                <div className="pt-3 flex justify-between items-center">
+                  <span className="text-black-60 dark:text-black-40">Business Structure</span>
+                  <span className="font-semibold text-black dark:text-white text-right">
+                    Sole Proprietor
                   </span>
-                  <p className="text-base font-bold text-black dark:text-white">
-                    Long-Term Value
-                  </p>
-                  <p className="text-xs text-neutral-500 mt-1">
-                    Enduring stakeholder collaboration.
-                  </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200/60 dark:border-neutral-800">
-                  <span className="text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 font-semibold block mb-1">
-                    Confidentiality
+                <div className="pt-3 flex justify-between items-center">
+                  <span className="text-black-60 dark:text-black-40">Proprietor</span>
+                  <span className="font-semibold text-black dark:text-white text-right">
+                    Muhammad Touqeer Irshad
                   </span>
-                  <p className="text-base font-bold text-black dark:text-white">
-                    NDA Protected
-                  </p>
-                  <p className="text-xs text-neutral-500 mt-1">
-                    Complete proprietary data security.
-                  </p>
+                </div>
+
+                <div className="pt-3 flex justify-between items-center">
+                  <span className="text-black-60 dark:text-black-40">Workforce</span>
+                  <span className="font-semibold text-black dark:text-white text-right">
+                    ~60 Qualified Personnel
+                  </span>
+                </div>
+
+                <div className="pt-3 flex justify-between items-center">
+                  <span className="text-black-60 dark:text-black-40">Offices</span>
+                  <span className="font-semibold text-black dark:text-white text-right">
+                    Peshawar &amp; Islamabad
+                  </span>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#faf0fa] dark:bg-[#2d0a2d] border border-[#f0c8f0] dark:border-[#521352] text-xs text-[#6b146b] dark:text-[#f0b8f0]">
-                All metrics and engagements follow verified corporate audit
-                standards.
+              <div className="pt-2">
+                <Link
+                  href="/contact-us/"
+                  className="group w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold bg-brand-purple text-white hover:opacity-95 active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-brand-purple/20 hover:-translate-y-0.5"
+                >
+                  Contact Head Office
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+                </Link>
               </div>
-            </div>
+            </AnimateOnScroll>
           </div>
         </Container>
       </section>
 
-      {/* 3. Overview of Services */}
-      <section className="py-20 bg-gray-50/60 dark:bg-neutral-950/50 border-b border-gray-200/80 dark:border-neutral-800">
+      {/* 3. Core Service Portfolios Preview */}
+      <section className="py-20 bg-black-20/10 dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
-          <SectionHeader
-            badge="Services & Capabilities"
-            title="Strategic Operational Capabilities"
-            subtitle="TTB delivers integrated corporate management, strategic advisory, and operational streamlining across enterprise domains."
-          />
+          <AnimateOnScroll variant="fade-up">
+            <SectionHeader
+              badge="Engineering & Capabilities"
+              title="Comprehensive Service Portfolios"
+              subtitle="From civil foundation engineering and retail forecourt commissioning to 24-hour reactive electro-mechanical servicing."
+            />
+          </AnimateOnScroll>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredServices.map((service) => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
-          </div>
+          <HomeFeaturedServices />
 
-          <div className="mt-12 text-center">
+          <AnimateOnScroll variant="fade-up" delay={300} className="mt-12 text-center">
             <Link
               href="/services/"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-neutral-800 dark:text-neutral-200 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-800 hover:border-[#a329a3] transition-colors shadow-sm"
+              className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold text-white bg-brand-purple hover:opacity-95 active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-brand-purple/20 hover:-translate-y-0.5"
             >
-              View All 6 Service Portfolios
-              <ArrowRight className="w-4 h-4" />
+              Explore All 6 Service Categories
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
-          </div>
+          </AnimateOnScroll>
         </Container>
       </section>
 
-      {/* 4. Company Strengths or Values */}
-      <section className="py-20 bg-white dark:bg-neutral-900 border-b border-gray-200/80 dark:border-neutral-800">
+      {/* 4. Company Values Preview */}
+      <section className="py-20 bg-white dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
-          <SectionHeader
-            badge="Core Philosophy"
-            title="Corporate Values Driving Every Decision"
-            subtitle="Our standards reflect an uncompromising approach to integrity, discipline, and stakeholder stewardship."
-          />
+          <AnimateOnScroll variant="fade-up">
+            <SectionHeader
+              badge="Operating Philosophy"
+              title="Values Grounded in Our History"
+              subtitle="Honesty, fairness, strict safety protocols, and deep respect for every individual define how TTB executes every contract."
+            />
+          </AnimateOnScroll>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredValues.map((val) => (
-              <ValueCard key={val.id} value={val} />
-            ))}
-          </div>
+          <HomeFeaturedValues />
 
-          <div className="mt-12 text-center">
+          <AnimateOnScroll variant="fade-up" delay={300} className="mt-12 text-center">
             <Link
               href="/our-values/"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#8c1f8c] dark:text-[#f0b8f0] hover:text-[#731d73] dark:hover:text-white"
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-brand-purple hover:underline underline-offset-4"
             >
-              Explore our complete governance principles &rarr;
+              Explore our complete values and company culture
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
-          </div>
+          </AnimateOnScroll>
         </Container>
       </section>
 
-      {/* 5. Featured Projects */}
-      <section className="py-20 bg-gray-50/60 dark:bg-neutral-950/50 border-b border-gray-200/80 dark:border-neutral-800">
+      {/* 5. Selected Projects Portfolio Preview */}
+      <section className="py-20 bg-black-20/10 dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
-          <SectionHeader
-            badge="Selected Engagements"
-            title="Representative Projects & Case Studies"
-            subtitle="A review of strategic initiatives executed across diverse operational disciplines."
-          />
+          <AnimateOnScroll variant="fade-up">
+            <SectionHeader
+              badge="Featured Projects"
+              title="Representative Completed Infrastructure"
+              subtitle="Explore our verified projects delivered for Shell Pakistan, Total Parco Pakistan, and Pakistan State Oil (PSO)."
+            />
+          </AnimateOnScroll>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProjects.map((proj) => (
-              <ProjectCard key={proj.id} project={proj} />
-            ))}
-          </div>
+          <HomeFeaturedProjects />
 
-          <div className="mt-12 text-center">
+          <AnimateOnScroll variant="fade-up" delay={300} className="mt-12 text-center">
             <Link
               href="/projects/"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-neutral-800 dark:text-neutral-200 bg-white dark:bg-neutral-900 border border-gray-300 dark:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-800 hover:border-[#a329a3] transition-colors shadow-sm"
+              className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold text-white bg-brand-purple hover:opacity-95 active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-brand-purple/20 hover:-translate-y-0.5"
             >
-              Access Complete Project Portfolio
-              <ArrowRight className="w-4 h-4" />
+              View Complete Portfolio (22 Verified Projects)
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
-          </div>
+          </AnimateOnScroll>
         </Container>
       </section>
 
-      {/* 6. Clients Section */}
-      <section className="py-20 bg-white dark:bg-neutral-900 border-b border-gray-200/80 dark:border-neutral-800">
+      {/* 6. Major Clients Highlight */}
+      <section className="py-20 bg-white dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
-          <SectionHeader
-            badge="Institutional Network"
-            title="Clients & Institutional Partners"
-            subtitle="We maintain long-term partnerships across critical commercial sectors."
-          />
+          <AnimateOnScroll variant="fade-up">
+            <SectionHeader
+              badge="Industry Partners"
+              title="Trusted by Premier Corporations"
+              subtitle="TTB maintains multi-year relationships with Pakistan’s leading downstream petroleum and commercial organizations."
+            />
+          </AnimateOnScroll>
 
-          <ClientLogoGrid />
+          <AnimateOnScroll variant="fade-up" delay={150}>
+            <ClientLogoGrid />
+          </AnimateOnScroll>
 
-          <div className="mt-8 text-center">
+          <AnimateOnScroll variant="fade-up" delay={250} className="mt-8 text-center">
             <Link
               href="/clients/"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#8c1f8c] dark:text-[#f0b8f0] hover:text-[#731d73] dark:hover:text-white"
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-brand-purple hover:underline underline-offset-4"
             >
-              Review client engagement framework &rarr;
+              View detailed client overview &amp; partner assets
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
-          </div>
+          </AnimateOnScroll>
         </Container>
       </section>
 
-      {/* 7. Careers Call to Action */}
-      <section className="py-16 bg-gradient-to-r from-black via-neutral-900 to-black text-white border-y border-neutral-800">
-        <Container>
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#2d0a2d] text-[#f0b8f0] border border-[#521352]">
-                <Users2 className="w-3.5 h-3.5" />
-                Talent & Leadership
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                Interested in Joining the TTB Team?
-              </h2>
-              <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-                We welcome high-caliber professionals seeking to contribute to
-                rigorous corporate engagements. Discover our culture and submit
-                your credentials.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-4 shrink-0">
-              <Link
-                href="/careers/"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold text-white bg-[#a329a3] hover:bg-[#8a238a] active:bg-[#731d73] transition-colors shadow-sm"
-              >
-                Explore Careers & Culture
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* 8. Contact Section */}
-      <section className="py-20 bg-gray-50 dark:bg-neutral-950">
+      {/* 7. Contact CTA & Inquiry Desk */}
+      <section className="py-20 bg-black-20/10 dark:bg-black overflow-hidden">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            <div className="lg:col-span-5 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#faf0fa] dark:bg-[#2d0a2d] text-[#8c1f8c] dark:text-[#f0b8f0] border border-[#f0c8f0] dark:border-[#521352]">
+            <AnimateOnScroll variant="fade-right" className="lg:col-span-5 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-purple/10 text-brand-purple border border-brand-purple/20">
                 <PhoneCall className="w-3.5 h-3.5" />
-                Initiate Inquiry
+                Direct Inquiry Desk
               </div>
 
-              <h2 className="text-3xl font-bold tracking-tight text-black dark:text-white">
-                Start a Conversation with TTB Leadership
+              <h2 className="text-3xl font-extrabold tracking-tight text-black dark:text-white">
+                Initiate a Project Discussion with TTB
               </h2>
 
-              <p className="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
-                Connect directly with our corporate operations team to discuss
-                service engagements, partnership opportunities, or institutional
-                advisory needs.
+              <p className="text-base text-black-70 dark:text-black-20 leading-relaxed">
+                Connect directly with our Peshawar Head Office or Islamabad Branch to discuss your commercial construction, retail forecourt, or routine maintenance requirements.
               </p>
 
-              <div className="p-6 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200/90 dark:border-neutral-800 space-y-4">
+              <div className="p-6 rounded-xl bg-white dark:bg-black border border-black-20 dark:border-black-70 space-y-4 card-lift">
                 <div className="flex items-start gap-3">
-                  <ShieldCheck className="w-5 h-5 text-[#a329a3] mt-0.5 shrink-0" />
+                  <ShieldCheck className="w-5 h-5 text-brand-purple mt-0.5 shrink-0" />
                   <div>
                     <h4 className="text-sm font-bold text-black dark:text-white">
-                      Direct Executive Routing
+                      Registered Offices
                     </h4>
-                    <p className="text-xs text-neutral-500 mt-0.5">
-                      Messages are securely received and routed directly to
-                      relevant practice leaders.
+                    <p className="text-xs text-black-70 dark:text-black-20 mt-0.5">
+                      Peshawar Head Office (G.T. Road) &amp; Islamabad Branch (I-10/4).
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Target className="w-5 h-5 text-[#a329a3] mt-0.5 shrink-0" />
+                  <Clock className="w-5 h-5 text-brand-purple mt-0.5 shrink-0" />
                   <div>
                     <h4 className="text-sm font-bold text-black dark:text-white">
-                      Guaranteed Response Window
+                      24-Hour Site Response
                     </h4>
-                    <p className="text-xs text-neutral-500 mt-0.5">
-                      Standard business inquiries are acknowledged within one
-                      business day.
+                    <p className="text-xs text-black-70 dark:text-black-20 mt-0.5">
+                      Reactive maintenance teams available 24/7 for operational client sites.
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
+            </AnimateOnScroll>
 
-            <div className="lg:col-span-7">
+            <AnimateOnScroll variant="fade-left" delay={150} className="lg:col-span-7">
               <ContactForm />
-            </div>
+            </AnimateOnScroll>
           </div>
         </Container>
       </section>

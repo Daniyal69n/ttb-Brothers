@@ -1,20 +1,22 @@
 import { ContactConfig } from "@/types";
 
 export const contactConfig: ContactConfig = {
-  // Set your static form endpoint here (e.g., "https://formspree.io/f/your-id" or "https://api.web3forms.com/submit")
-  // If left as empty string "", the form switches to direct mailto verification mode with a transparent notice.
-  formEndpoint: "", 
-  formServiceConfigured: false,
-  notificationEmail: "contact@ttb-corporate.placeholder", // Official contact email
-  supportPhone: "+1 (000) 000-0000 [Pending Confirmation]",
-  addressSummary: "TTB Corporate Headquarters, [City, Country pending confirmation]",
+  // Configured via environment variable or static endpoint (e.g. "https://formspree.io/f/YOUR_ID")
+  // If left empty (""), the Contact Form gracefully generates a direct mailto action to info@ttb.org.pk with pre-filled fields.
+  formEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT || "",
+  formServiceConfigured: Boolean(process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT),
+  notificationEmail: "info@ttb.org.pk",
+  directorEmail: "touqeer@ttb.org.pk",
+  supportPhone: "+92 345 9023368",
+  registeredAddress: "Irshad House, near Caltex Depot, G.T. Road, Taru Jabba, Peshawar, Pakistan",
+  branchAddress: "Office #807, Street #19, I-10/4, near CDA Stop, Islamabad, Pakistan",
 };
 
 export const contactPageContent = {
-  badge: "Get in Touch",
-  title: "Connect with the TTB Corporate Team",
+  badge: "Official Communications & Enquiries",
+  title: "Get in Touch with T & T Brothers (TTB)",
   subtitle:
-    "Whether exploring an advisory engagement, project collaboration, or general inquiry, our corporate communications desk is ready to assist.",
+    "Whether you require turnkey commercial construction, filling station technological commissioning, retail fit-outs, or 24-hour maintenance services across Pakistan, our engineering and management desks are ready to assist you.",
   officeHoursNotice:
-    "Inquiries received during standard business hours (Mon-Fri 09:00 - 18:00) are acknowledged within one business day.",
+    "Standard Office Hours: Monday to Saturday, 08:30 – 18:00 PKT. Emergency reactive maintenance support operates 24 hours.",
 };

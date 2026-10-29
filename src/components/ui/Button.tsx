@@ -19,7 +19,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed select-none cursor-pointer";
+    "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed select-none cursor-pointer group";
 
   const sizeStyles = {
     sm: "px-3.5 py-1.5 text-xs gap-1.5",
@@ -29,13 +29,13 @@ export function Button({
 
   const variantStyles = {
     primary:
-      "bg-[#a329a3] text-white hover:bg-[#8a238a] active:bg-[#731d73] shadow-sm hover:shadow focus:ring-[#a329a3]",
+      "bg-brand-purple text-white hover:opacity-95 shadow-sm hover:shadow-md hover:shadow-brand-purple/20 focus:ring-brand-purple",
     secondary:
-      "bg-black text-white hover:bg-neutral-800 active:bg-neutral-900 dark:bg-white dark:text-black dark:hover:bg-neutral-100 shadow-sm focus:ring-neutral-500",
+      "bg-black text-white hover:bg-black-70 active:bg-black dark:bg-white dark:text-black dark:hover:bg-black-20 shadow-sm hover:shadow-md focus:ring-black-50",
     outline:
-      "border border-gray-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 bg-white dark:bg-neutral-900 hover:bg-gray-50 dark:hover:bg-neutral-800 hover:border-[#a329a3] dark:hover:border-[#a329a3] active:bg-gray-100 focus:ring-[#a329a3]",
+      "border border-black-20 dark:border-black-70 text-black dark:text-white bg-white dark:bg-black hover:bg-black-20/40 dark:hover:bg-black-70 hover:border-brand-purple dark:hover:border-brand-purple hover:shadow-sm focus:ring-brand-purple",
     ghost:
-      "text-neutral-700 dark:text-neutral-300 hover:bg-gray-100 dark:hover:bg-neutral-800 focus:ring-[#a329a3]",
+      "text-black-70 dark:text-black-20 hover:text-black dark:hover:text-white hover:bg-black-20/20 dark:hover:bg-black-70/30 focus:ring-brand-purple",
   };
 
   const combinedClass = `${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;

@@ -4,82 +4,85 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
-import { ProjectCard } from "@/components/sections/ProjectCard";
-import { corporateProjects, projectsIntroduction } from "@/content/projects";
-import { ShieldAlert, ArrowRight } from "lucide-react";
+import { ProjectsPortfolio } from "@/components/sections/ProjectsPortfolio";
+import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
+import { projectsIntroduction } from "@/content/projects";
+import { ShieldCheck, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Projects & Engagements",
+  title: "Projects Portfolio | T & T Brothers (TTB)",
   description:
-    "Selected representative projects and corporate advisory case studies undertaken by TTB.",
+    "Explore 22 verified completed infrastructure projects delivered by TTB for Shell Pakistan, Total Parco Pakistan, and Pakistan State Oil (PSO) from 2018 to 2022.",
 };
 
 export default function ProjectsPage() {
   return (
     <div className="flex flex-col">
-      {/* Header */}
-      <section className="bg-black text-white py-16 md:py-24 border-b border-neutral-850">
+      {/* 1. Header */}
+      <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
         <Container>
           <div className="max-w-3xl space-y-4">
-            <Badge variant="accent">{projectsIntroduction.badge}</Badge>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
+            <div className="animate-fade-in-down">
+              <Badge variant="accent">{projectsIntroduction.badge}</Badge>
+            </div>
+            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight animate-fade-in-up [animation-delay:100ms]">
               {projectsIntroduction.title}
             </h1>
-            <p className="text-lg text-gray-300 leading-relaxed">
+            <p className="text-lg text-black-20 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
               {projectsIntroduction.subtitle}
             </p>
           </div>
         </Container>
       </section>
 
-      {/* NDA & Disclosure Banner */}
-      <section className="bg-[#faf0fa] dark:bg-[#2d0a2d] border-b border-[#f0c8f0] dark:border-[#521352] py-4">
+      {/* 2. Official Verification Notice */}
+      <section className="bg-brand-purple/10 border-b border-brand-purple/20 py-4 animate-fade-in">
         <Container>
-          <div className="flex items-start sm:items-center gap-3 text-xs text-[#6b146b] dark:text-[#f0b8f0]">
-            <ShieldAlert className="w-4 h-4 text-[#a329a3] shrink-0 mt-0.5 sm:mt-0" />
-            <p>{projectsIntroduction.disclosureNotice}</p>
+          <div className="flex items-start sm:items-center gap-3 text-xs text-black dark:text-black-20">
+            <ShieldCheck className="w-4 h-4 text-brand-purple shrink-0 mt-0.5 sm:mt-0 animate-pulse" />
+            <p>
+              <strong>Official Profile Record:</strong> {projectsIntroduction.disclosureNotice}
+            </p>
           </div>
         </Container>
       </section>
 
-      {/* Projects Grid */}
-      <section className="py-20 bg-gray-50 dark:bg-neutral-950 border-b border-gray-200/80 dark:border-neutral-800">
+      {/* 3. Interactive Projects Portfolio Grid */}
+      <section className="py-20 bg-black-20/10 dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
-          <SectionHeader
-            title="Portfolio of Representative Engagements"
-            subtitle="Demonstrating cross-functional execution in strategic advisory, operations, and technical governance."
-          />
+          <AnimateOnScroll variant="fade-up">
+            <SectionHeader
+              title="Completed Contracts Directory (2018 – 2022)"
+              subtitle="Browse by work category or completion year. Click on any project card to review complete scope, deliverables, and image associations."
+            />
+          </AnimateOnScroll>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {corporateProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
+          <AnimateOnScroll variant="fade-up" delay={150}>
+            <ProjectsPortfolio />
+          </AnimateOnScroll>
         </Container>
       </section>
 
-      {/* Verification Notice & Inquiries */}
-      <section className="py-16 bg-white dark:bg-neutral-900">
+      {/* 4. Bottom CTA */}
+      <section className="py-16 bg-white dark:bg-black overflow-hidden">
         <Container>
-          <div className="max-w-3xl mx-auto text-center space-y-5">
+          <AnimateOnScroll variant="fade-up" className="max-w-3xl mx-auto text-center space-y-5">
             <h3 className="text-xl sm:text-2xl font-bold text-black dark:text-white">
-              Request Case Study Verification
+              Planning a Similar Construction or Forecourt Project?
             </h3>
-            <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
-              Due to bilateral non-disclosure restrictions, detailed quantitative
-              deliverables and direct client references are furnished solely upon
-              formal qualification and bilateral approval.
+            <p className="text-sm sm:text-base text-black-70 dark:text-black-20 leading-relaxed">
+              Connect with TTB&apos;s engineering directors to discuss specifications, equipment assembly, and realistic project pricing.
             </p>
             <div className="pt-2">
               <Link
                 href="/contact-us/"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-white bg-[#a329a3] hover:bg-[#8a238a] active:bg-[#731d73] transition-colors shadow-sm"
+                className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold text-white bg-brand-purple hover:opacity-95 active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-brand-purple/20 hover:-translate-y-0.5"
               >
-                Request Qualified Reference Dossier
-                <ArrowRight className="w-4 h-4" />
+                Inquire With Engineering Desk
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>
             </div>
-          </div>
+          </AnimateOnScroll>
         </Container>
       </section>
     </div>

@@ -1,70 +1,66 @@
 import { JobOpening } from "@/types";
 
 export const careersIntroduction = {
-  badge: "Careers at TTB",
-  title: "Build Your Career in an Environment of Rigor and Impact",
+  badge: "Careers & Workforce Development",
+  title: "Join Our Engineering & Construction Team",
   subtitle:
-    "We are continually seeking disciplined, forward-thinking professionals who thrive in challenging environments and take pride in delivering measurable business value.",
+    "At T & T Brothers (TTB), our strength lies in our dedicated workforce of approximately 60 engineers, project executors, technical supervisors, and field craftspeople. We foster an environment grounded in safety, continuous training, mutual respect, and engineering excellence.",
 };
 
 export const culturePrinciples = [
   {
-    title: "Culture of Accountability",
+    title: "Uncompromising Safety & HSSE Standards",
     description:
-      "We value individuals who take full ownership of their deliverables, respect team commitments, and communicate with clarity and transparency.",
+      "Every team member is trained to uphold strict Health, Safety, Security, and Environmental guidelines. We prioritize the well-being of our staff on every construction and forecourt site.",
   },
   {
-    title: "Continuous Professional Growth",
+    title: "Vocational & Technical Training",
     description:
-      "We provide access to ongoing leadership mentorship, skill development resources, and exposure to strategic high-impact projects.",
+      "We believe in continuous personnel development. Our technicians receive hands-on training with technological equipment from world-leading manufacturers and participate in specialized technical seminars.",
   },
   {
-    title: "Collaborative Respect",
+    title: "Pride in Quality Workmanship",
     description:
-      "Our work environment is founded on open inquiry, mutual respect, diverse perspectives, and cross-functional teamwork.",
+      "From precision concrete structural work to hazardous-zone explosion-proof electrical installations, our craftspeople take genuine pride in executing to the highest specifications.",
   },
   {
-    title: "Ethical Standards",
+    title: "Teamwork & Merit Recognition",
     description:
-      "We hold ourselves to rigorous professional codes of conduct, ensuring integrity in all interpersonal and client interactions.",
+      "We cultivate a family-oriented corporate culture where dedication is recognized and celebrated through regular merit ceremonies, certificate presentations, and career advancement.",
   },
 ];
 
 export const employeeBenefits = [
   {
-    title: "Competitive Compensation",
-    description:
-      "Performance-aligned remuneration benchmarked against top corporate standards.",
-    iconName: "TrendingUp",
+    title: "HSSE Certification & Safety Gear",
+    description: "Full personal protective equipment (PPE), site safety protocols, and certified HSSE training.",
+    iconName: "HardHat",
   },
   {
-    title: "Health & Well-being",
-    description:
-      "Comprehensive medical coverage options and wellness support initiatives.",
-    iconName: "HeartPulse",
-  },
-  {
-    title: "Professional Development",
-    description:
-      "Tuition assistance, professional certification support, and executive training.",
+    title: "Hands-on Technical Upskilling",
+    description: "Direct mentorship and technical workshops covering petroleum dispensing, automated wash systems, and civil engineering.",
     iconName: "GraduationCap",
   },
   {
-    title: "Flexible Work Framework",
-    description:
-      "Hybrid and flexible working options depending on operational requirements.",
-    iconName: "Clock",
+    title: "Merit & Dedication Recognition",
+    description: "Annual certificate presentations and performance appreciation for outstanding site executors.",
+    iconName: "Award",
+  },
+  {
+    title: "Stable Long-Term Growth",
+    description: "Be part of an established Pakistani enterprise operating continuously since 1988 with premier multinational clients.",
+    iconName: "TrendingUp",
   },
 ];
 
-// Openings: TTB has not confirmed specific active vacancies, so we provide an honest disclosure and general application pipeline
+// Openings: TTB does not publish artificial vacancies. We maintain a genuine talent inquiry pipeline.
 export const currentOpenings: JobOpening[] = [];
 
 export const generalApplicationInfo = {
-  status: "Open for General Talent Inquiries",
+  status: "Open for Qualified Technical & Engineering Talent",
   notice:
-    "TTB is currently accepting expressions of interest for upcoming corporate advisory, project delivery, and operations positions. Even when specific vacancies are not listed below, qualified candidates are invited to submit their credentials for future consideration.",
-  submissionEmail: "careers@ttb-corporate.placeholder", // Replace with official TTB HR inbox
+    "T & T Brothers (TTB) welcomes expressions of interest from qualified civil engineers, mechanical technicians, electrical supervisors, and experienced forecourt project executors.",
+  submissionEmail: "info@ttb.org.pk",
   instructions:
-    "Please send your CV and a brief cover letter outlining your background, core competencies, and career objectives to our talent acquisition desk.",
+    "Interested candidates are invited to submit their CV and credentials directly via email. Please specify your area of expertise (Civil Construction, Electrical/Mechanical, Oil & Gas Retail, or Facility Management) in the subject line.",
 };

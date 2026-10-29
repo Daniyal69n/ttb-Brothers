@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="100%" height="100%" fill="none" />
+  <circle cx="42" cy="40" r="24" fill="#006699" />
+  <polygon points="42,22 47,34 59,34 49,42 53,54 42,46 31,54 35,42 25,34 37,34" fill="#E60000" />
+  <polygon points="42,28 49,44 35,44" fill="#FFFFFF" />
+  <text x="76" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="900" fill="#E60000" letter-spacing="1">CALTEX</text>
+  <text x="76" y="56" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" fill="#006699" letter-spacing="1">BE ENERGY</text>
+</svg>
+

@@ -1,19 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ContentProvider } from "@/context/ContentContext";
 import { siteConfig } from "@/content/company";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -24,19 +14,21 @@ export const metadata: Metadata = {
   description: siteConfig.siteDescription,
   keywords: [
     "TTB",
-    "Corporate Group",
-    "Strategic Advisory",
-    "Operational Excellence",
-    "Enterprise Project Delivery",
-    "Motion Studio",
+    "T & T Brothers",
+    "Construction Management",
+    "Oil and Gas Commissioning",
+    "Filling Station Construction",
+    "Civil Electrical Mechanical Maintenance",
+    "Facility Management",
+    "Pakistan",
   ],
-  authors: [{ name: "TTB Corporate" }, { name: "Motion Studio" }],
+  authors: [{ name: "T & T Brothers (TTB)" }],
   openGraph: {
     title: siteConfig.siteTitle,
     description: siteConfig.siteDescription,
     url: siteConfig.siteUrl,
     siteName: siteConfig.siteName,
-    locale: "en_US",
+    locale: "en_PK",
     type: "website",
   },
   robots: {
@@ -53,12 +45,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
+      className="h-full antialiased scroll-smooth"
     >
-      <body className="min-h-full flex flex-col bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 selection:bg-[#a329a3] selection:text-white">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body className="min-h-full flex flex-col bg-white dark:bg-black text-black dark:text-black-20 selection:bg-brand-purple selection:text-white">
+        <ContentProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </ContentProvider>
       </body>
     </html>
   );

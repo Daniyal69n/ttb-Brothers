@@ -25,15 +25,17 @@ export function SectionHeader({
       } ${className}`}
     >
       {badge && (
-        <div className="mb-3">
-          <Badge variant="primary">{badge}</Badge>
+        <div className="mb-3 inline-block">
+          <Badge variant="primary" className="shadow-xs hover:scale-105 transition-transform duration-200">
+            {badge}
+          </Badge>
         </div>
       )}
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-black dark:text-white">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-black dark:text-white leading-tight">
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed">
+        <p className="mt-4 text-base sm:text-lg text-black-70 dark:text-black-20 leading-relaxed font-normal">
           {subtitle}
         </p>
       )}
