@@ -1,30 +1,96 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Building2, Fuel, Wrench, Calendar } from "lucide-react";
 import { useContent } from "@/context/ContentContext";
 import { Container } from "../ui/Container";
 import { Badge } from "../ui/Badge";
 
+const HERO_BACKGROUND_IMAGES = [
+  "/images/values/1.jpeg",
+  "/images/values/2.jpeg",
+  "/images/values/11.jpeg",
+  "/images/values/12.jpeg",
+  "/images/values/13.jpeg",
+  "/images/values/14.jpeg",
+  "/images/values/15.jpeg",
+  "/images/values/16.jpeg",
+  "/images/values/17.jpeg",
+  "/images/values/18.jpeg",
+  "/images/values/19.jpeg",
+  "/images/values/20.jpeg",
+  "/images/values/21.jpeg",
+  "/images/values/22.jpeg",
+  "/images/values/23.jpeg",
+  "/images/values/24.jpeg",
+  "/images/values/25.jpeg",
+  "/images/values/26.jpeg",
+  "/images/values/28.jpeg",
+  "/images/values/30.jpeg",
+  "/images/values/32.jpeg",
+  "/images/values/33 (1).jpeg",
+  "/images/values/33 (3).jpeg",
+  "/images/values/33 (7).jpeg",
+  "/images/values/33 (10).jpeg",
+  "/images/values/33 (15).jpeg",
+  "/images/values/33 (20).jpeg",
+  "/images/values/33 (25).jpeg",
+  "/images/values/33 (30).jpeg",
+  "/images/values/14.jpeg",
+];
+
 export function Hero() {
   const { content } = useContent();
   const { hero, company } = content;
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Automatic smooth carousel rotation selecting random next pictures
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => {
+        let next = Math.floor(Math.random() * HERO_BACKGROUND_IMAGES.length);
+        if (next === prev) {
+          next = (prev + 1) % HERO_BACKGROUND_IMAGES.length;
+        }
+        return next;
+      });
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section className="relative overflow-hidden bg-black text-white pt-16 pb-20 md:pt-24 md:pb-28 border-b border-black-70">
-      {/* Subtle Background Pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.05] pointer-events-none"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
-          backgroundSize: "32px 32px",
-        }}
-        aria-hidden="true"
-      />
+      {/* Background Image Carousel (Sharp, fitted, clear, no blur) */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        {HERO_BACKGROUND_IMAGES.map((src, index) => {
+          const isActive = index === currentIndex;
+          return (
+            <div
+              key={src}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                isActive ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
+            >
+              <Image
+                src={src}
+                alt="TTB Corporate Site & Facility"
+                fill
+                priority={index === 0}
+                className="object-cover object-center"
+                sizes="100vw"
+                unoptimized
+              />
+            </div>
+          );
+        })}
 
-      <Container className="relative">
+        {/* Clear dark tint overlay ensuring high text contrast while keeping background clear and sharp */}
+        <div className="absolute inset-0 z-20 bg-gradient-to-b from-black/75 via-black/60 to-black/85" />
+      </div>
+
+      <Container className="relative z-30">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           {/* Top Tagline / Badge */}
           <div className="inline-flex items-center gap-2 animate-fade-in-down">

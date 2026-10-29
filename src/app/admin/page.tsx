@@ -783,7 +783,7 @@ export default function AdminPage() {
                       <div className="flex items-center gap-1.5">
                         <button
                           type="button"
-                          onClick={() => setEditingClient(client)}
+                          onClick={() => openEditClient(client)}
                           className="p-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white transition-colors cursor-pointer"
                           title="Edit Client"
                         >

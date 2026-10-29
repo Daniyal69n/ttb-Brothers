@@ -6,6 +6,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
+import { ServicesHeroCarousel } from "@/components/sections/ServicesHeroCarousel";
 import { servicesIntroduction } from "@/content/services";
 import { ArrowRight } from "lucide-react";
 
@@ -18,9 +19,11 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <div className="flex flex-col">
-      {/* 1. Header */}
-      <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
-        <Container>
+      {/* 1. Header with Background Carousel */}
+      <section className="relative bg-black text-white py-20 md:py-28 min-h-[380px] md:min-h-[440px] flex items-center border-b border-black-70 overflow-hidden">
+        <ServicesHeroCarousel />
+
+        <Container className="relative z-30 w-full">
           <div className="max-w-3xl space-y-4">
             <div className="animate-fade-in-down">
               <Badge variant="accent">{servicesIntroduction.badge}</Badge>
