@@ -65,49 +65,51 @@ export function Navbar() {
       <div
         className={`transition-all duration-300 ease-out pointer-events-auto ${
           isScrolled
-            ? "w-[94%] max-w-[1180px] mx-auto rounded-2xl sm:rounded-[22px] bg-black/92 backdrop-blur-xl border border-white/15 shadow-[0_12px_36px_-6px_rgba(0,0,0,0.85),0_0_20px_rgba(163,41,204,0.12)] py-2 sm:py-2.5 px-3.5 sm:px-6"
+            ? "w-[94%] max-w-[1240px] mx-auto rounded-2xl sm:rounded-[24px] bg-black/92 backdrop-blur-xl border border-white/15 shadow-[0_12px_36px_-6px_rgba(0,0,0,0.85),0_0_20px_rgba(163,41,204,0.12)] py-2 sm:py-2.5 px-4 sm:px-6"
             : "w-full max-w-7xl mx-auto rounded-none border-0 shadow-none bg-transparent py-3 sm:py-3.5 px-4 sm:px-6 lg:px-8"
         }`}
       >
-        <div className="flex items-center justify-between min-h-[50px] sm:min-h-[54px] gap-2 lg:gap-4">
-          {/* Brand Wordmark & Official Logo */}
-          <Link
-            href="/"
-            onClick={handleLinkClick}
-            className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple rounded-xl py-0.5 shrink-0"
-            aria-label={`${companyData.shortName} Homepage`}
-          >
-            <div className="relative h-10 w-[63px] sm:h-11 sm:w-[70px] shrink-0">
-              <Image
-                src={isScrolled ? "/images/company/ttb-logo.png" : "/images/company/ttb-logo-dark.png"}
-                alt="T&T Brothers (TTB) Logo"
-                fill
-                className="object-contain group-hover:scale-105 transition-transform duration-200"
-                sizes="70px"
-                priority
-              />
-            </div>
-            <div className="flex flex-col">
-              <span
-                className={`text-sm sm:text-base font-bold tracking-tight leading-tight transition-colors duration-300 ${
-                  isScrolled ? "text-white" : "text-black"
-                }`}
-              >
-                {companyData.name}
-              </span>
-              <span
-                className={`text-[10px] sm:text-[11px] font-medium tracking-wider uppercase transition-colors duration-300 ${
-                  isScrolled ? "text-white/60" : "text-neutral-700 font-semibold"
-                }`}
-              >
-                Integrity | Quality | Commitment
-              </span>
-            </div>
-          </Link>
+        <div className="flex items-center justify-between w-full min-h-[50px] sm:min-h-[54px] gap-2 lg:gap-4">
+          {/* Brand Wordmark & Official Logo (Left) */}
+          <div className="flex items-center justify-start shrink-0">
+            <Link
+              href="/"
+              onClick={handleLinkClick}
+              className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple rounded-xl py-0.5"
+              aria-label={`${companyData.shortName} Homepage`}
+            >
+              <div className="relative h-10 w-[63px] sm:h-11 sm:w-[70px] shrink-0">
+                <Image
+                  src={isScrolled ? "/images/company/ttb-logo.png" : "/images/company/ttb-logo-dark.png"}
+                  alt="T&T Brothers (TTB) Logo"
+                  fill
+                  className="object-contain group-hover:scale-105 transition-transform duration-200"
+                  sizes="70px"
+                  priority
+                />
+              </div>
+              <div className="flex flex-col">
+                <span
+                  className={`text-sm sm:text-base font-bold tracking-tight leading-tight transition-colors duration-300 ${
+                    isScrolled ? "text-white" : "text-black"
+                  }`}
+                >
+                  {companyData.name}
+                </span>
+                <span
+                  className={`text-[10px] sm:text-[11px] font-medium tracking-wider uppercase transition-colors duration-300 ${
+                    isScrolled ? "text-white/60" : "text-neutral-700 font-semibold"
+                  }`}
+                >
+                  Integrity | Quality | Commitment
+                </span>
+              </div>
+            </Link>
+          </div>
 
           {/* Desktop Navigation Links (Centered, balanced items) */}
           <nav
-            className="hidden lg:flex items-center gap-0.5 xl:gap-1.5"
+            className="hidden lg:flex items-center justify-center flex-1 mx-2 xl:mx-4 gap-0.5 xl:gap-1.5"
             aria-label="Main Navigation"
           >
             {mainNavItems.map((item) => {
@@ -131,11 +133,11 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Desktop Right CTA (Refined Purple Action Button) */}
-          <div className="hidden lg:flex items-center gap-2 shrink-0">
+          {/* Desktop Right CTA: Symmetrical, balanced rounded pill button */}
+          <div className="hidden lg:flex items-center justify-end shrink-0">
             <Link
               href="/about-us/#directors-message"
-              className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs xl:text-sm font-semibold text-white bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] transition-all duration-200 ease-out shadow-sm hover:shadow-md hover:shadow-brand-purple/25 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple"
+              className="group inline-flex items-center justify-center gap-2 px-5 py-2 sm:py-2.5 rounded-full text-xs xl:text-sm font-semibold text-white bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] transition-all duration-200 ease-out shadow-sm hover:shadow-md hover:shadow-brand-purple/25 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple whitespace-nowrap"
             >
               <span>Director&apos;s Message</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
