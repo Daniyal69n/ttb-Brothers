@@ -15,7 +15,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
   return (
     <div
       id={service.id}
-      className="card-lift bg-white dark:bg-black rounded-xl border border-black-20 dark:border-black-70 p-6 sm:p-8 flex flex-col justify-between hover:shadow-xl hover:shadow-brand-purple/10 hover:border-brand-purple dark:hover:border-brand-purple transition-all duration-300 ease-out group scroll-mt-28"
+      className="card-lift bg-white dark:bg-black rounded-xl border border-black-20 dark:border-black-70 p-6 sm:p-8 flex flex-col h-full hover:shadow-xl hover:shadow-brand-purple/10 hover:border-brand-purple dark:hover:border-brand-purple transition-all duration-300 ease-out group scroll-mt-28"
     >
       <div>
         {/* Header with Letter badge & Icon */}

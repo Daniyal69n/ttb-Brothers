@@ -78,7 +78,7 @@ export function Navbar() {
               className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple rounded-xl py-0.5"
               aria-label={`${companyData.shortName} Homepage`}
             >
-              <div className="relative h-10 w-[63px] sm:h-11 sm:w-[70px] shrink-0">
+              <div className="relative h-10 w-[63px] sm:h-11 sm:w-[70px] shrink-0" style={{ position: "relative" }}>
                 <Image
                   src={isScrolled ? "/images/company/ttb-logo.png" : "/images/company/ttb-logo-dark.png"}
                   alt="T&T Brothers (TTB) Logo"

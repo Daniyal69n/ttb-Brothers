@@ -32,7 +32,7 @@ export function Footer() {
               className="inline-flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-brand-purple rounded"
               aria-label={`${companyData.shortName} Home`}
             >
-              <div className="relative h-14 w-[88px] shrink-0">
+              <div className="relative h-14 w-[88px] shrink-0" style={{ position: "relative" }}>
                 <Image
                   src="/images/company/ttb-logo.png"
                   alt="T&T Brothers (TTB) Logo"

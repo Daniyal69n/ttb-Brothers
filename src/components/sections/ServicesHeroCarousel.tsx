@@ -53,7 +53,7 @@ export function ServicesHeroCarousel() {
         const isActive = index === currentIndex;
         return (
           <div
-            key={src}
+            key={`svc-bg-${index}`}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
               isActive ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}

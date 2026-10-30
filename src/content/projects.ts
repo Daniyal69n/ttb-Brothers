@@ -454,4 +454,272 @@ export const corporateProjects: ProjectItem[] = [
     imagePath: "/images/projects/pso-biker-lane-modification.jpg",
     featured: true,
   },
+
+  // 2022 Extended Projects
+  {
+    id: "fc-filling-station-kdr-2022",
+    title: "FC Filling Station KDR",
+    client: "Total Parco",
+    year: "2022",
+    category: "Filling Stations & KDR",
+    summary: "Key Dealer Renovation at FC Filling Station for Total Parco.",
+    description:
+      "Comprehensive KDR works at FC Filling Station including forecourt civil upgrades, canopy refurbishment, electrical improvements, and brand identity alignment.",
+    status: "Completed",
+    deliverables: [
+      "Forecourt civil rehabilitation",
+      "Canopy structural refurbishment",
+      "Electrical panel upgrade",
+      "Brand signage installation",
+    ],
+    imagePath: "/images/projects/total-service-center-kdr.jpg",
+  },
+  {
+    id: "kdr-tariq-shenwari-filling-station-2022",
+    title: "KDR Tariq Shenwari Filling Station",
+    client: "Total Parco",
+    year: "2022",
+    category: "Filling Stations & KDR",
+    summary: "Key Dealer Renovation at Tariq Shenwari Filling Station.",
+    description:
+      "Full KDR scope at Tariq Shenwari Filling Station including civil, mechanical, and electrical renovation works to align with Total Parco corporate standards.",
+    status: "Completed",
+    deliverables: [
+      "Forecourt pavement rehabilitation",
+      "Dispenser island upgrades",
+      "Canopy refurbishment",
+      "Electrical rewiring",
+    ],
+    imagePath: "/images/projects/total-service-center-kdr.jpg",
+  },
+  {
+    id: "sahiwal-filling-station-kdr-2022",
+    title: "Sahiwal Filling Station KDR",
+    client: "Total Parco",
+    year: "2022",
+    category: "Filling Stations & KDR",
+    summary: "Key Dealer Renovation at Sahiwal Filling Station.",
+    description:
+      "Comprehensive KDR works at Sahiwal Filling Station, covering forecourt civil repairs, dispenser alignment, canopy improvements, and corporate identity refresh.",
+    status: "Completed",
+    deliverables: [
+      "Forecourt civil and drainage works",
+      "Canopy painting and lighting",
+      "Dispenser sump sealing",
+      "RVI signage installation",
+    ],
+    imagePath: "/images/projects/total-service-center-kdr.jpg",
+  },
+
+  // 2023 Projects
+  {
+    id: "canopy-fabrication-tppl-new-retail-2023",
+    title: "Canopy Fabrication Work at TPPL New Retail Outlets",
+    client: "TPPL",
+    year: "2023",
+    category: "Civil & Construction",
+    summary:
+      "Canopy fabrication and installation across multiple TPPL new retail outlets in Karachi, Islamabad, Faisalabad, and Lahore.",
+    description:
+      "Multi-city canopy fabrication and erection program for TPPL new retail outlets. Scope covered structural steel fabrication, aluminum cladding, illuminated fascia bands, and full commissioning across Karachi, Islamabad, Faisalabad, and Lahore areas.",
+    status: "Completed",
+    deliverables: [
+      "Structural steel canopy fabrication and erection",
+      "Aluminum composite panel cladding",
+      "Illuminated brand fascia installation",
+      "Electrical connections for under-canopy lighting",
+    ],
+    imagePath: "/images/projects/markhoor-filling-station.jpg",
+  },
+  {
+    id: "new-site-police-welfare-dina-2023",
+    title: "Construction of New Site Police Welfare F/S – Dina",
+    client: "Total Parco",
+    year: "2023",
+    category: "Civil & Construction",
+    summary:
+      "Turnkey greenfield construction of Police Welfare Filling Station at Dina.",
+    description:
+      "Complete new site construction for Police Welfare Filling Station at Dina including civil foundation works, underground tank installation, canopy erection, sales building construction, and forecourt commissioning.",
+    status: "Completed",
+    deliverables: [
+      "Greenfield civil excavation and foundation",
+      "Underground tank installation and piping",
+      "Structural canopy fabrication and erection",
+      "Sales building and forecourt construction",
+    ],
+    imagePath: "/images/projects/defense-road-filling-station.jpg",
+  },
+
+  // 2024 Projects
+  {
+    id: "orchard-filling-station-tank-replacement-2024",
+    title: "Orchard Filling Station Tank Replacement",
+    client: "Total Parco",
+    year: "2024",
+    category: "Civil & Construction",
+    summary: "Underground fuel storage tank replacement at Orchard Filling Station.",
+    description:
+      "Complete underground storage tank removal and replacement program at Orchard Filling Station. Included excavation, old tank decommissioning, new tank installation, piping reconnection, and environmental compliance testing.",
+    status: "Completed",
+    deliverables: [
+      "Old tank decommissioning and removal",
+      "New UST installation and backfill",
+      "Fuel piping reconnection and testing",
+      "Environmental compliance certification",
+    ],
+    imagePath: "/images/projects/oil-water-separator-total.jpg",
+  },
+  {
+    id: "polwel-filling-station-jhelum-tank-replacement-2024",
+    title: "Polwel Filling Station Jhelum Tank Replacement",
+    client: "Total Parco",
+    year: "2024",
+    category: "Civil & Construction",
+    summary: "Underground tank replacement at Polwel Filling Station, Jhelum.",
+    description:
+      "Tank replacement program at Polwel Filling Station in Jhelum including excavation, old tank decommissioning, new double-wall tank installation, and full recommissioning.",
+    status: "Completed",
+    deliverables: [
+      "Excavation and old tank removal",
+      "New double-wall UST installation",
+      "Piping and sump reconnection",
+      "Leak detection system commissioning",
+    ],
+    imagePath: "/images/projects/oil-water-separator-total-2020.jpg",
+  },
+  {
+    id: "jumari-service-area-apl-2024",
+    title: "Jumari Service Area along with APL Retail Outlet",
+    client: "APL",
+    year: "2024",
+    category: "Civil & Construction",
+    summary:
+      "Construction of Jumari Service Area and APL Retail Outlet.",
+    description:
+      "Turnkey construction of a full service area including APL retail fuel outlet, convenience store, washroom facilities, parking, and all ancillary civil and MEP works at Jumari.",
+    status: "Completed",
+    deliverables: [
+      "Service area civil works and foundations",
+      "APL forecourt and canopy construction",
+      "Retail outlet interior fit-out",
+      "Parking and landscape works",
+    ],
+    imagePath: "/images/projects/markhoor-filling-station.jpg",
+  },
+  {
+    id: "kdr-nagina-fs-tppl-2024",
+    title: "KDR of Nagina F/S TPPL",
+    client: "TPPL",
+    year: "2024",
+    category: "Filling Stations & KDR",
+    summary: "Key Dealer Renovation of Nagina Filling Station for TPPL.",
+    description:
+      "Complete KDR scope at Nagina Filling Station for TPPL including civil rehabilitation, canopy upgrade, electrical improvements, and brand identity alignment.",
+    status: "Completed",
+    deliverables: [
+      "Forecourt civil rehabilitation",
+      "Canopy refurbishment and rebranding",
+      "Electrical panel and wiring upgrade",
+      "Signage and lighting installation",
+    ],
+    imagePath: "/images/projects/total-service-center-kdr.jpg",
+  },
+
+  // 2025 Projects
+  {
+    id: "rainbow-fs-complete-site-work-tppl-2025",
+    title: "Rainbow F/S Complete Site Work with TPPL",
+    client: "TPPL",
+    year: "2025",
+    category: "Civil & Construction",
+    summary: "Complete site civil and MEP works at Rainbow Filling Station with TPPL.",
+    description:
+      "Full turnkey site execution at Rainbow Filling Station including civil, electrical, and mechanical works in partnership with TPPL.",
+    status: "Completed",
+    deliverables: [
+      "Complete civil site works",
+      "Electrical distribution upgrade",
+      "Mechanical and piping works",
+      "Forecourt commissioning",
+    ],
+    imagePath: "/images/projects/defense-road-filling-station.jpg",
+  },
+  {
+    id: "hassan-7-bahria-rawalpindi-tppl-2025",
+    title: "Hassan-7 Bahria Town Rawalpindi F/S Complete Site Work with TPPL",
+    client: "TPPL",
+    year: "2025",
+    category: "Civil & Construction",
+    summary:
+      "Complete site works at Hassan-7 Bahria Town Rawalpindi Filling Station.",
+    description:
+      "Turnkey execution of all civil, mechanical, and electrical site works at Hassan-7 Filling Station in Bahria Town Rawalpindi for TPPL.",
+    status: "Completed",
+    deliverables: [
+      "Civil earthworks and foundations",
+      "Canopy erection and cladding",
+      "Electrical and mechanical installation",
+      "Full site commissioning",
+    ],
+    imagePath: "/images/projects/markhoor-filling-station.jpg",
+  },
+  {
+    id: "alpine-bahria-rawalpindi-tppl-2025",
+    title: "Alpine Bahria Town Rawalpindi F/S Complete Site Work with TPPL",
+    client: "TPPL",
+    year: "2025",
+    category: "Civil & Construction",
+    summary:
+      "Complete site works at Alpine Bahria Town Rawalpindi Filling Station.",
+    description:
+      "Full turnkey delivery at Alpine Filling Station in Bahria Town Rawalpindi in partnership with TPPL.",
+    status: "Completed",
+    deliverables: [
+      "Complete civil and structural works",
+      "MEP installation and commissioning",
+      "Forecourt and canopy works",
+      "Brand identity alignment",
+    ],
+    imagePath: "/images/projects/defense-road-filling-station.jpg",
+  },
+  {
+    id: "askari-14-fs-apl-2025",
+    title: "Askari 14 F/S Complete Site Work with APL",
+    client: "APL",
+    year: "2025",
+    category: "Civil & Construction",
+    summary: "Complete site works at Askari 14 Filling Station with APL.",
+    description:
+      "Turnkey site works at Askari 14 Filling Station for APL including all civil, electrical, and mechanical scope.",
+    status: "Completed",
+    deliverables: [
+      "Civil site works and foundations",
+      "Electrical and mechanical installation",
+      "Canopy and forecourt works",
+      "APL brand identity commissioning",
+    ],
+    imagePath: "/images/projects/markhoor-filling-station.jpg",
+  },
+
+  // 2026 Projects
+  {
+    id: "rest-area-lpg-plant-apl-2026",
+    title: "Rest Area Building Construction in LPG plant of APL",
+    client: "APL",
+    year: "2026",
+    category: "Civil & Construction",
+    summary:
+      "Construction of rest area building within APL's LPG plant facility.",
+    description:
+      "Design and construction of a complete rest area building inside APL's LPG plant, including civil structural works, interior fit-out, MEP services, and all ancillary facilities.",
+    status: "Completed",
+    deliverables: [
+      "Structural civil works",
+      "Interior fit-out and finishing",
+      "MEP services installation",
+      "Site commissioning and handover",
+    ],
+    imagePath: "/images/projects/defense-road-filling-station.jpg",
+  },
 ];

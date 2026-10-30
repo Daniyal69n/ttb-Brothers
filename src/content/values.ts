@@ -28,7 +28,7 @@ export const corporateValues: ValueItem[] = [
       "Working in hazardous petroleum retail and high-risk construction environments requires zero tolerance for shortcuts. All TTB personnel undergo comprehensive HSSE training, ensuring full personal protective equipment (PPE) compliance, permit-to-work systems, and zero-accident targets.",
     iconName: "HardHat",
     imageHint: "Staff safety briefings and on-site HSSE compliance training",
-    imagePath: "/images/values/safety-training.jpg",
+    imagePath: "/images/values/16.jpeg",
   },
   {
     id: "quality-pride-in-workmanship",
@@ -50,7 +50,7 @@ export const corporateValues: ValueItem[] = [
       "Our workforce of approximately 60 engineers, supervisors, technicians, and craftspeople is our greatest strength. We treat each person with dignity, encourage open dialogue, and achieve extraordinary results through unified teamwork.",
     iconName: "Users",
     imageHint: "Team group photographs and field crew gatherings",
-    imagePath: "/images/team/team-group-photo.jpg",
+    imagePath: "/images/values/33 (5).jpeg",
   },
   {
     id: "established-systems-procedures",
@@ -61,7 +61,7 @@ export const corporateValues: ValueItem[] = [
       "From underground fuel piping pressure testing to concrete curing benchmarks, we maintain rigorous standard operating procedures. Adhering to structured workflows ensures project predictability, safety, and consistent delivery.",
     iconName: "FileCheck2",
     imageHint: "Technical process adherence and field audit documentation",
-    imagePath: "/images/values/systems-procedures.jpg",
+    imagePath: "/images/values/18.jpeg",
   },
   {
     id: "innovation-technology",
@@ -83,7 +83,7 @@ export const corporateValues: ValueItem[] = [
       "We adopt an individual approach for every customer. Beyond turnkey handover, our dedicated after-sales support and 24-hour reactive maintenance teams ensure our clients' operations run smoothly without interruption.",
     iconName: "Clock",
     imageHint: "Rapid response site coordination and after-sales service",
-    imagePath: "/images/values/staff-training.jpg",
+    imagePath: "/images/values/22.jpeg",
   },
   {
     id: "employee-growth-development",
@@ -94,7 +94,7 @@ export const corporateValues: ValueItem[] = [
       "TTB actively invests in its people through continuous safety seminars, vocational skills enhancement, and technical workshops (such as Johnson Controls partner events). We regularly celebrate staff dedication through formal certificate presentations and merit awards.",
     iconName: "GraduationCap",
     imageHint: "Staff certificate presentation and Johnson Controls partner event",
-    imagePath: "/images/values/certificate-presentation.jpg",
+    imagePath: "/images/values/33 (10).jpeg",
   },
   {
     id: "family-community-commitment",
@@ -105,6 +105,6 @@ export const corporateValues: ValueItem[] = [
       "As a proud Pakistani enterprise founded by Muhammad Touqeer Irshad, TTB operates with a deep sense of social responsibility. We actively support local employment, environmental containment, and ethical community stewardship across Khyber Pakhtunkhwa and Islamabad.",
     iconName: "Target",
     imageHint: "Community welfare and regional team cohesion",
-    imagePath: "/images/team/staff-gathering.jpg",
+    imagePath: "/images/values/33 (20).jpeg",
   },
 ];

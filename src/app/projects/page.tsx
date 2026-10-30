@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
-import { ProjectsPortfolio } from "@/components/sections/ProjectsPortfolio";
+import { ProjectsTable } from "@/components/sections/ProjectsTable";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { projectsIntroduction } from "@/content/projects";
 import { ShieldCheck, ArrowRight } from "lucide-react";
@@ -12,7 +12,7 @@ import { ShieldCheck, ArrowRight } from "lucide-react";
 export const metadata: Metadata = {
   title: "Projects Portfolio | T & T Brothers (TTB)",
   description:
-    "Explore 22 verified completed infrastructure projects delivered by TTB for Shell Pakistan, Total Parco Pakistan, and Pakistan State Oil (PSO) from 2018 to 2022.",
+    "Explore 36+ verified completed infrastructure projects delivered by TTB for Shell Pakistan, Total Parco, PSO, TPPL, and APL from 2018 to 2026.",
 };
 
 export default function ProjectsPage() {
@@ -47,18 +47,18 @@ export default function ProjectsPage() {
         </Container>
       </section>
 
-      {/* 3. Interactive Projects Portfolio Grid */}
+      {/* 3. Projects Table */}
       <section className="py-20 bg-black-20/10 dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
           <AnimateOnScroll variant="fade-up">
             <SectionHeader
-              title="Completed Contracts Directory (2018 – 2022)"
-              subtitle="Browse by work category or completion year. Click on any project card to review complete scope, deliverables, and image associations."
+              title="Major Projects Detail"
+              subtitle="Complete directory of verified contracts delivered by T & T Brothers (TTB) for Shell Pakistan, Total Parco, PSO, TPPL, and APL."
             />
           </AnimateOnScroll>
 
           <AnimateOnScroll variant="fade-up" delay={150}>
-            <ProjectsPortfolio />
+            <ProjectsTable />
           </AnimateOnScroll>
         </Container>
       </section>

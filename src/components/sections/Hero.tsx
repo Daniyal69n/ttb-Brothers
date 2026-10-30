@@ -38,7 +38,6 @@ const HERO_BACKGROUND_IMAGES = [
   "/images/values/33 (20).jpeg",
   "/images/values/33 (25).jpeg",
   "/images/values/33 (30).jpeg",
-  "/images/values/14.jpeg",
 ];
 
 export function Hero() {
@@ -68,16 +67,17 @@ export function Hero() {
           const isActive = index === currentIndex;
           return (
             <div
-              key={src}
+              key={`hero-bg-${index}`}
               className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
                 isActive ? "opacity-100 z-10" : "opacity-0 z-0"
               }`}
             >
               <Image
                 src={src}
-                alt="TTB Corporate Site & Facility"
+                alt="TTB Corporate Site &amp; Facility"
                 fill
                 priority={index === 0}
+                loading={index === 0 ? "eager" : "lazy"}
                 className="object-cover object-center"
                 sizes="100vw"
                 unoptimized

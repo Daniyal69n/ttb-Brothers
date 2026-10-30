@@ -122,7 +122,7 @@ const defaultContent: SiteContent = {
   contactIntro: contactPageContent,
 };
 
-const STORAGE_KEY = "ttb_corporate_content_v2";
+const STORAGE_KEY = "ttb_corporate_content_v3";
 
 interface ContentContextType {
   content: SiteContent;
@@ -186,6 +186,20 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
           const parsed = JSON.parse(stored) as Partial<SiteContent>;
+          const storedProjects = parsed.projects && parsed.projects.length > 0 ? parsed.projects : [];
+          const storedProjectIds = new Set(storedProjects.map((p) => p.id));
+          const newDefaultProjects = defaultContent.projects.filter((p) => !storedProjectIds.has(p.id));
+          const mergedProjects = storedProjects.length > 0
+            ? [...storedProjects, ...newDefaultProjects]
+            : defaultContent.projects;
+
+          const storedValues = parsed.values && parsed.values.length > 0 ? parsed.values : [];
+          const storedValueIds = new Set(storedValues.map((v) => v.id));
+          const newDefaultValues = defaultContent.values.filter((v) => !storedValueIds.has(v.id));
+          const mergedValues = storedValues.length > 0
+            ? [...storedValues, ...newDefaultValues]
+            : defaultContent.values;
+
           return {
             ...defaultContent,
             ...parsed,
@@ -193,13 +207,13 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
             hero: { ...defaultContent.hero, ...(parsed.hero || {}) },
             aboutUs: { ...defaultContent.aboutUs, ...(parsed.aboutUs || {}) },
             projectsIntro: { ...defaultContent.projectsIntro, ...(parsed.projectsIntro || {}) },
-            projects: parsed.projects && parsed.projects.length > 0 ? parsed.projects : defaultContent.projects,
+            projects: mergedProjects,
             clientsIntro: { ...defaultContent.clientsIntro, ...(parsed.clientsIntro || {}) },
             clients: parsed.clients && parsed.clients.length > 0 ? parsed.clients : defaultContent.clients,
             servicesIntro: { ...defaultContent.servicesIntro, ...(parsed.servicesIntro || {}) },
             services: parsed.services && parsed.services.length > 0 ? parsed.services : defaultContent.services,
             valuesIntro: { ...defaultContent.valuesIntro, ...(parsed.valuesIntro || {}) },
-            values: parsed.values && parsed.values.length > 0 ? parsed.values : defaultContent.values,
+            values: mergedValues,
             careersIntro: { ...defaultContent.careersIntro, ...(parsed.careersIntro || {}) },
             careers: {
               jobs: parsed.careers?.jobs || defaultContent.careers.jobs,

@@ -14,8 +14,8 @@ export function ValueCard({ value }: ValueCardProps) {
   const [imgError, setImgError] = useState(false);
 
   return (
-    <div className="card-lift bg-white dark:bg-black rounded-xl border border-black-20 dark:border-black-70 overflow-hidden hover:border-brand-purple dark:hover:border-brand-purple hover:shadow-xl hover:shadow-brand-purple/10 transition-all duration-300 ease-out flex flex-col justify-between group">
-      <div>
+    <div className="card-lift bg-white dark:bg-black rounded-xl border border-black-20 dark:border-black-70 overflow-hidden hover:border-brand-purple dark:hover:border-brand-purple hover:shadow-xl hover:shadow-brand-purple/10 transition-all duration-300 ease-out flex flex-col h-full group">
+      <div className="flex-1">
         {/* Visual Header / Photo representation */}
         {value.imagePath && !imgError ? (
           <div className="relative h-44 w-full bg-black-70 overflow-hidden border-b border-black-70">
