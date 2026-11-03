@@ -4,22 +4,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 
 const PROJECT_IMAGES = [
-  "/images/projects/1.jpeg",
-  "/images/projects/2.jpeg",
-  "/images/projects/3.jpeg",
-  "/images/projects/4.jpeg",
-  "/images/projects/5.jpeg",
+  "/images/values/15.jpeg",
+  "/images/values/21.jpeg",
+  "/images/values/22.jpeg",
   "/images/projects/6.jpeg",
-  "/images/projects/7.jpeg",
-  "/images/projects/8.jpeg",
-  "/images/projects/9.jpeg",
-  "/images/projects/10.jpeg",
-  "/images/projects/fuel-dispensers-canopy-strip.jpg",
-  "/images/projects/sana-filling-station-shop.jpg",
-  "/images/projects/total-quartz-retail-interior.jpg",
-  "/images/projects/total-service-center-shop.jpg",
-  "/images/projects/total-wash-bay-detail.jpg",
-  "/images/projects/total-wash-project.jpg",
 ];
 
 const SLIDE_DURATION = 4000; // ms per slide
@@ -105,4 +93,3 @@ export function ProjectsHero() {
     </div>
   );
 }
-
