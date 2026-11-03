@@ -20,13 +20,13 @@ export default function ProjectsPage() {
   return (
     <div className="flex flex-col">
       {/* 1. Header with background carousel */}
-      <section className="relative bg-black text-white overflow-hidden" style={{ minHeight: "480px" }}>
+      <section className="relative bg-black text-white overflow-hidden" style={{ minHeight: "420px" }}>
         {/* Background slideshow */}
         <ProjectsHero />
         {/* Dark overlay so text is always readable */}
-        <div className="absolute inset-0 bg-black/60 z-10" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/65 via-black/40 to-black/25" />
         {/* Content */}
-        <div className="relative z-20 flex items-center" style={{ minHeight: "480px" }}>
+        <div className="relative z-20 flex items-center" style={{ minHeight: "420px" }}>
           <Container>
             <div className="max-w-3xl space-y-4 py-24 md:py-32">
               <div className="animate-fade-in-down">

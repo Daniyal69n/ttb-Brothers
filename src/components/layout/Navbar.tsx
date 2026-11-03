@@ -53,17 +53,11 @@ export function Navbar() {
     return null;
   }
 
-  // Pages that have a full-bleed dark image hero — navbar should start transparent
-  const darkHeroPages = ["/projects", "/projects/"];
-  const hasDarkHero = darkHeroPages.some((p) => pathname === p || pathname?.startsWith(p));
-
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ease-out ${
         isScrolled
           ? "bg-transparent border-b border-transparent pt-2.5 sm:pt-3.5 px-3 sm:px-6 pointer-events-none"
-          : hasDarkHero
-          ? "bg-black/30 backdrop-blur-sm border-b border-white/10 px-0 pointer-events-auto"
           : "bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-xs px-0 pointer-events-auto"
       }`}
     >
@@ -86,7 +80,7 @@ export function Navbar() {
             >
               <div className="relative h-9 w-[58px] shrink-0" style={{ position: "relative" }}>
                 <Image
-                  src={isScrolled || hasDarkHero ? "/images/company/ttb-logo.png" : "/images/company/ttb-logo-dark.png"}
+                  src={isScrolled ? "/images/company/ttb-logo.png" : "/images/company/ttb-logo-dark.png"}
                   alt="T&T Brothers (TTB) Logo"
                   fill
                   className="object-contain group-hover:scale-105 transition-transform duration-200"
@@ -97,14 +91,14 @@ export function Navbar() {
               <div className="flex flex-col">
                 <span
                   className={`text-sm sm:text-base font-bold tracking-tight leading-tight transition-colors duration-300 ${
-                    isScrolled || hasDarkHero ? "text-white" : "text-black"
+                    isScrolled ? "text-white" : "text-black"
                   }`}
                 >
                   {companyData.name}
                 </span>
                 <span
                   className={`text-[10px] sm:text-xs font-medium tracking-wider uppercase transition-colors duration-300 ${
-                    isScrolled || hasDarkHero ? "text-white/60" : "text-neutral-700 font-semibold"
+                    isScrolled ? "text-white/60" : "text-neutral-700 font-semibold"
                   }`}
                 >
                   Integrity | Quality | Commitment
@@ -115,7 +109,7 @@ export function Navbar() {
 
           {/* Desktop Navigation Links (Centered, balanced items) */}
           <nav
-            className="hidden xl:flex items-center justify-center flex-1 mx-1 gap-0"
+            className="hidden xl:flex items-center justify-center flex-1 mx-3 gap-1.5"
             aria-label="Main Navigation"
           >
             {mainNavItems.map((item) => {
@@ -124,10 +118,10 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-2 2xl:px-2.5 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 ease-out whitespace-nowrap ${
+                  className={`px-2.5 2xl:px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 ease-out whitespace-nowrap ${
                     active
                       ? "text-white font-semibold bg-brand-purple shadow-sm shadow-brand-purple/30"
-                      : isScrolled || hasDarkHero
+                      : isScrolled
                       ? "text-white/80 hover:text-white hover:bg-white/10 hover:-translate-y-0.5"
                       : "text-neutral-700 hover:text-black hover:bg-gray-100/90 hover:-translate-y-0.5"
                   }`}
