@@ -65,7 +65,7 @@ export function Navbar() {
       <div
         className={`transition-all duration-300 ease-out pointer-events-auto ${
           isScrolled
-            ? "w-[94%] max-w-[1240px] mx-auto rounded-2xl sm:rounded-[24px] bg-black/92 backdrop-blur-xl border border-white/15 shadow-[0_12px_36px_-6px_rgba(0,0,0,0.85),0_0_20px_rgba(163,41,204,0.12)] py-2 sm:py-2.5 px-4 sm:px-6"
+            ? "w-[94%] max-w-[1240px] mx-auto rounded-2xl sm:rounded-[24px] bg-gray-700/95 backdrop-blur-xl border border-white/15 shadow-[0_12px_36px_-6px_rgba(0,0,0,0.85),0_0_20px_rgba(163,41,204,0.12)] py-2 sm:py-2.5 px-4 sm:px-6"
             : "w-full max-w-7xl mx-auto rounded-none border-0 shadow-none bg-transparent py-3 sm:py-3.5 px-4 sm:px-6 lg:px-8"
         }`}
       >
@@ -185,7 +185,7 @@ export function Navbar() {
           <div
             className={`w-full max-w-7xl mx-auto rounded-2xl shadow-2xl p-4 sm:p-5 overflow-y-auto max-h-[calc(100vh-6rem)] animate-fade-in-down space-y-1.5 ${
               isScrolled
-                ? "bg-black/95 backdrop-blur-xl border border-white/15"
+                ? "bg-gray-700/95 backdrop-blur-xl border border-white/15"
                 : "bg-white backdrop-blur-xl border border-gray-200"
             }`}
           >

@@ -121,3 +121,12 @@ export interface ContactConfig {
   registeredAddress: string;
   branchAddress: string;
 }
+
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  designation: string;
+  imagePath?: string;
+  order?: number;
+}

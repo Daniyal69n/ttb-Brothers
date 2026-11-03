@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useContent } from "@/context/ContentContext";
-import { ProjectItem, ClientItem, ValueItem, ServiceCategory, JobOpening } from "@/types";
+import { ProjectItem, ClientItem, ValueItem, ServiceCategory, JobOpening, TeamMember } from "@/types";
 import {
   Lock,
   Unlock,
@@ -35,6 +35,8 @@ import {
   LogOut,
   FolderGit2,
   Camera,
+  Users,
+  User,
 } from "lucide-react";
 
 type AdminTab =
@@ -47,6 +49,7 @@ type AdminTab =
   | "services"
   | "values"
   | "careers"
+  | "team"
   | "backup";
 
 export default function AdminPage() {
@@ -76,6 +79,9 @@ export default function AdminPage() {
     deleteJob,
     updateContactConfig,
     updateContactIntro,
+    addTeamMember,
+    updateTeamMember,
+    deleteTeamMember,
   } = useContent();
 
   // Authentication State with lazy initialization
@@ -109,6 +115,10 @@ export default function AdminPage() {
 
   const [editingJob, setEditingJob] = useState<JobOpening | null>(null);
   const [isAddingJob, setIsAddingJob] = useState(false);
+
+  const [editingTeamMember, setEditingTeamMember] = useState<TeamMember | null>(null);
+  const [isAddingTeamMember, setIsAddingTeamMember] = useState(false);
+  const [teamImagePreview, setTeamImagePreview] = useState<string>("");
 
   // Search queries for lists
   const [projectSearch, setProjectSearch] = useState("");
@@ -404,6 +414,7 @@ export default function AdminPage() {
             { id: "services", label: "Services Page", icon: Layers, count: content.services.length },
             { id: "values", label: "Our Values Page", icon: Award, count: content.values.length },
             { id: "careers", label: "Careers & Jobs", icon: Briefcase, count: content.careers.jobs.length },
+            { id: "team", label: "Core Team", icon: Users, count: content.team?.length ?? 0 },
             { id: "backup", label: "Backup & Sync", icon: RotateCcw, count: null },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -1584,6 +1595,300 @@ export default function AdminPage() {
                       </div>
                     </div>
                   ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ========================================================= */}
+          {/* TAB: CORE TEAM */}
+          {/* ========================================================= */}
+          {activeTab === "team" && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="pb-4 border-b border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div>
+                  <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                    <Users className="w-6 h-6 text-brand-purple" />
+                    <span>Core Team Members</span>
+                  </h2>
+                  <p className="text-xs text-neutral-400 mt-1">
+                    Add, edit, or remove team members shown on the Core Team page.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingTeamMember(null);
+                    setTeamImagePreview("");
+                    setIsAddingTeamMember(true);
+                  }}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-purple hover:bg-brand-purple/90 text-white text-xs font-semibold shadow-md shrink-0"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Member
+                </button>
+              </div>
+
+              {/* Member grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {(content.team ?? [])
+                  .slice()
+                  .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
+                  .map((member) => (
+                    <div
+                      key={member.id}
+                      className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden flex flex-col group"
+                    >
+                      {/* Photo */}
+                      <div className="relative w-full aspect-square bg-neutral-800 overflow-hidden">
+                        {member.imagePath ? (
+                          <Image
+                            src={member.imagePath}
+                            alt={member.name}
+                            fill
+                            className="object-cover object-top"
+                            unoptimized
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <User className="w-12 h-12 text-neutral-600" />
+                          </div>
+                        )}
+                      </div>
+                      {/* Info */}
+                      <div className="p-3 flex flex-col gap-0.5 flex-1">
+                        <p className="text-xs font-bold text-white leading-tight">{member.name}</p>
+                        <p className="text-[10px] text-neutral-400">{member.designation}</p>
+                      </div>
+                      {/* Actions */}
+                      <div className="px-3 pb-3 flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingTeamMember({ ...member });
+                            setTeamImagePreview(member.imagePath || "");
+                            setIsAddingTeamMember(true);
+                          }}
+                          className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg bg-neutral-800 hover:bg-brand-purple/20 hover:text-brand-purple text-neutral-400 text-[10px] font-medium transition-colors"
+                        >
+                          <Edit3 className="w-3 h-3" /> Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (confirm(`Delete "${member.name}"?`)) {
+                              deleteTeamMember(member.id);
+                              showToast("Team member deleted.");
+                            }
+                          }}
+                          className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg bg-neutral-800 hover:bg-red-500/20 hover:text-red-400 text-neutral-400 text-[10px] font-medium transition-colors"
+                        >
+                          <Trash2 className="w-3 h-3" /> Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
+              {(content.team ?? []).length === 0 && (
+                <div className="text-center py-16 text-neutral-500 border border-dashed border-neutral-800 rounded-2xl">
+                  <Users className="w-10 h-10 mx-auto mb-3 opacity-30" />
+                  <p className="text-sm">No team members yet. Click &ldquo;Add Member&rdquo; to get started.</p>
+                </div>
+              )}
+
+              {/* Add / Edit Modal */}
+              {isAddingTeamMember && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                  <div className="bg-neutral-900 border border-neutral-700 rounded-2xl w-full max-w-md shadow-2xl">
+                    <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-800">
+                      <h3 className="text-base font-bold text-white">
+                        {editingTeamMember ? "Edit Team Member" : "Add Team Member"}
+                      </h3>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsAddingTeamMember(false);
+                          setEditingTeamMember(null);
+                          setTeamImagePreview("");
+                        }}
+                        className="text-neutral-400 hover:text-white"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
+
+                    <form
+                      className="p-6 space-y-4"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const fd = new FormData(e.currentTarget);
+                        const name = (fd.get("name") as string).trim();
+                        const designation = (fd.get("designation") as string).trim();
+                        const order = parseInt((fd.get("order") as string) || "99", 10);
+                        const imagePath = teamImagePreview || editingTeamMember?.imagePath || "";
+
+                        if (!name || !designation) {
+                          alert("Name and Designation are required.");
+                          return;
+                        }
+
+                        if (editingTeamMember) {
+                          updateTeamMember(editingTeamMember.id, {
+                            name,
+                            designation,
+                            imagePath,
+                            order,
+                          });
+                          showToast("Team member updated!");
+                        } else {
+                          addTeamMember({
+                            id: `team-${Date.now()}`,
+                            name,
+                            designation,
+                            imagePath,
+                            order,
+                          });
+                          showToast("Team member added!");
+                        }
+
+                        setIsAddingTeamMember(false);
+                        setEditingTeamMember(null);
+                        setTeamImagePreview("");
+                      }}
+                    >
+                      {/* Photo Upload */}
+                      <div>
+                        <label className="block text-xs text-neutral-300 font-medium mb-2">
+                          Photo
+                        </label>
+                        <div className="flex items-start gap-4">
+                          {/* Preview */}
+                          <div className="w-20 h-20 rounded-xl bg-neutral-800 border border-neutral-700 overflow-hidden shrink-0 relative">
+                            {(teamImagePreview || editingTeamMember?.imagePath) ? (
+                              <Image
+                                src={teamImagePreview || editingTeamMember?.imagePath || ""}
+                                alt="Preview"
+                                fill
+                                className="object-cover object-top"
+                                unoptimized
+                              />
+                            ) : (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <User className="w-8 h-8 text-neutral-600" />
+                              </div>
+                            )}
+                          </div>
+                          {/* Upload controls */}
+                          <div className="flex-1 space-y-2">
+                            <label className="flex items-center gap-2 px-3 py-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-xs text-neutral-300 cursor-pointer transition-colors border border-neutral-700">
+                              <Camera className="w-3.5 h-3.5" />
+                              Upload from device
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(ev) => {
+                                  const file = ev.target.files?.[0];
+                                  if (file) {
+                                    handleImageFile(file, (url) => setTeamImagePreview(url));
+                                  }
+                                }}
+                              />
+                            </label>
+                            <input
+                              type="text"
+                              placeholder="Or paste image URL"
+                              defaultValue={editingTeamMember?.imagePath || ""}
+                              className="w-full bg-neutral-950 border border-neutral-700 rounded-lg px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-brand-purple"
+                              onChange={(e) => {
+                                if (e.target.value) setTeamImagePreview(e.target.value);
+                              }}
+                            />
+                            {(teamImagePreview || editingTeamMember?.imagePath) && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setTeamImagePreview("");
+                                  if (editingTeamMember) {
+                                    setEditingTeamMember({ ...editingTeamMember, imagePath: "" });
+                                  }
+                                }}
+                                className="text-[10px] text-red-400 hover:text-red-300"
+                              >
+                                Remove photo
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Name */}
+                      <div>
+                        <label className="block text-xs text-neutral-300 font-medium mb-1">
+                          Full Name *
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          defaultValue={editingTeamMember?.name || ""}
+                          placeholder="e.g. Touqeer Irshad"
+                          className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                          required
+                        />
+                      </div>
+
+                      {/* Designation */}
+                      <div>
+                        <label className="block text-xs text-neutral-300 font-medium mb-1">
+                          Designation *
+                        </label>
+                        <input
+                          type="text"
+                          name="designation"
+                          defaultValue={editingTeamMember?.designation || ""}
+                          placeholder="e.g. Director"
+                          className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                          required
+                        />
+                      </div>
+
+                      {/* Display Order */}
+                      <div>
+                        <label className="block text-xs text-neutral-300 font-medium mb-1">
+                          Display Order
+                        </label>
+                        <input
+                          type="number"
+                          name="order"
+                          defaultValue={editingTeamMember?.order ?? (content.team?.length ?? 0) + 1}
+                          min={1}
+                          className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                        />
+                      </div>
+
+                      {/* Buttons */}
+                      <div className="flex items-center justify-end gap-3 pt-4 border-t border-neutral-800">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsAddingTeamMember(false);
+                            setEditingTeamMember(null);
+                            setTeamImagePreview("");
+                          }}
+                          className="px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-xs text-neutral-300"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="px-5 py-2.5 rounded-xl bg-brand-purple hover:bg-brand-purple/90 text-white text-xs font-semibold shadow-md"
+                        >
+                          {editingTeamMember ? "Save Changes" : "Add Member"}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               )}
             </div>

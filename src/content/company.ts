@@ -117,6 +117,7 @@ export const mainNavItems: NavItem[] = [
   { label: "Our Values", href: "/our-values/" },
   { label: "Services", href: "/services/" },
   { label: "Projects", href: "/projects/" },
+  { label: "Core Team", href: "/core-team/" },
   { label: "Clients", href: "/clients/" },
   { label: "Careers", href: "/careers/" },
   { label: "Contact Us", href: "/contact-us/" },
@@ -129,6 +130,7 @@ export const footerQuickLinks: NavItem[] = [
   { label: "Project Portfolio", href: "/projects/" },
   { label: "Our Clients", href: "/clients/" },
   { label: "Careers & Team", href: "/careers/" },
+  { label: "Core Team", href: "/core-team/" },
   { label: "Contact Us", href: "/contact-us/" },
   { label: "Privacy Policy", href: "/privacy-policy/" },
 ];

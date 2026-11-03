@@ -9,6 +9,7 @@ import {
   ServiceCategory,
   JobOpening,
   ContactConfig,
+  TeamMember,
 } from "@/types";
 
 import { companyData, directorMessage } from "@/content/company";
@@ -22,6 +23,7 @@ import {
   currentOpenings,
 } from "@/content/careers";
 import { contactConfig, contactPageContent } from "@/content/contact";
+import { coreTeamMembers, teamIntroduction } from "@/content/team";
 
 export interface HeroContent {
   badge: string;
@@ -70,6 +72,8 @@ export interface SiteContent {
   };
   contactConfig: ContactConfig;
   contactIntro: typeof contactPageContent;
+  teamIntro: typeof teamIntroduction;
+  team: TeamMember[];
   lastUpdated?: string;
 }
 
@@ -120,9 +124,11 @@ const defaultContent: SiteContent = {
   },
   contactConfig: contactConfig,
   contactIntro: contactPageContent,
+  teamIntro: teamIntroduction,
+  team: coreTeamMembers,
 };
 
-const STORAGE_KEY = "ttb_corporate_content_v3";
+const STORAGE_KEY = "ttb_corporate_content_v4";
 
 interface ContentContextType {
   content: SiteContent;
@@ -175,6 +181,12 @@ interface ContentContextType {
   // Contact
   updateContactConfig: (config: Partial<ContactConfig>) => void;
   updateContactIntro: (intro: Partial<typeof contactPageContent>) => void;
+
+  // Team
+  addTeamMember: (member: TeamMember) => void;
+  updateTeamMember: (id: string, member: Partial<TeamMember>) => void;
+  deleteTeamMember: (id: string) => void;
+  updateTeamIntro: (intro: Partial<typeof teamIntroduction>) => void;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -221,6 +233,8 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
             },
             contactConfig: { ...defaultContent.contactConfig, ...(parsed.contactConfig || {}) },
             contactIntro: { ...defaultContent.contactIntro, ...(parsed.contactIntro || {}) },
+            teamIntro: { ...defaultContent.teamIntro, ...(parsed.teamIntro || {}) },
+            team: parsed.team && parsed.team.length > 0 ? parsed.team : defaultContent.team,
           };
         }
       } catch (e) {
@@ -486,6 +500,25 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const addTeamMember = (member: TeamMember) => {
+    saveContent({ ...content, team: [...(content.team ?? []), member] });
+  };
+
+  const updateTeamMember = (id: string, member: Partial<TeamMember>) => {
+    saveContent({
+      ...content,
+      team: (content.team ?? []).map((m) => (m.id === id ? { ...m, ...member } : m)),
+    });
+  };
+
+  const deleteTeamMember = (id: string) => {
+    saveContent({ ...content, team: (content.team ?? []).filter((m) => m.id !== id) });
+  };
+
+  const updateTeamIntro = (intro: Partial<typeof teamIntroduction>) => {
+    saveContent({ ...content, teamIntro: { ...content.teamIntro, ...intro } });
+  };
+
   return (
     <ContentContext.Provider
       value={{
@@ -520,6 +553,10 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         updateCareersIntro,
         updateContactConfig,
         updateContactIntro,
+        addTeamMember,
+        updateTeamMember,
+        deleteTeamMember,
+        updateTeamIntro,
       }}
     >
       {children}
