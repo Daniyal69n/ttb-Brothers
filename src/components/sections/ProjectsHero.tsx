@@ -14,6 +14,12 @@ const PROJECT_IMAGES = [
   "/images/projects/8.jpeg",
   "/images/projects/9.jpeg",
   "/images/projects/10.jpeg",
+  "/images/projects/fuel-dispensers-canopy-strip.jpg",
+  "/images/projects/sana-filling-station-shop.jpg",
+  "/images/projects/total-quartz-retail-interior.jpg",
+  "/images/projects/total-service-center-shop.jpg",
+  "/images/projects/total-wash-bay-detail.jpg",
+  "/images/projects/total-wash-project.jpg",
 ];
 
 const SLIDE_DURATION = 4000; // ms per slide
@@ -99,3 +105,4 @@ export function ProjectsHero() {
     </div>
   );
 }
+
