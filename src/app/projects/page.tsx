@@ -8,6 +8,7 @@ import { ProjectsTable } from "@/components/sections/ProjectsTable";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { projectsIntroduction } from "@/content/projects";
 import { ShieldCheck, ArrowRight } from "lucide-react";
+import { ProjectsHero } from "@/components/sections/ProjectsHero";
 
 export const metadata: Metadata = {
   title: "Projects Portfolio | T & T Brothers (TTB)",
@@ -18,21 +19,28 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <div className="flex flex-col">
-      {/* 1. Header */}
-      <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
-        <Container>
-          <div className="max-w-3xl space-y-4">
-            <div className="animate-fade-in-down">
-              <Badge variant="accent">{projectsIntroduction.badge}</Badge>
+      {/* 1. Header with background carousel */}
+      <section className="relative bg-black text-white overflow-hidden" style={{ minHeight: "480px" }}>
+        {/* Background slideshow */}
+        <ProjectsHero />
+        {/* Dark overlay so text is always readable */}
+        <div className="absolute inset-0 bg-black/60 z-10" />
+        {/* Content */}
+        <div className="relative z-20 flex items-center" style={{ minHeight: "480px" }}>
+          <Container>
+            <div className="max-w-3xl space-y-4 py-24 md:py-32">
+              <div className="animate-fade-in-down">
+                <Badge variant="accent">{projectsIntroduction.badge}</Badge>
+              </div>
+              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight animate-fade-in-up [animation-delay:100ms]">
+                {projectsIntroduction.title}
+              </h1>
+              <p className="text-lg text-white/80 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
+                {projectsIntroduction.subtitle}
+              </p>
             </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight animate-fade-in-up [animation-delay:100ms]">
-              {projectsIntroduction.title}
-            </h1>
-            <p className="text-lg text-black-20 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
-              {projectsIntroduction.subtitle}
-            </p>
-          </div>
-        </Container>
+          </Container>
+        </div>
       </section>
 
       {/* 2. Official Verification Notice */}

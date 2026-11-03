@@ -8,15 +8,19 @@ import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import Image from "next/image";
 import { User } from "lucide-react";
 
+const DEFAULT_INTRO = {
+  badge: "Our People",
+  title: "Core Team",
+  subtitle:
+    "Meet the dedicated professionals who lead T & T Brothers (TTB) with over 35 years of engineering excellence across Pakistan.",
+};
+
 export default function CoreTeamPage() {
   const { content, isHydrated } = useContent();
+
   const team = isHydrated ? (content.team ?? []) : [];
-  const intro = (isHydrated ? content.teamIntro : null) ?? {
-    badge: "Our People",
-    title: "Core Team",
-    subtitle:
-      "Meet the dedicated professionals who lead T & T Brothers (TTB) with over 35 years of engineering excellence across Pakistan.",
-  };
+  const intro =
+    isHydrated && content.teamIntro ? content.teamIntro : DEFAULT_INTRO;
 
   return (
     <div className="flex flex-col">
@@ -37,8 +41,8 @@ export default function CoreTeamPage() {
         </Container>
       </section>
 
-      {/* Team Grid */}
-      <section className="py-20 bg-white dark:bg-black">
+      {/* Team Grid — suppressHydrationWarning because content comes from localStorage */}
+      <section className="py-20 bg-white dark:bg-black" suppressHydrationWarning>
         <Container>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:gap-8">
             {team
@@ -53,7 +57,10 @@ export default function CoreTeamPage() {
                 >
                   <div className="flex flex-col items-center text-center bg-white dark:bg-black rounded-2xl border border-black-20 dark:border-black-70 overflow-hidden shadow-sm hover:shadow-lg hover:border-brand-purple dark:hover:border-brand-purple transition-all duration-300 group h-full">
                     {/* Photo */}
-                    <div className="relative w-full aspect-square bg-black-20/30 dark:bg-black-70/40 overflow-hidden">
+                    <div
+                      className="relative w-full aspect-square bg-black-20/30 dark:bg-black-70/40 overflow-hidden"
+                      suppressHydrationWarning
+                    >
                       {isHydrated && member.imagePath ? (
                         <Image
                           src={member.imagePath}
@@ -95,4 +102,3 @@ export default function CoreTeamPage() {
     </div>
   );
 }
-

@@ -53,11 +53,17 @@ export function Navbar() {
     return null;
   }
 
+  // Pages that have a full-bleed dark image hero — navbar should start transparent
+  const darkHeroPages = ["/projects", "/projects/"];
+  const hasDarkHero = darkHeroPages.some((p) => pathname === p || pathname?.startsWith(p));
+
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ease-out ${
         isScrolled
           ? "bg-transparent border-b border-transparent pt-2.5 sm:pt-3.5 px-3 sm:px-6 pointer-events-none"
+          : hasDarkHero
+          ? "bg-black/30 backdrop-blur-sm border-b border-white/10 px-0 pointer-events-auto"
           : "bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-xs px-0 pointer-events-auto"
       }`}
     >
@@ -69,36 +75,36 @@ export function Navbar() {
             : "w-full max-w-7xl mx-auto rounded-none border-0 shadow-none bg-transparent py-3 sm:py-3.5 px-4 sm:px-6 lg:px-8"
         }`}
       >
-        <div className="flex items-center justify-between w-full min-h-[50px] sm:min-h-[54px] gap-2 lg:gap-4">
+        <div className="flex items-center justify-between w-full min-h-[50px] sm:min-h-[54px] gap-2">
           {/* Brand Wordmark & Official Logo (Left) */}
           <div className="flex items-center justify-start shrink-0">
             <Link
               href="/"
               onClick={handleLinkClick}
-              className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple rounded-xl py-0.5"
+              className="flex items-center gap-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple rounded-xl py-0.5"
               aria-label={`${companyData.shortName} Homepage`}
             >
-              <div className="relative h-10 w-[63px] sm:h-11 sm:w-[70px] shrink-0" style={{ position: "relative" }}>
+              <div className="relative h-9 w-[58px] shrink-0" style={{ position: "relative" }}>
                 <Image
-                  src={isScrolled ? "/images/company/ttb-logo.png" : "/images/company/ttb-logo-dark.png"}
+                  src={isScrolled || hasDarkHero ? "/images/company/ttb-logo.png" : "/images/company/ttb-logo-dark.png"}
                   alt="T&T Brothers (TTB) Logo"
                   fill
                   className="object-contain group-hover:scale-105 transition-transform duration-200"
-                  sizes="70px"
+                  sizes="58px"
                   priority
                 />
               </div>
               <div className="flex flex-col">
                 <span
                   className={`text-sm sm:text-base font-bold tracking-tight leading-tight transition-colors duration-300 ${
-                    isScrolled ? "text-white" : "text-black"
+                    isScrolled || hasDarkHero ? "text-white" : "text-black"
                   }`}
                 >
                   {companyData.name}
                 </span>
                 <span
-                  className={`text-[10px] sm:text-[11px] font-medium tracking-wider uppercase transition-colors duration-300 ${
-                    isScrolled ? "text-white/60" : "text-neutral-700 font-semibold"
+                  className={`text-[10px] sm:text-xs font-medium tracking-wider uppercase transition-colors duration-300 ${
+                    isScrolled || hasDarkHero ? "text-white/60" : "text-neutral-700 font-semibold"
                   }`}
                 >
                   Integrity | Quality | Commitment
@@ -109,7 +115,7 @@ export function Navbar() {
 
           {/* Desktop Navigation Links (Centered, balanced items) */}
           <nav
-            className="hidden lg:flex items-center justify-center flex-1 mx-2 xl:mx-4 gap-0.5 xl:gap-1.5"
+            className="hidden xl:flex items-center justify-center flex-1 mx-1 gap-0"
             aria-label="Main Navigation"
           >
             {mainNavItems.map((item) => {
@@ -118,10 +124,10 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-2.5 xl:px-3 py-1.5 text-xs xl:text-sm font-medium rounded-xl transition-all duration-200 ease-out whitespace-nowrap ${
+                  className={`px-2 2xl:px-2.5 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 ease-out whitespace-nowrap ${
                     active
                       ? "text-white font-semibold bg-brand-purple shadow-sm shadow-brand-purple/30"
-                      : isScrolled
+                      : isScrolled || hasDarkHero
                       ? "text-white/80 hover:text-white hover:bg-white/10 hover:-translate-y-0.5"
                       : "text-neutral-700 hover:text-black hover:bg-gray-100/90 hover:-translate-y-0.5"
                   }`}
@@ -134,18 +140,18 @@ export function Navbar() {
           </nav>
 
           {/* Desktop Right CTA: Symmetrical, balanced rounded pill button */}
-          <div className="hidden lg:flex items-center justify-end shrink-0">
+          <div className="hidden xl:flex items-center justify-end shrink-0">
             <Link
               href="/about-us/#directors-message"
-              className="group inline-flex items-center justify-center gap-2 px-5 py-2 sm:py-2.5 rounded-full text-xs xl:text-sm font-semibold text-white bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] transition-all duration-200 ease-out shadow-sm hover:shadow-md hover:shadow-brand-purple/25 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple whitespace-nowrap"
+              className="group inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] transition-all duration-200 ease-out shadow-sm hover:shadow-md hover:shadow-brand-purple/25 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple whitespace-nowrap"
             >
               <span>Director&apos;s Message</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-200" />
             </Link>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <div className="flex items-center lg:hidden">
+          {/* Mobile/Tablet Menu Toggle Button (shows on < xl) */}
+          <div className="flex items-center xl:hidden">
             <button
               type="button"
               onClick={() => setIsOpen((prev) => !prev)}
