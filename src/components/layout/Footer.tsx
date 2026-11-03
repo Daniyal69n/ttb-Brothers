@@ -159,7 +159,50 @@ export function Footer() {
             &copy; {currentYear} {companyData.name}. All rights reserved.
           </div>
           <div className="flex items-center gap-6">
-            <span>ISO 45001:2008 &bull; ICCI Member</span>
+            {/* Certification badges */}
+            <div className="flex items-center gap-3">
+              {/* ISO */}
+              <div className="flex items-center gap-1.5">
+                <div className="relative w-7 h-7 shrink-0">
+                  <Image
+                    src="/images/company/ISO.jpeg"
+                    alt="ISO"
+                    fill
+                    className="object-contain"
+                    unoptimized
+                  />
+                </div>
+                <span className="text-[11px] text-black-40 whitespace-nowrap">ISO 45001:2008</span>
+              </div>
+              <span className="text-black-60">•</span>
+              {/* ICCI */}
+              <div className="flex items-center gap-1.5">
+                <div className="relative w-7 h-7 shrink-0">
+                  <Image
+                    src="/images/company/ICCI.jpeg"
+                    alt="ICCI"
+                    fill
+                    className="object-contain"
+                    unoptimized
+                  />
+                </div>
+                <span className="text-[11px] text-black-40 whitespace-nowrap">ICCI Member</span>
+              </div>
+              <span className="text-black-60">•</span>
+              {/* PEC */}
+              <div className="flex items-center gap-1.5">
+                <div className="relative w-7 h-7 shrink-0">
+                  <Image
+                    src="/images/company/PEC.jpeg"
+                    alt="PEC"
+                    fill
+                    className="object-contain"
+                    unoptimized
+                  />
+                </div>
+                <span className="text-[11px] text-black-40 whitespace-nowrap">PEC</span>
+              </div>
+            </div>
             <Link
               href="/privacy-policy/"
               className="hover:text-white transition-colors underline-offset-4 hover:underline"

@@ -9,9 +9,9 @@ import Image from "next/image";
 import { User } from "lucide-react";
 
 export default function CoreTeamPage() {
-  const { content } = useContent();
-  const team = content.team ?? [];
-  const intro = content.teamIntro ?? {
+  const { content, isHydrated } = useContent();
+  const team = isHydrated ? (content.team ?? []) : [];
+  const intro = (isHydrated ? content.teamIntro : null) ?? {
     badge: "Our People",
     title: "Core Team",
     subtitle:
@@ -54,7 +54,7 @@ export default function CoreTeamPage() {
                   <div className="flex flex-col items-center text-center bg-white dark:bg-black rounded-2xl border border-black-20 dark:border-black-70 overflow-hidden shadow-sm hover:shadow-lg hover:border-brand-purple dark:hover:border-brand-purple transition-all duration-300 group h-full">
                     {/* Photo */}
                     <div className="relative w-full aspect-square bg-black-20/30 dark:bg-black-70/40 overflow-hidden">
-                      {member.imagePath ? (
+                      {isHydrated && member.imagePath ? (
                         <Image
                           src={member.imagePath}
                           alt={member.name}
