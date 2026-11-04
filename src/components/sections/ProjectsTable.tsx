@@ -4,7 +4,15 @@ import React, { useState, useMemo } from "react";
 import { useContent } from "@/context/ContentContext";
 import { Search } from "lucide-react";
 
-export function ProjectsTable() {
+interface ProjectsTableProps {
+  limit?: number;
+  showControls?: boolean;
+}
+
+export function ProjectsTable({
+  limit,
+  showControls = true,
+}: ProjectsTableProps) {
   const { content } = useContent();
   const projects = content.projects;
   const [search, setSearch] = useState("");
@@ -32,32 +40,36 @@ export function ProjectsTable() {
       });
   }, [projects, search, yearFilter]);
 
+  const displayedProjects =
+    limit === undefined ? filtered : filtered.slice(0, limit);
+
   return (
     <div className="space-y-6">
-      {/* Controls */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black-40" />
-          <input
-            type="text"
-            placeholder="Search project name or client…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg border border-black-20 dark:border-black-70 bg-white dark:bg-black text-black dark:text-white placeholder-black-40 focus:outline-none focus:ring-2 focus:ring-brand-purple/40 focus:border-brand-purple"
-          />
+      {showControls && (
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black-40" />
+            <input
+              type="text"
+              placeholder="Search project name or client…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg border border-black-20 dark:border-black-70 bg-white dark:bg-black text-black dark:text-white placeholder-black-40 focus:outline-none focus:ring-2 focus:ring-brand-purple/40 focus:border-brand-purple"
+            />
+          </div>
+          <select
+            value={yearFilter}
+            onChange={(e) => setYearFilter(e.target.value)}
+            className="px-4 py-2.5 text-sm rounded-lg border border-black-20 dark:border-black-70 bg-white dark:bg-black text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-purple/40 focus:border-brand-purple"
+          >
+            {years.map((y) => (
+              <option key={y} value={y}>
+                {y === "All" ? "All Years" : y}
+              </option>
+            ))}
+          </select>
         </div>
-        <select
-          value={yearFilter}
-          onChange={(e) => setYearFilter(e.target.value)}
-          className="px-4 py-2.5 text-sm rounded-lg border border-black-20 dark:border-black-70 bg-white dark:bg-black text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-purple/40 focus:border-brand-purple"
-        >
-          {years.map((y) => (
-            <option key={y} value={y}>
-              {y === "All" ? "All Years" : y}
-            </option>
-          ))}
-        </select>
-      </div>
+      )}
 
       {/* Table */}
       <div className="overflow-x-auto rounded-xl border border-black-20 dark:border-black-70 shadow-sm">
@@ -86,7 +98,7 @@ export function ProjectsTable() {
                 </td>
               </tr>
             ) : (
-              filtered.map((project, idx) => {
+              displayedProjects.map((project, idx) => {
                 const isEven = idx % 2 === 0;
                 return (
                   <tr
@@ -122,7 +134,7 @@ export function ProjectsTable() {
                 colSpan={3}
                 className="px-5 py-3 text-xs text-black-50 text-right"
               >
-                Showing {filtered.length} of {projects.length} projects
+                Showing {displayedProjects.length} of {projects.length} projects
               </td>
             </tr>
           </tfoot>
@@ -131,4 +143,3 @@ export function ProjectsTable() {
     </div>
   );
 }
-

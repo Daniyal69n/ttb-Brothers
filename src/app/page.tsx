@@ -236,7 +236,7 @@ export default function HomePage() {
               href="/projects/"
               className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold text-white bg-brand-purple hover:opacity-95 active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-brand-purple/20 hover:-translate-y-0.5"
             >
-              View Complete Portfolio (22 Verified Projects)
+              Explore More Projects
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
           </AnimateOnScroll>
