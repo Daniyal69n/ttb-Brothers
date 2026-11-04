@@ -234,7 +234,7 @@ export function Navbar() {
                 isScrolled ? "text-white/40" : "text-gray-500"
               }`}
             >
-              {companyData.name} • Established 25 August 1988
+              {companyData.name} • Established 1988
             </div>
           </div>
         </div>

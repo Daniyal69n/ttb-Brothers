@@ -39,7 +39,7 @@ export default function HomePage() {
             <AnimateOnScroll variant="fade-right" className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-purple/10 text-brand-purple border border-brand-purple/20">
                 <Calendar className="w-3.5 h-3.5" />
-                Established 25 August 1988
+                Established 1988
               </div>
 
               <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black dark:text-white leading-tight">
@@ -121,7 +121,7 @@ export default function HomePage() {
                 <div className="pt-3 flex justify-between items-center">
                   <span className="text-black-60 dark:text-black-40">Established</span>
                   <span className="font-semibold text-black dark:text-white text-right">
-                    25 August 1988 (35+ Yrs)
+                    1988 (35+ Yrs)
                   </span>
                 </div>
 

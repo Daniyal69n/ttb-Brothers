@@ -80,7 +80,7 @@ export interface SiteContent {
 const defaultContent: SiteContent = {
   company: companyData,
   hero: {
-    badge: "Established 25 August 1988 • Over 35 Years of Engineering Excellence",
+    badge: "Established 1988 • Over 35 Years of Engineering Excellence",
     headline:
       "One-Source Solution for Commercial Construction & Oil & Gas Facilities",
     description:
@@ -94,10 +94,10 @@ const defaultContent: SiteContent = {
     badge: "Corporate Identity & Purpose",
     title: "About T & T Brothers (TTB)",
     subtitle:
-      "Established on 25 August 1988, TTB is an established Pakistani one-source solution provider uniting professional engineering, real estate development acumen, and seasoned project execution across commercial construction, downstream oil and gas, and electro-mechanical maintenance.",
+      "Established in 1988, TTB is an established Pakistani one-source solution provider uniting professional engineering, real estate development acumen, and seasoned project execution across commercial construction, downstream oil and gas, and electro-mechanical maintenance.",
     legacyTitle: "A Legacy of Engineering Precision Since 1988",
     legacyText:
-      "Founded by Muhammad Touqeer Irshad on 25 August 1988, T & T Brothers (TTB) has grown from a regional engineering enterprise into one of Pakistan’s most reliable contractors for corporate infrastructure, retail petroleum stations, and automated car care installations.",
+      "Founded by Muhammad Touqeer Irshad in 1988, T & T Brothers (TTB) has grown from a regional engineering enterprise into one of Pakistan’s most reliable contractors for corporate infrastructure, retail petroleum stations, and automated car care installations.",
     directorHeading: directorMessage.heading,
     directorName: directorMessage.directorName,
     directorTitle: directorMessage.directorTitle,

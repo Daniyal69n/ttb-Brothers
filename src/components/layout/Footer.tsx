@@ -46,7 +46,7 @@ export function Footer() {
                   {companyData.name}
                 </span>
                 <span className="text-xs text-black-40 font-medium tracking-wide">
-                  Est. 25 August 1988 • ISO 45001:2008 Certified
+                  Est.1988 • ISO 45001:2008 Certified
                 </span>
               </div>
             </Link>

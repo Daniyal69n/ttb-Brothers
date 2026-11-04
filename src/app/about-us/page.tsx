@@ -19,7 +19,7 @@ import {
 export const metadata: Metadata = {
   title: "About Us | T & T Brothers (TTB)",
   description:
-    "Learn about T & T Brothers (TTB): established 25 August 1988, our mission, vision, director's message, ~60 professional staff, and one-source solutions across Pakistan.",
+    "Learn about T & T Brothers (TTB): established 1988, our mission, vision, director's message, ~60 professional staff, and one-source solutions across Pakistan.",
 };
 
 export default function AboutUsPage() {
@@ -36,7 +36,7 @@ export default function AboutUsPage() {
               About T &amp; T Brothers (TTB)
             </h1>
             <p className="text-lg text-black-20 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
-              Established on 25 August 1988, TTB is an established Pakistani one-source solution provider uniting professional engineering, real estate development acumen, and seasoned project execution across commercial construction, downstream oil and gas, and electro-mechanical maintenance.
+              Established in 1988, TTB is an established Pakistani one-source solution provider uniting professional engineering, real estate development acumen, and seasoned project execution across commercial construction, downstream oil and gas, and electro-mechanical maintenance.
             </p>
           </div>
         </Container>
@@ -55,7 +55,7 @@ export default function AboutUsPage() {
               />
 
               <p className="text-base text-black-70 dark:text-black-20 leading-relaxed">
-                Founded by <strong>{companyData.proprietor}</strong> on <strong>25 August 1988</strong>, T & T Brothers (TTB) has grown from a regional engineering enterprise into one of Pakistan’s most reliable contractors for corporate infrastructure, retail petroleum stations, and automated car care installations.
+                Founded by <strong>{companyData.proprietor}</strong> in <strong>1988</strong>, T & T Brothers (TTB) has grown from a regional engineering enterprise into one of Pakistan’s most reliable contractors for corporate infrastructure, retail petroleum stations, and automated car care installations.
               </p>
 
               <p className="text-base text-black-70 dark:text-black-20 leading-relaxed">
@@ -104,7 +104,7 @@ export default function AboutUsPage() {
 
                 <div className="pt-2.5 flex justify-between items-center">
                   <span className="text-black-60 dark:text-black-40">Established</span>
-                  <span className="font-semibold text-black dark:text-white">25 August 1988</span>
+                  <span className="font-semibold text-black dark:text-white">1988</span>
                 </div>
 
                 <div className="pt-2.5 flex justify-between items-center">
@@ -159,13 +159,10 @@ export default function AboutUsPage() {
                 <h3 className="text-2xl font-bold text-black dark:text-white">
                   Our Mission
                 </h3>
-                <blockquote className="text-base sm:text-lg text-black-70 dark:text-black-20 leading-relaxed italic border-l-4 border-brand-purple pl-4">
+                <blockquote className="relative pl-6 text-base sm:text-lg text-black-70 dark:text-black-20 leading-relaxed italic before:absolute before:left-0 before:top-2 before:bottom-2 before:w-[3px] before:rounded-full before:bg-[#8a5ecb] before:shadow-[0_0_0_1px_rgba(138,94,203,0.14)]">
                   “T & T Brothers aims to provide value-added services through successful customer partnerships, lasting relationships, exceptional performance, and the trust of its clients in work and HSSE.”
                 </blockquote>
               </div>
-              <p className="text-xs text-black-50">
-                Source: Official TTB Corporate Profile Mission Statement
-              </p>
             </div>
 
             {/* Vision */}
@@ -204,7 +201,7 @@ export default function AboutUsPage() {
             {companyData.benefits.map((benefit, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-xl bg-black-20/10 dark:bg-black-70/20 border border-black-20 dark:border-black-70 space-y-2 hover:border-brand-purple transition-colors"
+                className="relative overflow-hidden p-6 rounded-xl bg-black-20/10 dark:bg-black-70/20 border border-black-20 dark:border-black-70 space-y-2 hover:border-brand-purple transition-colors before:absolute before:left-0 before:top-4 before:bottom-4 before:w-[3px] before:rounded-full before:bg-[#8a5ecb]"
               >
                 <div className="flex items-center gap-2">
                   <span className="w-7 h-7 rounded-full bg-brand-purple text-white text-xs font-bold flex items-center justify-center shrink-0">
@@ -254,7 +251,7 @@ export default function AboutUsPage() {
                       {directorMessage.directorTitle}
                     </p>
                     <p className="text-[11px] text-black-40 font-mono">
-                      Proprietor • Established 25 August 1988
+                      Proprietor • Established 1988
                     </p>
                   </div>
                 </div>
@@ -289,7 +286,7 @@ export default function AboutUsPage() {
                     </p>
                   </div>
                   <span className="text-xs font-mono text-black-40">
-                    Est. 25 August 1988
+                    Est.1988
                   </span>
                 </div>
               </AnimateOnScroll>

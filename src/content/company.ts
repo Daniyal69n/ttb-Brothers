@@ -21,7 +21,7 @@ export const companyData: CompanyInfo = {
   workforce: "Approx. 60 Qualified Staff",
   tagline: "Integrity | Quality | Commitment",
   description:
-    "T & T Brothers (TTB) is a leading Pakistani multi-disciplinary contractor and facility management provider established on 25 August 1988. We deliver complete solutions across commercial construction, oil and gas outlet commissioning, retail car wash facilities, and electro-mechanical maintenance.",
+    "T & T Brothers (TTB) is a leading Pakistani multi-disciplinary contractor and facility management provider established in 1988. We deliver complete solutions across commercial construction, oil and gas outlet commissioning, retail car wash facilities, and electro-mechanical maintenance.",
   contactPersons: [],
   registeredOffice: {
     label: "Registered Head Office — Peshawar",
@@ -101,10 +101,10 @@ export const companyData: CompanyInfo = {
 export const directorMessage = {
   heading: "A Message from Our Director",
   directorName: "Muhammad Touqeer Irshad",
-  directorTitle: "Proprietor & Managing Director",
+  directorTitle: "Director",
   company: "T & T Brothers (TTB)",
   paragraphs: [
-    "Since our inception on 25 August 1988, T & T Brothers (TTB) has been driven by a singular conviction: that enduring business success is built upon uncompromising integrity, mutual trust, and total commitment to client satisfaction.",
+    "Since our inception in 1988, T & T Brothers (TTB) has been driven by a singular conviction: that enduring business success is built upon uncompromising integrity, mutual trust, and total commitment to client satisfaction.",
     "Over more than three decades of operations across Pakistan, we have evolved into a trusted one-source solution provider for commercial construction, petroleum retail outlet commissioning, and facility management. This sustained growth is a direct testament to our approximately 60 committed engineers, project managers, technical specialists, and field operatives.",
     "We take immense pride in our long-standing relationships with market leaders such as Shell Pakistan, Total Parco Pakistan, Pakistan State Oil (PSO), and premier industrial institutions. Every project we undertake—from complete retail forecourts and automated wash facilities to complex electro-mechanical overhauls—is executed with deep respect for HSSE standards, technical rigor, and honest commercial practices.",
     "As Pakistan's infrastructure and corporate landscape continues to advance, TTB stands ready with the equipment, expertise, and dedication required to deliver excellence on every ground. We thank our valued clients for their enduring confidence and welcome prospective partners to build the future with us.",
@@ -113,14 +113,14 @@ export const directorMessage = {
 
 export const mainNavItems: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about-us/" },
   { label: "Our Values", href: "/our-values/" },
+  { label: "Core team", href: "/core-team/" },
+  { label: "Clients", href: "/clients/" },
   { label: "Services", href: "/services/" },
   { label: "Projects", href: "/projects/" },
-  { label: "Core Team", href: "/core-team/" },
-  { label: "Clients", href: "/clients/" },
-  { label: "Careers", href: "/careers/" },
-  { label: "Contact Us", href: "/contact-us/" },
+  { label: "Career", href: "/careers/" },
+  { label: "About us", href: "/about-us/" },
+  { label: "Contact us", href: "/contact-us/" },
 ];
 
 export const footerQuickLinks: NavItem[] = [

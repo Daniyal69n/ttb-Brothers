@@ -5,8 +5,6 @@ export const projectsIntroduction = {
   title: "Major Completed Infrastructure Projects",
   subtitle:
     "A track record of turnkey construction, fuel station forecourt commissioning, electro-mechanical rehabilitation, and retail outlet fit-outs executed for leading multi-national energy corporations across Pakistan.",
-  disclosureNotice:
-    "Source: TTB Corporate Profile. All projects listed below are verified historical contracts delivered by T & T Brothers (TTB) for clients including Shell Pakistan, Total Parco Pakistan, and Pakistan State Oil (PSO).",
 };
 
 export const corporateProjects: ProjectItem[] = [

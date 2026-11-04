@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { ProjectsTable } from "@/components/sections/ProjectsTable";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { projectsIntroduction } from "@/content/projects";
-import { ShieldCheck, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ProjectsHero } from "@/components/sections/ProjectsHero";
 
 export const metadata: Metadata = {
@@ -43,19 +43,7 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* 2. Official Verification Notice */}
-      <section className="bg-brand-purple/10 border-b border-brand-purple/20 py-4 animate-fade-in">
-        <Container>
-          <div className="flex items-start sm:items-center gap-3 text-xs text-black dark:text-black-20">
-            <ShieldCheck className="w-4 h-4 text-brand-purple shrink-0 mt-0.5 sm:mt-0 animate-pulse" />
-            <p>
-              <strong>Official Profile Record:</strong> {projectsIntroduction.disclosureNotice}
-            </p>
-          </div>
-        </Container>
-      </section>
-
-      {/* 3. Projects Table */}
+      {/* 2. Projects Table */}
       <section className="py-20 bg-black-20/10 dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
           <AnimateOnScroll variant="fade-up">
