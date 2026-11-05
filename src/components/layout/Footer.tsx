@@ -165,8 +165,8 @@ export function Footer() {
               <div className="flex items-center gap-1.5">
                 <div className="relative w-7 h-7 shrink-0">
                   <Image
-                    src="/images/company/ISO.jpeg"
-                    alt="ISO"
+                    src="/images/company/iso-logo-transparent.png"
+                    alt="ISO 45001:2008 certification"
                     fill
                     className="object-contain"
                     unoptimized
@@ -177,10 +177,10 @@ export function Footer() {
               <span className="text-black-60">•</span>
               {/* ICCI */}
               <div className="flex items-center gap-1.5">
-                <div className="relative w-7 h-7 shrink-0">
+                <div className="relative w-10 h-8 shrink-0">
                   <Image
-                    src="/images/company/ICCI.jpeg"
-                    alt="ICCI"
+                    src="/images/company/icci-logo-transparent.png"
+                    alt="Islamabad Chamber of Commerce and Industry"
                     fill
                     className="object-contain"
                     unoptimized
@@ -191,10 +191,10 @@ export function Footer() {
               <span className="text-black-60">•</span>
               {/* PEC */}
               <div className="flex items-center gap-1.5">
-                <div className="relative w-7 h-7 shrink-0">
+                <div className="relative w-7 h-10 shrink-0">
                   <Image
-                    src="/images/company/PEC.jpeg"
-                    alt="PEC"
+                    src="/images/company/pec-logo-transparent.png"
+                    alt="Pakistan Engineering Council"
                     fill
                     className="object-contain"
                     unoptimized
