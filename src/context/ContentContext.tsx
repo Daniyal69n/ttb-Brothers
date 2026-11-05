@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useSyncExternalStore } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import {
   CompanyInfo,
   ProjectItem,
@@ -128,15 +128,15 @@ const defaultContent: SiteContent = {
   team: coreTeamMembers,
 };
 
-const STORAGE_KEY = "ttb_corporate_content_v4";
-
 interface ContentContextType {
   content: SiteContent;
   isHydrated: boolean;
+  persistenceStatus: "loading" | "ready" | "saving" | "saved" | "error";
+  persistenceError: string | null;
   saveContent: (updated: SiteContent) => void;
   resetToDefaults: () => void;
   exportJson: () => void;
-  importJson: (jsonString: string) => boolean;
+  importJson: (jsonString: string) => Promise<boolean>;
 
   // Projects
   addProject: (project: ProjectItem) => void;
@@ -191,79 +191,198 @@ interface ContentContextType {
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
-export function ContentProvider({ children }: { children: React.ReactNode }) {
-  const [content, setContent] = useState<SiteContent>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          const parsed = JSON.parse(stored) as Partial<SiteContent>;
-          const storedProjects = parsed.projects && parsed.projects.length > 0 ? parsed.projects : [];
-          const storedProjectIds = new Set(storedProjects.map((p) => p.id));
-          const newDefaultProjects = defaultContent.projects.filter((p) => !storedProjectIds.has(p.id));
-          const mergedProjects = storedProjects.length > 0
-            ? [...storedProjects, ...newDefaultProjects]
-            : defaultContent.projects;
+function mergeContentWithDefaults(parsed: Partial<SiteContent>): SiteContent {
+  return {
+    ...defaultContent,
+    ...parsed,
+    company: { ...defaultContent.company, ...(parsed.company || {}) },
+    hero: { ...defaultContent.hero, ...(parsed.hero || {}) },
+    aboutUs: { ...defaultContent.aboutUs, ...(parsed.aboutUs || {}) },
+    projectsIntro: { ...defaultContent.projectsIntro, ...(parsed.projectsIntro || {}) },
+    projects: Array.isArray(parsed.projects) ? parsed.projects : defaultContent.projects,
+    clientsIntro: { ...defaultContent.clientsIntro, ...(parsed.clientsIntro || {}) },
+    clients: Array.isArray(parsed.clients) ? parsed.clients : defaultContent.clients,
+    servicesIntro: { ...defaultContent.servicesIntro, ...(parsed.servicesIntro || {}) },
+    services: Array.isArray(parsed.services) ? parsed.services : defaultContent.services,
+    valuesIntro: { ...defaultContent.valuesIntro, ...(parsed.valuesIntro || {}) },
+    values: Array.isArray(parsed.values) ? parsed.values : defaultContent.values,
+    careersIntro: { ...defaultContent.careersIntro, ...(parsed.careersIntro || {}) },
+    careers: {
+      jobs: Array.isArray(parsed.careers?.jobs)
+        ? parsed.careers.jobs
+        : defaultContent.careers.jobs,
+      culture: Array.isArray(parsed.careers?.culture)
+        ? parsed.careers.culture
+        : defaultContent.careers.culture,
+    },
+    contactConfig: { ...defaultContent.contactConfig, ...(parsed.contactConfig || {}) },
+    contactIntro: { ...defaultContent.contactIntro, ...(parsed.contactIntro || {}) },
+    teamIntro: { ...defaultContent.teamIntro, ...(parsed.teamIntro || {}) },
+    team: Array.isArray(parsed.team) ? parsed.team : defaultContent.team,
+  };
+}
 
-          const storedValues = parsed.values && parsed.values.length > 0 ? parsed.values : [];
-          const storedValueIds = new Set(storedValues.map((v) => v.id));
-          const newDefaultValues = defaultContent.values.filter((v) => !storedValueIds.has(v.id));
-          const mergedValues = storedValues.length > 0
-            ? [...storedValues, ...newDefaultValues]
-            : defaultContent.values;
+function isSiteContent(value: unknown): value is SiteContent {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const parsed = value as Partial<SiteContent>;
+  return (
+    typeof parsed.company === "object" &&
+    parsed.company !== null &&
+    typeof parsed.hero === "object" &&
+    parsed.hero !== null &&
+    Array.isArray(parsed.projects) &&
+    Array.isArray(parsed.clients) &&
+    Array.isArray(parsed.services) &&
+    Array.isArray(parsed.values) &&
+    Array.isArray(parsed.team) &&
+    typeof parsed.careers === "object" &&
+    parsed.careers !== null
+  );
+}
 
-          return {
-            ...defaultContent,
-            ...parsed,
-            company: { ...defaultContent.company, ...(parsed.company || {}) },
-            hero: { ...defaultContent.hero, ...(parsed.hero || {}) },
-            aboutUs: { ...defaultContent.aboutUs, ...(parsed.aboutUs || {}) },
-            projectsIntro: { ...defaultContent.projectsIntro, ...(parsed.projectsIntro || {}) },
-            projects: mergedProjects,
-            clientsIntro: { ...defaultContent.clientsIntro, ...(parsed.clientsIntro || {}) },
-            clients: parsed.clients && parsed.clients.length > 0 ? parsed.clients : defaultContent.clients,
-            servicesIntro: { ...defaultContent.servicesIntro, ...(parsed.servicesIntro || {}) },
-            services: parsed.services && parsed.services.length > 0 ? parsed.services : defaultContent.services,
-            valuesIntro: { ...defaultContent.valuesIntro, ...(parsed.valuesIntro || {}) },
-            values: mergedValues,
-            careersIntro: { ...defaultContent.careersIntro, ...(parsed.careersIntro || {}) },
-            careers: {
-              jobs: parsed.careers?.jobs || defaultContent.careers.jobs,
-              culture: parsed.careers?.culture || defaultContent.careers.culture,
-            },
-            contactConfig: { ...defaultContent.contactConfig, ...(parsed.contactConfig || {}) },
-            contactIntro: { ...defaultContent.contactIntro, ...(parsed.contactIntro || {}) },
-            teamIntro: { ...defaultContent.teamIntro, ...(parsed.teamIntro || {}) },
-            team: parsed.team && parsed.team.length > 0 ? parsed.team : defaultContent.team,
-          };
-        }
-      } catch (e) {
-        console.warn("Failed to read TTB content from localStorage:", e);
-      }
+async function uploadEmbeddedImages(value: unknown): Promise<unknown> {
+  if (typeof value === "string" && value.startsWith("data:image/")) {
+    const image = await fetch(value).then((response) => response.blob());
+    if (!["image/jpeg", "image/png", "image/webp"].includes(image.type)) {
+      throw new Error("Imported images must be JPEG, PNG, or WebP.");
     }
-    return defaultContent;
-  });
-  const emptySubscribe = () => () => {};
-  const isHydrated = useSyncExternalStore(emptySubscribe, () => true, () => false);
+
+    const formData = new FormData();
+    formData.set("file", image, "imported-image");
+    const response = await fetch("/api/media/", {
+      method: "POST",
+      body: formData,
+    });
+    const result = (await response.json()) as { url?: string; error?: string };
+    if (!response.ok || !result.url) {
+      throw new Error(result.error || "An imported image could not be uploaded.");
+    }
+    return result.url;
+  }
+
+  if (Array.isArray(value)) {
+    return Promise.all(value.map((item) => uploadEmbeddedImages(item)));
+  }
+
+  if (typeof value === "object" && value !== null) {
+    const converted: Record<string, unknown> = {};
+    for (const [key, item] of Object.entries(value)) {
+      converted[key] = await uploadEmbeddedImages(item);
+    }
+    return converted;
+  }
+
+  return value;
+}
+
+export function ContentProvider({ children }: { children: React.ReactNode }) {
+  const [content, setContent] = useState<SiteContent>(defaultContent);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [persistenceStatus, setPersistenceStatus] =
+    useState<ContentContextType["persistenceStatus"]>("loading");
+  const [persistenceError, setPersistenceError] = useState<string | null>(null);
+  const contentRef = useRef(content);
+  const saveQueueRef = useRef<Promise<void>>(Promise.resolve());
+  const channelRef = useRef<BroadcastChannel | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    const loadContent = async () => {
+      try {
+        const response = await fetch("/api/content/", { cache: "no-store" });
+        const result = (await response.json()) as {
+          content?: unknown;
+          error?: string;
+        };
+        if (!response.ok) {
+          throw new Error(result.error || "Shared content could not be loaded.");
+        }
+
+        if (result.content !== null && result.content !== undefined) {
+          if (!isSiteContent(result.content)) {
+            throw new Error("Shared site content has an invalid format.");
+          }
+          const nextContent = mergeContentWithDefaults(result.content);
+          if (active) {
+            contentRef.current = nextContent;
+            setContent(nextContent);
+          }
+        }
+
+        if (active) {
+          setPersistenceError(null);
+          setPersistenceStatus("ready");
+        }
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Shared content could not be loaded.";
+        console.error("Failed to load shared TTB content:", error);
+        if (active) {
+          setPersistenceError(message);
+          setPersistenceStatus("error");
+        }
+      } finally {
+        if (active) setIsHydrated(true);
+      }
+    };
+
+    const refreshOnFocus = () => {
+      if (!document.hidden) void loadContent();
+    };
+
+    channelRef.current = new BroadcastChannel("ttb-content-updated");
+    channelRef.current.onmessage = refreshOnFocus;
+    window.addEventListener("focus", refreshOnFocus);
+    void loadContent();
+
+    return () => {
+      active = false;
+      window.removeEventListener("focus", refreshOnFocus);
+      channelRef.current?.close();
+      channelRef.current = null;
+    };
+  }, []);
 
   const saveContent = (updated: SiteContent) => {
     const payload = {
       ...updated,
       lastUpdated: new Date().toISOString(),
     };
+    contentRef.current = payload;
     setContent(payload);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    } catch (e) {
-      console.error("Failed to write TTB content to localStorage:", e);
-    }
+    setPersistenceStatus("saving");
+    setPersistenceError(null);
+
+    saveQueueRef.current = saveQueueRef.current
+      .then(async () => {
+        const response = await fetch("/api/content/", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const result = (await response.json()) as { error?: string };
+        if (!response.ok) {
+          throw new Error(result.error || "Content could not be published.");
+        }
+
+        if (contentRef.current === payload) {
+          setPersistenceStatus("saved");
+          setPersistenceError(null);
+          channelRef.current?.postMessage("refresh");
+        }
+      })
+      .catch((error: unknown) => {
+        const message =
+          error instanceof Error ? error.message : "Content could not be published.";
+        console.error("Failed to save shared TTB content:", error);
+        setPersistenceStatus("error");
+        setPersistenceError(message);
+      });
   };
 
   const resetToDefaults = () => {
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {}
-    setContent(defaultContent);
+    saveContent(defaultContent);
   };
 
   const exportJson = () => {
@@ -279,17 +398,19 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     URL.revokeObjectURL(url);
   };
 
-  const importJson = (jsonString: string): boolean => {
+  const importJson = async (jsonString: string): Promise<boolean> => {
     try {
-      const parsed = JSON.parse(jsonString) as SiteContent;
-      if (!parsed || typeof parsed !== "object") return false;
-      saveContent({
-        ...defaultContent,
-        ...parsed,
-      });
+      const parsed: unknown = JSON.parse(jsonString);
+      if (!isSiteContent(parsed)) return false;
+      const imported = await uploadEmbeddedImages(parsed);
+      if (!isSiteContent(imported)) return false;
+      saveContent(mergeContentWithDefaults(imported));
       return true;
     } catch (e) {
-      console.error("Invalid JSON file uploaded:", e);
+      const message =
+        e instanceof Error ? e.message : "The content backup could not be imported.";
+      console.error("Failed to import TTB content:", e);
+      setPersistenceError(message);
       return false;
     }
   };
@@ -297,15 +418,15 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   // Projects modifiers
   const addProject = (project: ProjectItem) => {
     saveContent({
-      ...content,
-      projects: [project, ...content.projects],
+      ...contentRef.current,
+      projects: [project, ...contentRef.current.projects],
     });
   };
 
   const updateProject = (id: string, partial: Partial<ProjectItem>) => {
     saveContent({
-      ...content,
-      projects: content.projects.map((p) =>
+      ...contentRef.current,
+      projects: contentRef.current.projects.map((p) =>
         p.id === id ? { ...p, ...partial } : p
       ),
     });
@@ -313,30 +434,30 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
 
   const deleteProject = (id: string) => {
     saveContent({
-      ...content,
-      projects: content.projects.filter((p) => p.id !== id),
+      ...contentRef.current,
+      projects: contentRef.current.projects.filter((p) => p.id !== id),
     });
   };
 
   const updateProjectsIntro = (intro: Partial<typeof projectsIntroduction>) => {
     saveContent({
-      ...content,
-      projectsIntro: { ...content.projectsIntro, ...intro },
+      ...contentRef.current,
+      projectsIntro: { ...contentRef.current.projectsIntro, ...intro },
     });
   };
 
   // Clients modifiers
   const addClient = (client: ClientItem) => {
     saveContent({
-      ...content,
-      clients: [...content.clients, client],
+      ...contentRef.current,
+      clients: [...contentRef.current.clients, client],
     });
   };
 
   const updateClient = (id: string, partial: Partial<ClientItem>) => {
     saveContent({
-      ...content,
-      clients: content.clients.map((c) =>
+      ...contentRef.current,
+      clients: contentRef.current.clients.map((c) =>
         c.id === id ? { ...c, ...partial } : c
       ),
     });
@@ -344,37 +465,37 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
 
   const deleteClient = (id: string) => {
     saveContent({
-      ...content,
-      clients: content.clients.filter((c) => c.id !== id),
+      ...contentRef.current,
+      clients: contentRef.current.clients.filter((c) => c.id !== id),
     });
   };
 
   const updateClientsIntro = (intro: Partial<typeof clientsIntroduction>) => {
     saveContent({
-      ...content,
-      clientsIntro: { ...content.clientsIntro, ...intro },
+      ...contentRef.current,
+      clientsIntro: { ...contentRef.current.clientsIntro, ...intro },
     });
   };
 
   // Company & About
   const updateCompany = (partial: Partial<CompanyInfo>) => {
     saveContent({
-      ...content,
-      company: { ...content.company, ...partial },
+      ...contentRef.current,
+      company: { ...contentRef.current.company, ...partial },
     });
   };
 
   const updateHero = (partial: Partial<HeroContent>) => {
     saveContent({
-      ...content,
-      hero: { ...content.hero, ...partial },
+      ...contentRef.current,
+      hero: { ...contentRef.current.hero, ...partial },
     });
   };
 
   const updateAboutUs = (partial: Partial<AboutUsContent>) => {
     saveContent({
-      ...content,
-      aboutUs: { ...content.aboutUs, ...partial },
+      ...contentRef.current,
+      aboutUs: { ...contentRef.current.aboutUs, ...partial },
     });
   };
 
@@ -383,8 +504,8 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     service: ServiceCategory & { summary: string; description: string }
   ) => {
     saveContent({
-      ...content,
-      services: [...content.services, service],
+      ...contentRef.current,
+      services: [...contentRef.current.services, service],
     });
   };
 
@@ -393,8 +514,8 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     partial: Partial<ServiceCategory & { summary: string; description: string }>
   ) => {
     saveContent({
-      ...content,
-      services: content.services.map((s) =>
+      ...contentRef.current,
+      services: contentRef.current.services.map((s) =>
         s.id === id ? { ...s, ...partial } : s
       ),
     });
@@ -402,30 +523,30 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
 
   const deleteService = (id: string) => {
     saveContent({
-      ...content,
-      services: content.services.filter((s) => s.id !== id),
+      ...contentRef.current,
+      services: contentRef.current.services.filter((s) => s.id !== id),
     });
   };
 
   const updateServicesIntro = (intro: Partial<typeof servicesIntroduction>) => {
     saveContent({
-      ...content,
-      servicesIntro: { ...content.servicesIntro, ...intro },
+      ...contentRef.current,
+      servicesIntro: { ...contentRef.current.servicesIntro, ...intro },
     });
   };
 
   // Values
   const addValue = (value: ValueItem) => {
     saveContent({
-      ...content,
-      values: [...content.values, value],
+      ...contentRef.current,
+      values: [...contentRef.current.values, value],
     });
   };
 
   const updateValue = (id: string, partial: Partial<ValueItem>) => {
     saveContent({
-      ...content,
-      values: content.values.map((v) =>
+      ...contentRef.current,
+      values: contentRef.current.values.map((v) =>
         v.id === id ? { ...v, ...partial } : v
       ),
     });
@@ -433,35 +554,35 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
 
   const deleteValue = (id: string) => {
     saveContent({
-      ...content,
-      values: content.values.filter((v) => v.id !== id),
+      ...contentRef.current,
+      values: contentRef.current.values.filter((v) => v.id !== id),
     });
   };
 
   const updateValuesIntro = (intro: Partial<typeof valuesIntroduction>) => {
     saveContent({
-      ...content,
-      valuesIntro: { ...content.valuesIntro, ...intro },
+      ...contentRef.current,
+      valuesIntro: { ...contentRef.current.valuesIntro, ...intro },
     });
   };
 
   // Careers
   const addJob = (job: JobOpening) => {
     saveContent({
-      ...content,
+      ...contentRef.current,
       careers: {
-        ...content.careers,
-        jobs: [...content.careers.jobs, job],
+        ...contentRef.current.careers,
+        jobs: [...contentRef.current.careers.jobs, job],
       },
     });
   };
 
   const updateJob = (id: string, partial: Partial<JobOpening>) => {
     saveContent({
-      ...content,
+      ...contentRef.current,
       careers: {
-        ...content.careers,
-        jobs: content.careers.jobs.map((j) =>
+        ...contentRef.current.careers,
+        jobs: contentRef.current.careers.jobs.map((j) =>
           j.id === id ? { ...j, ...partial } : j
         ),
       },
@@ -470,53 +591,64 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
 
   const deleteJob = (id: string) => {
     saveContent({
-      ...content,
+      ...contentRef.current,
       careers: {
-        ...content.careers,
-        jobs: content.careers.jobs.filter((j) => j.id !== id),
+        ...contentRef.current.careers,
+        jobs: contentRef.current.careers.jobs.filter((j) => j.id !== id),
       },
     });
   };
 
   const updateCareersIntro = (intro: Partial<typeof careersIntroduction>) => {
     saveContent({
-      ...content,
-      careersIntro: { ...content.careersIntro, ...intro },
+      ...contentRef.current,
+      careersIntro: { ...contentRef.current.careersIntro, ...intro },
     });
   };
 
   // Contact
   const updateContactConfig = (config: Partial<ContactConfig>) => {
     saveContent({
-      ...content,
-      contactConfig: { ...content.contactConfig, ...config },
+      ...contentRef.current,
+      contactConfig: { ...contentRef.current.contactConfig, ...config },
     });
   };
 
   const updateContactIntro = (intro: Partial<typeof contactPageContent>) => {
     saveContent({
-      ...content,
-      contactIntro: { ...content.contactIntro, ...intro },
+      ...contentRef.current,
+      contactIntro: { ...contentRef.current.contactIntro, ...intro },
     });
   };
 
   const addTeamMember = (member: TeamMember) => {
-    saveContent({ ...content, team: [...(content.team ?? []), member] });
+    saveContent({
+      ...contentRef.current,
+      team: [...(contentRef.current.team ?? []), member],
+    });
   };
 
   const updateTeamMember = (id: string, member: Partial<TeamMember>) => {
     saveContent({
-      ...content,
-      team: (content.team ?? []).map((m) => (m.id === id ? { ...m, ...member } : m)),
+      ...contentRef.current,
+      team: (contentRef.current.team ?? []).map((m) =>
+        m.id === id ? { ...m, ...member } : m
+      ),
     });
   };
 
   const deleteTeamMember = (id: string) => {
-    saveContent({ ...content, team: (content.team ?? []).filter((m) => m.id !== id) });
+    saveContent({
+      ...contentRef.current,
+      team: (contentRef.current.team ?? []).filter((m) => m.id !== id),
+    });
   };
 
   const updateTeamIntro = (intro: Partial<typeof teamIntroduction>) => {
-    saveContent({ ...content, teamIntro: { ...content.teamIntro, ...intro } });
+    saveContent({
+      ...contentRef.current,
+      teamIntro: { ...contentRef.current.teamIntro, ...intro },
+    });
   };
 
   return (
@@ -524,6 +656,8 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
       value={{
         content,
         isHydrated,
+        persistenceStatus,
+        persistenceError,
         saveContent,
         resetToDefaults,
         exportJson,

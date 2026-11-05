@@ -4,8 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Badge } from "@/components/ui/Badge";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
+import { DynamicText } from "@/components/ui/DynamicText";
+import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
 import { companyData, directorMessage } from "@/content/company";
 import {
   CheckCircle2,
@@ -27,19 +28,7 @@ export default function AboutUsPage() {
     <div className="flex flex-col">
       {/* 1. Page Header */}
       <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
-        <Container>
-          <div className="max-w-3xl space-y-4">
-            <div className="animate-fade-in-down">
-              <Badge variant="accent">Corporate Identity &amp; Purpose</Badge>
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight animate-fade-in-up [animation-delay:100ms]">
-              About T &amp; T Brothers (TTB)
-            </h1>
-            <p className="text-lg text-black-20 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
-              Established in 1988, TTB is an established Pakistani one-source solution provider uniting professional engineering, real estate development acumen, and seasoned project execution across commercial construction, downstream oil and gas, and electro-mechanical maintenance.
-            </p>
-          </div>
-        </Container>
+        <ManagedPageHeader page="about" />
       </section>
 
       {/* 2. Company Introduction & History */}
@@ -49,17 +38,17 @@ export default function AboutUsPage() {
             <div className="lg:col-span-7 space-y-6">
               <SectionHeader
                 badge="Our Background"
-                title="A Legacy of Engineering Precision Since 1988"
+                title={<DynamicText source="aboutUs" field="legacyTitle" />}
                 align="left"
                 className="mb-4"
               />
 
               <p className="text-base text-black-70 dark:text-black-20 leading-relaxed">
-                Founded by <strong>{companyData.proprietor}</strong> in <strong>1988</strong>, T & T Brothers (TTB) has grown from a regional engineering enterprise into one of Pakistan’s most reliable contractors for corporate infrastructure, retail petroleum stations, and automated car care installations.
+                <DynamicText source="aboutUs" field="legacyText" />
               </p>
 
               <p className="text-base text-black-70 dark:text-black-20 leading-relaxed">
-                As a one-source solution provider, TTB manages every phase of project delivery. We combine registered engineers, real estate developers, and a dedicated multidisciplinary workforce of approximately <strong>60 qualified personnel</strong>. Our team oversees commercial and private construction management, routine structural maintenance, oil and gas outlet commissioning, architecture, interior joinery, and 24-hour reactive electro-mechanical servicing.
+                As a one-source solution provider, TTB manages every phase of project delivery. We combine registered engineers, real estate developers, and a dedicated multidisciplinary workforce of <strong><DynamicText source="company" field="workforce" /></strong>. Our team oversees commercial and private construction management, routine structural maintenance, oil and gas outlet commissioning, architecture, interior joinery, and 24-hour reactive electro-mechanical servicing.
               </p>
 
               <div className="p-5 rounded-xl bg-black-20/10 dark:bg-black-70/20 border border-black-20 dark:border-black-70 space-y-3">
@@ -245,13 +234,13 @@ export default function AboutUsPage() {
                   {/* Bottom Plate */}
                   <div className="relative z-10 bg-black/85 backdrop-blur-md p-4 rounded-xl border border-black-70 space-y-1 group-hover:border-brand-purple/60 transition-colors duration-300">
                     <p className="text-base font-bold text-white group-hover:text-brand-purple transition-colors duration-200">
-                      {directorMessage.directorName}
+                      <DynamicText source="aboutUs" field="directorName" />
                     </p>
                     <p className="text-xs text-brand-purple font-medium">
-                      {directorMessage.directorTitle}
+                      <DynamicText source="aboutUs" field="directorTitle" />
                     </p>
                     <p className="text-[11px] text-black-40 font-mono">
-                      Proprietor • Established 1988
+                      Proprietor • Established <DynamicText source="company" field="establishedYear" />
                     </p>
                   </div>
                 </div>
@@ -265,7 +254,7 @@ export default function AboutUsPage() {
                 </div>
 
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-                  {directorMessage.heading}
+                  <DynamicText source="aboutUs" field="directorHeading" />
                 </h2>
 
                 <div className="space-y-4 text-sm sm:text-base text-black-20 leading-relaxed font-normal">
@@ -279,10 +268,11 @@ export default function AboutUsPage() {
                 <div className="pt-4 border-t border-black-70 flex items-center justify-between">
                   <div>
                     <p className="text-base font-bold text-white">
-                      {directorMessage.directorName}
+                      <DynamicText source="aboutUs" field="directorName" />
                     </p>
                     <p className="text-xs text-brand-purple">
-                      {directorMessage.directorTitle} • {companyData.name}
+                      <DynamicText source="aboutUs" field="directorTitle" /> •{" "}
+                      <DynamicText source="company" field="name" />
                     </p>
                   </div>
                   <span className="text-xs font-mono text-black-40">
@@ -307,7 +297,7 @@ export default function AboutUsPage() {
               />
 
               <p className="text-base text-black-70 dark:text-black-20 leading-relaxed">
-                As stated in the official company profile, TTB employs approximately <strong>60 qualified professionals</strong> spanning project directors, registered civil engineers, mechanical technicians, certified electricians, HSSE inspectors, and experienced field craftspeople.
+                As stated in the official company profile, TTB employs <strong><DynamicText source="company" field="workforce" /></strong> spanning project directors, registered civil engineers, mechanical technicians, certified electricians, HSSE inspectors, and experienced field craftspeople.
               </p>
 
               <p className="text-sm text-black-70 dark:text-black-20 leading-relaxed">

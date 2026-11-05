@@ -5,9 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ArrowRight } from "lucide-react";
-import { mainNavItems, companyData } from "@/content/company";
+import { mainNavItems } from "@/content/company";
+import { useContent } from "@/context/ContentContext";
 
 export function Navbar() {
+  const { content } = useContent();
+  const companyData = content.company;
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
@@ -101,7 +104,7 @@ export function Navbar() {
                     isScrolled ? "text-white/60" : "text-neutral-700 font-semibold"
                   }`}
                 >
-                  Integrity | Quality | Commitment
+                  {companyData.tagline}
                 </span>
               </div>
             </Link>
@@ -234,7 +237,7 @@ export function Navbar() {
                 isScrolled ? "text-white/40" : "text-gray-500"
               }`}
             >
-              {companyData.name} • Established 1988
+              {companyData.name} • Established {companyData.establishedYear}
             </div>
           </div>
         </div>

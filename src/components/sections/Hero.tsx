@@ -76,8 +76,8 @@ export function Hero() {
                 src={src}
                 alt="TTB Corporate Site &amp; Facility"
                 fill
-                priority={index === 0}
-                loading={index === 0 ? "eager" : "lazy"}
+                priority={isActive}
+                loading={isActive ? undefined : "lazy"}
                 className="object-cover object-center"
                 sizes="100vw"
                 unoptimized

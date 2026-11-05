@@ -10,7 +10,7 @@ import { HomeFeaturedProjects } from "@/components/sections/HomeFeaturedProjects
 import { ClientLogoGrid } from "@/components/sections/ClientLogoGrid";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
-import { companyData } from "@/content/company";
+import { DynamicText } from "@/components/ui/DynamicText";
 import {
   ArrowRight,
   ShieldCheck,
@@ -39,7 +39,7 @@ export default function HomePage() {
             <AnimateOnScroll variant="fade-right" className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-purple/10 text-brand-purple border border-brand-purple/20">
                 <Calendar className="w-3.5 h-3.5" />
-                Established 1988
+                Established <DynamicText source="company" field="establishedYear" />
               </div>
 
               <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black dark:text-white leading-tight">
@@ -47,11 +47,11 @@ export default function HomePage() {
               </h2>
 
               <p className="text-base sm:text-lg text-black-70 dark:text-black-20 leading-relaxed">
-                {companyData.description}
+                <DynamicText source="company" field="description" />
               </p>
 
               <p className="text-sm sm:text-base text-black-70 dark:text-black-20 leading-relaxed">
-                Founded by <strong>{companyData.proprietor}</strong> over 35 years ago, TTB brings together certified professional engineers, real estate development acumen, and an experienced execution team of approximately <strong>60 full-time staff</strong>. We bridge the gap between initial architectural planning and ongoing multi-site facility management.
+                Founded by <strong><DynamicText source="company" field="proprietor" /></strong> over 35 years ago, TTB brings together certified professional engineers, real estate development acumen, and an experienced execution team of <strong><DynamicText source="company" field="workforce" /></strong>. We bridge the gap between initial architectural planning and ongoing multi-site facility management.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">

@@ -3,10 +3,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Badge } from "@/components/ui/Badge";
 import { ClientLogoGrid } from "@/components/sections/ClientLogoGrid";
+import { ClientEditorialNote } from "@/components/sections/ClientEditorialNote";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
-import { clientsIntroduction } from "@/content/clients";
+import { Badge } from "@/components/ui/Badge";
+import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
 import { ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -20,19 +21,7 @@ export default function ClientsPage() {
     <div className="flex flex-col">
       {/* 1. Header */}
       <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
-        <Container>
-          <div className="max-w-3xl space-y-4">
-            <div className="animate-fade-in-down">
-              <Badge variant="accent">{clientsIntroduction.badge}</Badge>
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight animate-fade-in-up [animation-delay:100ms]">
-              {clientsIntroduction.title}
-            </h1>
-            <p className="text-lg text-black-20 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
-              {clientsIntroduction.subtitle}
-            </p>
-          </div>
-        </Container>
+        <ManagedPageHeader page="clients" />
       </section>
 
       {/* 2. Source Verification Banner */}
@@ -40,7 +29,7 @@ export default function ClientsPage() {
         <Container>
           <div className="flex items-start sm:items-center gap-3 text-xs text-black dark:text-black-20">
             <ShieldCheck className="w-4 h-4 text-brand-purple shrink-0 mt-0.5 sm:mt-0 animate-pulse" />
-            <p>{clientsIntroduction.editorialNote}</p>
+            <p><ClientEditorialNote /></p>
           </div>
         </Container>
       </section>

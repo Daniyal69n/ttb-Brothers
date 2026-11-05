@@ -52,7 +52,7 @@ export function Footer() {
             </Link>
 
             <p className="text-sm text-black-20 leading-relaxed">
-              A premier one-source solution provider in Pakistan delivering commercial construction, oil and gas filling station commissioning, electro-mechanical maintenance, and full-spectrum facility management.
+              {companyData.description}
             </p>
 
             <div className="space-y-2 pt-2 text-xs">
@@ -163,7 +163,7 @@ export function Footer() {
             <div className="flex items-center gap-3">
               {/* ISO */}
               <div className="flex items-center gap-1.5">
-                <div className="relative w-7 h-7 shrink-0">
+                <div className="relative w-10 h-10 shrink-0">
                   <Image
                     src="/images/company/iso-logo-transparent.png"
                     alt="ISO 45001:2008 certification"
@@ -177,7 +177,7 @@ export function Footer() {
               <span className="text-black-60">•</span>
               {/* ICCI */}
               <div className="flex items-center gap-1.5">
-                <div className="relative w-10 h-8 shrink-0">
+                <div className="relative w-14 h-12 shrink-0">
                   <Image
                     src="/images/company/icci-logo-transparent.png"
                     alt="Islamabad Chamber of Commerce and Industry"
@@ -191,7 +191,7 @@ export function Footer() {
               <span className="text-black-60">•</span>
               {/* PEC */}
               <div className="flex items-center gap-1.5">
-                <div className="relative w-7 h-10 shrink-0">
+                <div className="relative w-10 h-14 shrink-0">
                   <Image
                     src="/images/company/pec-logo-transparent.png"
                     alt="Pakistan Engineering Council"

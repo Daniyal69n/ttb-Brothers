@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useContent } from "@/context/ContentContext";
@@ -56,6 +56,8 @@ export default function AdminPage() {
   const {
     content,
     isHydrated,
+    persistenceStatus,
+    persistenceError,
     resetToDefaults,
     exportJson,
     importJson,
@@ -84,13 +86,9 @@ export default function AdminPage() {
     deleteTeamMember,
   } = useContent();
 
-  // Authentication State with lazy initialization
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      return sessionStorage.getItem("ttb_admin_auth") === "true";
-    }
-    return false;
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [passcode, setPasscode] = useState("");
   const [authError, setAuthError] = useState("");
 
@@ -134,8 +132,8 @@ export default function AdminPage() {
     onSuccess: (dataUrl: string) => void
   ) => {
     if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      alert("Please select a valid image file (PNG, JPG, WEBP, or SVG).");
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      alert("Please select a JPEG, PNG, or WebP image.");
       return;
     }
 
@@ -145,10 +143,6 @@ export default function AdminPage() {
     };
     reader.onload = (e) => {
       const src = e.target?.result as string;
-      if (file.type === "image/svg+xml") {
-        onSuccess(src);
-        return;
-      }
       const img = new window.Image();
       img.onerror = () => onSuccess(src);
       img.onload = () => {
@@ -172,12 +166,37 @@ export default function AdminPage() {
           return;
         }
         ctx.drawImage(img, 0, 0, width, height);
-        const optimized = canvas.toDataURL("image/jpeg", 0.85);
+        const outputType = file.type === "image/png" ? "image/png" : "image/jpeg";
+        const optimized = canvas.toDataURL(
+          outputType,
+          outputType === "image/jpeg" ? 0.85 : undefined
+        );
         onSuccess(optimized);
       };
       img.src = src;
     };
     reader.readAsDataURL(file);
+  };
+
+  const uploadImage = async (dataUrl: string, onUploaded: (url: string) => void) => {
+    try {
+      const image = await fetch(dataUrl).then((response) => response.blob());
+      const formData = new FormData();
+      formData.set("file", image, "upload.jpg");
+      const response = await fetch("/api/media/", {
+        method: "POST",
+        body: formData,
+      });
+      const result = (await response.json()) as { url?: string; error?: string };
+      if (!response.ok || !result.url) {
+        throw new Error(result.error || "Image upload failed.");
+      }
+
+      onUploaded(result.url);
+      showToast("Image uploaded to shared storage.");
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "Image upload failed.");
+    }
   };
 
   const openAddProject = () => {
@@ -209,26 +228,72 @@ export default function AdminPage() {
     }, 3500);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  useEffect(() => {
+    let active = true;
+    fetch("/api/admin/session/", { cache: "no-store" })
+      .then(async (response) => {
+        const result = (await response.json()) as {
+          authenticated?: boolean;
+          error?: string;
+        };
+        if (!response.ok) throw new Error(result.error || "Admin session could not be checked.");
+        if (active) setIsAuthenticated(result.authenticated === true);
+      })
+      .catch((error: unknown) => {
+        if (active) {
+          setAuthError(
+            error instanceof Error ? error.message : "Admin session could not be checked."
+          );
+        }
+      })
+      .finally(() => {
+        if (active) setAuthChecked(true);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Default passcodes: admin123, ttb2026, or admin
-    if (passcode === "admin123" || passcode === "ttb2026" || passcode === "admin") {
-      setIsAuthenticated(true);
+    setIsAuthenticating(true);
+    setAuthError("");
+    try {
+      const response = await fetch("/api/admin/session/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: passcode }),
+      });
+      const result = (await response.json()) as {
+        authenticated?: boolean;
+        error?: string;
+      };
+      if (!response.ok) throw new Error(result.error || "Sign-in failed.");
+
+      setIsAuthenticated(result.authenticated === true);
       setAuthError("");
-      sessionStorage.setItem("ttb_admin_auth", "true");
+      setPasscode("");
       showToast("Signed in to TTB Management Console");
-    } else {
-      setAuthError("Incorrect password. (Default is: admin123)");
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : "Sign-in failed.");
+    } finally {
+      setIsAuthenticating(false);
     }
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    sessionStorage.removeItem("ttb_admin_auth");
-    setPasscode("");
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/admin/session/", { method: "DELETE" });
+      if (!response.ok) throw new Error("Could not sign out. Please try again.");
+      setIsAuthenticated(false);
+      setPasscode("");
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "Could not sign out.");
+    }
   };
 
-  if (!isHydrated) {
+  if (!isHydrated || !authChecked) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center text-white p-6">
         <div className="flex flex-col items-center gap-3">
@@ -289,16 +354,17 @@ export default function AdminPage() {
                 </p>
               )}
               <p className="text-[11px] text-neutral-500 mt-2">
-                Default Access Code: <code className="bg-neutral-800 px-1.5 py-0.5 rounded text-neutral-300">admin123</code>
+                Administrator password is configured in the server environment.
               </p>
             </div>
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-brand-purple hover:bg-brand-purple/90 active:scale-[0.98] text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-brand-purple/20 cursor-pointer"
+              disabled={isAuthenticating}
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-brand-purple hover:bg-brand-purple/90 disabled:opacity-60 disabled:cursor-wait active:scale-[0.98] text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-brand-purple/20 cursor-pointer"
             >
               <Unlock className="w-4 h-4" />
-              <span>Unlock Admin Panel</span>
+              <span>{isAuthenticating ? "Signing in..." : "Unlock Admin Panel"}</span>
             </button>
           </form>
 
@@ -328,14 +394,15 @@ export default function AdminPage() {
       c.name.toLowerCase().includes(clientSearch.toLowerCase()) ||
       c.industry.toLowerCase().includes(clientSearch.toLowerCase())
   );
+  const visibleToast = toastMessage ?? persistenceError;
 
   return (
     <div className="min-h-screen bg-[#0c0c0e] text-neutral-100 flex flex-col">
       {/* Toast Notification */}
-      {toastMessage && (
+      {visibleToast && (
         <div className="fixed bottom-6 right-6 z-50 bg-brand-purple text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-sm font-medium animate-fade-in border border-white/20">
           <Check className="w-4 h-4 text-white shrink-0" />
-          <span>{toastMessage}</span>
+          <span>{visibleToast}</span>
         </div>
       )}
 
@@ -580,8 +647,27 @@ export default function AdminPage() {
               {/* Status information */}
               <div className="p-4 rounded-xl bg-neutral-900/20 border border-neutral-800/80 flex items-center justify-between text-xs text-neutral-400">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Storage Engine: Browser LocalStorage (Synchronized &amp; Exportable)</span>
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      persistenceStatus === "error"
+                        ? "bg-red-400"
+                        : persistenceStatus === "saving" || persistenceStatus === "loading"
+                          ? "bg-amber-400 animate-pulse"
+                          : "bg-emerald-400"
+                    }`}
+                  />
+                  <span>
+                    Shared Supabase storage:{" "}
+                    {persistenceStatus === "loading"
+                      ? "Connecting..."
+                      : persistenceStatus === "saving"
+                        ? "Publishing changes..."
+                        : persistenceStatus === "saved"
+                          ? "Changes published"
+                          : persistenceStatus === "error"
+                            ? "Unavailable"
+                            : "Connected"}
+                  </span>
                 </div>
                 {content.lastUpdated && (
                   <span>Last Modified: {new Date(content.lastUpdated).toLocaleString()}</span>
@@ -1786,12 +1872,14 @@ export default function AdminPage() {
                               Upload from device
                               <input
                                 type="file"
-                                accept="image/*"
+                                accept="image/png,image/jpeg,image/webp"
                                 className="hidden"
                                 onChange={(ev) => {
                                   const file = ev.target.files?.[0];
                                   if (file) {
-                                    handleImageFile(file, (url) => setTeamImagePreview(url));
+                                    handleImageFile(file, (dataUrl) =>
+                                      void uploadImage(dataUrl, setTeamImagePreview)
+                                    );
                                   }
                                 }}
                               />
@@ -1936,7 +2024,7 @@ export default function AdminPage() {
                     <h3 className="text-base font-bold text-white">Import Content Backup</h3>
                   </div>
                   <p className="text-xs text-neutral-400 leading-relaxed">
-                    Restore previously downloaded backup JSON to instantly populate your website with that content.
+                    Restore a JSON backup and publish its content to every visitor. Embedded images are uploaded to shared storage.
                   </p>
                   <label className="inline-flex items-center gap-2 px-4 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 rounded-xl text-xs font-semibold shadow-md transition-all cursor-pointer">
                     <Upload className="w-4 h-4 text-brand-purple" />
@@ -1951,13 +2039,15 @@ export default function AdminPage() {
                           const reader = new FileReader();
                           reader.onload = (ev) => {
                             const text = ev.target?.result as string;
-                            const ok = importJson(text);
-                            if (ok) {
-                              showToast("Content backup imported successfully!");
-                            } else {
-                              alert("Invalid JSON file. Please provide a valid TTB backup JSON.");
-                            }
+                            void importJson(text).then((ok) => {
+                              if (ok) {
+                                showToast("Content backup imported successfully!");
+                              } else {
+                                alert("Invalid JSON file. Please provide a valid TTB backup JSON.");
+                              }
+                            });
                           };
+                          reader.onerror = () => showToast("Could not read the backup file.");
                           reader.readAsText(file);
                         }
                       }}
@@ -1972,7 +2062,7 @@ export default function AdminPage() {
                     <h3 className="text-base font-bold text-white">Reset to Original Corporate Defaults</h3>
                   </div>
                   <p className="text-xs text-neutral-400 leading-relaxed">
-                    Discard all local edits and restore the exact authentic 1988 corporate profile data (22 original projects, 9 verified corporate clients, and initial contact directory).
+                    Replace the published site content with the original 1988 corporate profile data (22 original projects, 9 verified corporate clients, and initial contact directory).
                   </p>
                   <button
                     type="button"
@@ -2175,13 +2265,13 @@ export default function AdminPage() {
                           <span>Upload from Device</span>
                           <input
                             type="file"
-                            accept="image/*"
+                            accept="image/png,image/jpeg,image/webp"
                             className="hidden"
                             onChange={(e) => {
                               const file = e.target.files?.[0];
                               if (file) {
                                 handleImageFile(file, (dataUrl) => {
-                                  setProjectImagePreview(dataUrl);
+                                  void uploadImage(dataUrl, setProjectImagePreview);
                                 });
                               }
                             }}
@@ -2399,7 +2489,7 @@ export default function AdminPage() {
                     <span>Client Brand Logo</span>
                   </label>
                   <span className="text-[11px] text-neutral-400">
-                    Upload PNG/SVG logo from device
+                    Upload PNG, JPEG, or WebP logo from device
                   </span>
                 </div>
 
@@ -2429,13 +2519,13 @@ export default function AdminPage() {
                         <span>Upload Logo from Device</span>
                         <input
                           type="file"
-                          accept="image/*"
+                          accept="image/png,image/jpeg,image/webp"
                           className="hidden"
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
                               handleImageFile(file, (dataUrl) => {
-                                setClientLogoPreview(dataUrl);
+                                void uploadImage(dataUrl, setClientLogoPreview);
                               });
                             }
                           }}

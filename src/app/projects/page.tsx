@@ -3,10 +3,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Badge } from "@/components/ui/Badge";
 import { ProjectsTable } from "@/components/sections/ProjectsTable";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
-import { projectsIntroduction } from "@/content/projects";
+import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
 import { ArrowRight } from "lucide-react";
 import { ProjectsHero } from "@/components/sections/ProjectsHero";
 
@@ -27,19 +26,11 @@ export default function ProjectsPage() {
         <div className="absolute inset-0 bg-black/60 z-10" />
         {/* Content */}
         <div className="relative z-20 flex items-center" style={{ minHeight: "480px" }}>
-          <Container>
-            <div className="max-w-3xl space-y-4 py-24 md:py-32">
-              <div className="animate-fade-in-down">
-                <Badge variant="accent">{projectsIntroduction.badge}</Badge>
-              </div>
-              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight animate-fade-in-up [animation-delay:100ms]">
-                {projectsIntroduction.title}
-              </h1>
-              <p className="text-lg text-white/80 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
-                {projectsIntroduction.subtitle}
-              </p>
-            </div>
-          </Container>
+          <ManagedPageHeader
+            page="projects"
+            className="py-24 md:py-32"
+            contentClassName="max-w-3xl space-y-4"
+          />
         </div>
       </section>
 

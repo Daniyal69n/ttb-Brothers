@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
-import { companyData } from "@/content/company";
+import { DynamicText } from "@/components/ui/DynamicText";
 import { Info } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -58,7 +58,7 @@ export default function PrivacyPolicyPage() {
               <p className="text-sm leading-relaxed">
                 This Privacy Policy applies to personal and commercial information
                 collected through the official corporate website of{" "}
-                <strong>{companyData.name}</strong>. By accessing this portal,
+                <strong><DynamicText source="company" field="name" /></strong>. By accessing this portal,
                 visitors acknowledge the data handling practices described
                 herein.
               </p>
@@ -120,7 +120,7 @@ export default function PrivacyPolicyPage() {
                 desk at:
               </p>
               <p className="text-sm font-semibold text-black dark:text-white font-mono">
-                {companyData.email}
+                <DynamicText source="company" field="email" />
               </p>
             </section>
 

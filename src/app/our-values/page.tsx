@@ -3,10 +3,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Badge } from "@/components/ui/Badge";
 import { ValuesGrid } from "@/components/sections/ValuesGrid";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
-import { valuesIntroduction } from "@/content/values";
+import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
 import { ArrowRight, HardHat, Award, Users, Camera } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -20,19 +19,7 @@ export default function OurValuesPage() {
     <div className="flex flex-col">
       {/* 1. Header */}
       <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
-        <Container>
-          <div className="max-w-3xl space-y-4">
-            <div className="animate-fade-in-down">
-              <Badge variant="accent">{valuesIntroduction.badge}</Badge>
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight animate-fade-in-up [animation-delay:100ms]">
-              {valuesIntroduction.title}
-            </h1>
-            <p className="text-lg text-black-20 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
-              {valuesIntroduction.subtitle}
-            </p>
-          </div>
-        </Container>
+        <ManagedPageHeader page="values" />
       </section>
 
       {/* 2. Values Grid Section */}

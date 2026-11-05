@@ -3,11 +3,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Badge } from "@/components/ui/Badge";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { ServicesHeroCarousel } from "@/components/sections/ServicesHeroCarousel";
-import { servicesIntroduction } from "@/content/services";
+import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -23,19 +22,10 @@ export default function ServicesPage() {
       <section className="relative bg-black text-white py-20 md:py-28 min-h-[380px] md:min-h-[440px] flex items-center border-b border-black-70 overflow-hidden">
         <ServicesHeroCarousel />
 
-        <Container className="relative z-30 w-full">
-          <div className="max-w-3xl space-y-4">
-            <div className="animate-fade-in-down">
-              <Badge variant="accent">{servicesIntroduction.badge}</Badge>
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight animate-fade-in-up [animation-delay:100ms]">
-              {servicesIntroduction.title}
-            </h1>
-            <p className="text-lg text-black-20 leading-relaxed animate-fade-in-up [animation-delay:200ms]">
-              {servicesIntroduction.subtitle}
-            </p>
-          </div>
-        </Container>
+        <ManagedPageHeader
+          page="services"
+          className="relative z-30 w-full"
+        />
       </section>
 
       {/* 2. 6 Core Service Portfolios Grid */}

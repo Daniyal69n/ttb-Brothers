@@ -41,8 +41,8 @@ export default function CoreTeamPage() {
         </Container>
       </section>
 
-      {/* Team Grid — suppressHydrationWarning because content comes from localStorage */}
-      <section className="py-20 bg-white dark:bg-black" suppressHydrationWarning>
+      {/* Team Grid */}
+      <section className="py-20 bg-white dark:bg-black">
         <Container>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:gap-8">
             {team
@@ -59,7 +59,6 @@ export default function CoreTeamPage() {
                     {/* Photo */}
                     <div
                       className="relative w-full aspect-square bg-black-20/30 dark:bg-black-70/40 overflow-hidden"
-                      suppressHydrationWarning
                     >
                       {isHydrated && member.imagePath ? (
                         <Image

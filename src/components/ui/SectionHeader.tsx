@@ -3,7 +3,7 @@ import { Badge } from "./Badge";
 
 interface SectionHeaderProps {
   badge?: string;
-  title: string;
+  title: React.ReactNode;
   subtitle?: string;
   align?: "left" | "center";
   className?: string;
