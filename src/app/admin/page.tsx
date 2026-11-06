@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useContent } from "@/context/ContentContext";
 import { ProjectItem, ClientItem, ValueItem, ServiceCategory, JobOpening, TeamMember } from "@/types";
 import {
-  Lock,
   Unlock,
   Plus,
   Trash2,
@@ -16,6 +15,7 @@ import {
   Download,
   Upload,
   Eye,
+  EyeOff,
   Check,
   Search,
   ShieldCheck,
@@ -90,6 +90,7 @@ export default function AdminPage() {
   const [authChecked, setAuthChecked] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [passcode, setPasscode] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState("");
 
   // Navigation tab
@@ -274,6 +275,7 @@ export default function AdminPage() {
       setIsAuthenticated(result.authenticated === true);
       setAuthError("");
       setPasscode("");
+      setShowPassword(false);
       showToast("Signed in to TTB Management Console");
     } catch (error) {
       setAuthError(error instanceof Error ? error.message : "Sign-in failed.");
@@ -288,6 +290,7 @@ export default function AdminPage() {
       if (!response.ok) throw new Error("Could not sign out. Please try again.");
       setIsAuthenticated(false);
       setPasscode("");
+      setShowPassword(false);
     } catch (error) {
       showToast(error instanceof Error ? error.message : "Could not sign out.");
     }
@@ -338,14 +341,22 @@ export default function AdminPage() {
               <div className="relative">
                 <input
                   id="admin-passcode"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter administrator passcode"
                   value={passcode}
                   onChange={(e) => setPasscode(e.target.value)}
-                  className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
+                  className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-4 py-3 pr-11 text-sm text-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
                   autoFocus
                 />
-                <Lock className="w-4 h-4 text-neutral-500 absolute right-3.5 top-3.5 pointer-events-none" />
+                <button
+                  type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
               {authError && (
                 <p className="text-xs text-red-400 mt-2 flex items-center gap-1">
