@@ -53,10 +53,25 @@ export interface AboutUsContent {
   };
 }
 
+export interface PrivacyPolicyContent {
+  badge: string;
+  title: string;
+  description: string;
+  disclaimerTitle: string;
+  disclaimerText: string;
+  sections: {
+    heading: string;
+    paragraphs: string[];
+    bulletItems: string[];
+  }[];
+  lastUpdated: string;
+}
+
 export interface SiteContent {
   company: CompanyInfo;
   hero: HeroContent;
   aboutUs: AboutUsContent;
+  privacyPolicy: PrivacyPolicyContent;
   projectsIntro: typeof projectsIntroduction;
   projects: ProjectItem[];
   clientsIntro: typeof clientsIntroduction;
@@ -109,6 +124,58 @@ const defaultContent: SiteContent = {
       satisfaction: "100%",
     },
   },
+  privacyPolicy: {
+    badge: "Legal & Compliance",
+    title: "Corporate Privacy Policy",
+    description:
+      "General disclosure regarding corporate data handling, website usage, and information governance principles.",
+    disclaimerTitle: "Administrative Disclaimer",
+    disclaimerText:
+      "This document serves as an editable template outline for TTB corporate website visitors. It does not constitute formal legal counsel and should be reviewed and customized by TTB legal counsel prior to statutory filings.",
+    sections: [
+      {
+        heading: "1. Scope of Policy",
+        paragraphs: [
+          "This Privacy Policy applies to personal and commercial information collected through the official corporate website of {{companyName}}. By accessing this portal, visitors acknowledge the data handling practices described herein.",
+        ],
+        bulletItems: [],
+      },
+      {
+        heading: "2. Information Collection & Usage",
+        paragraphs: [
+          "We collect information voluntarily submitted through our inquiry forms, career application communications, and direct email correspondence. This information typically includes your name, business email address, organizational affiliation, and the substance of your commercial inquiry.",
+          "Submitted information is utilized solely to:",
+        ],
+        bulletItems: [
+          "Evaluate and respond to corporate inquiries and project requests.",
+          "Process expressions of interest and job applications.",
+          "Maintain internal corporate administrative and audit records.",
+        ],
+      },
+      {
+        heading: "3. Non-Disclosure & Data Security",
+        paragraphs: [
+          "TTB enforces stringent internal information security protocols to safeguard business correspondence against unauthorized access, alteration, disclosure, or destruction. We do not sell, rent, or commercially distribute stakeholder information to third-party marketing providers.",
+        ],
+        bulletItems: [],
+      },
+      {
+        heading: "4. Third-Party Links & Services",
+        paragraphs: [
+          "Our website may contain links to external enterprise partners or service gateways. TTB is not responsible for the privacy practices or content of external domains. Visitors are encouraged to review the independent policies of any external destination visited.",
+        ],
+        bulletItems: [],
+      },
+      {
+        heading: "5. Inquiries & Updates",
+        paragraphs: [
+          "For questions regarding data governance or to request updates to your submitted contact information, please reach our compliance desk at {{companyEmail}}.",
+        ],
+        bulletItems: [],
+      },
+    ],
+    lastUpdated: "Corporate Revision 1.0",
+  },
   projectsIntro: projectsIntroduction,
   projects: corporateProjects,
   clientsIntro: clientsIntroduction,
@@ -154,6 +221,7 @@ interface ContentContextType {
   updateCompany: (company: Partial<CompanyInfo>) => void;
   updateHero: (hero: Partial<HeroContent>) => void;
   updateAboutUs: (aboutUs: Partial<AboutUsContent>) => void;
+  updatePrivacyPolicy: (privacyPolicy: Partial<PrivacyPolicyContent>) => void;
 
   // Services
   addService: (
@@ -192,12 +260,42 @@ interface ContentContextType {
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 function mergeContentWithDefaults(parsed: Partial<SiteContent>): SiteContent {
+  const savedPrivacyPolicy = parsed.privacyPolicy;
+  const savedPrivacySections = Array.isArray(savedPrivacyPolicy?.sections)
+    ? savedPrivacyPolicy.sections
+    : defaultContent.privacyPolicy.sections;
+
   return {
     ...defaultContent,
     ...parsed,
     company: { ...defaultContent.company, ...(parsed.company || {}) },
     hero: { ...defaultContent.hero, ...(parsed.hero || {}) },
     aboutUs: { ...defaultContent.aboutUs, ...(parsed.aboutUs || {}) },
+    privacyPolicy: {
+      ...defaultContent.privacyPolicy,
+      ...(savedPrivacyPolicy && typeof savedPrivacyPolicy === "object"
+        ? savedPrivacyPolicy
+        : {}),
+      sections: savedPrivacySections.map((section, index) => {
+        const fallback = defaultContent.privacyPolicy.sections[index];
+        return {
+          heading:
+            typeof section?.heading === "string"
+              ? section.heading
+              : fallback?.heading ?? `Section ${index + 1}`,
+          paragraphs: Array.isArray(section?.paragraphs)
+            ? section.paragraphs.filter(
+                (paragraph): paragraph is string => typeof paragraph === "string"
+              )
+            : fallback?.paragraphs ?? [],
+          bulletItems: Array.isArray(section?.bulletItems)
+            ? section.bulletItems.filter(
+                (item): item is string => typeof item === "string"
+              )
+            : fallback?.bulletItems ?? [],
+        };
+      }),
+    },
     projectsIntro: { ...defaultContent.projectsIntro, ...(parsed.projectsIntro || {}) },
     projects: Array.isArray(parsed.projects) ? parsed.projects : defaultContent.projects,
     clientsIntro: { ...defaultContent.clientsIntro, ...(parsed.clientsIntro || {}) },
@@ -499,6 +597,13 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const updatePrivacyPolicy = (partial: Partial<PrivacyPolicyContent>) => {
+    saveContent({
+      ...contentRef.current,
+      privacyPolicy: { ...contentRef.current.privacyPolicy, ...partial },
+    });
+  };
+
   // Services
   const addService = (
     service: ServiceCategory & { summary: string; description: string }
@@ -673,6 +778,7 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         updateCompany,
         updateHero,
         updateAboutUs,
+        updatePrivacyPolicy,
         addService,
         updateService,
         deleteService,

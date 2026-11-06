@@ -8,6 +8,7 @@ The TTB website uses Next.js, TypeScript, and Tailwind CSS. Admin edits are stor
 - Supabase Postgres for shared website content
 - Supabase Storage for uploaded public website images
 - Server-side admin API routes; no static export
+- Admin editors for site pages, including the privacy policy
 
 ## Local Development
 

@@ -50,7 +50,22 @@ type AdminTab =
   | "values"
   | "careers"
   | "team"
+  | "privacy"
   | "backup";
+
+function splitNonEmptyLines(value: string) {
+  return value
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+function splitParagraphs(value: string) {
+  return value
+    .split(/\r?\n\s*\r?\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+}
 
 export default function AdminPage() {
   const {
@@ -81,6 +96,7 @@ export default function AdminPage() {
     deleteJob,
     updateContactConfig,
     updateContactIntro,
+    updatePrivacyPolicy,
     addTeamMember,
     updateTeamMember,
     deleteTeamMember,
@@ -493,6 +509,7 @@ export default function AdminPage() {
             { id: "values", label: "Our Values Page", icon: Award, count: content.values.length },
             { id: "careers", label: "Careers & Jobs", icon: Briefcase, count: content.careers.jobs.length },
             { id: "team", label: "Core Team", icon: Users, count: content.team?.length ?? 0 },
+            { id: "privacy", label: "Privacy Policy", icon: ShieldCheck, count: null },
             { id: "backup", label: "Backup & Sync", icon: RotateCcw, count: null },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -1993,8 +2010,181 @@ export default function AdminPage() {
             </div>
           )}
 
+          {activeTab === "privacy" && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-800">
+                <div>
+                  <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                    <ShieldCheck className="w-6 h-6 text-brand-purple" />
+                    <span>Privacy Policy</span>
+                  </h2>
+                  <p className="text-xs text-neutral-400 mt-1">
+                    Edit the public-facing policy title, sections, and revision note.
+                    Use {"{{companyName}}"} or {"{{companyEmail}}"} in policy text
+                    to insert the current company details.
+                  </p>
+                </div>
+                <Link
+                  href="/privacy-policy/"
+                  target="_blank"
+                  className="inline-flex items-center gap-1 px-3 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-xl text-xs transition-colors self-start sm:self-auto"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>View Privacy Policy</span>
+                </Link>
+              </div>
+
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const value = (name: string) => String(formData.get(name) ?? "");
+                  const policy = content.privacyPolicy;
+
+                  updatePrivacyPolicy({
+                    badge: value("privacyBadge"),
+                    title: value("privacyTitle"),
+                    description: value("privacyDescription"),
+                    disclaimerTitle: value("privacyDisclaimerTitle"),
+                    disclaimerText: value("privacyDisclaimerText"),
+                    lastUpdated: value("privacyLastUpdated"),
+                    sections: policy.sections.map((section, index) => ({
+                      heading: value(`privacyHeading${index}`),
+                      paragraphs: splitParagraphs(value(`privacyParagraphs${index}`)),
+                      bulletItems: splitNonEmptyLines(value(`privacyBullets${index}`)),
+                    })),
+                  });
+                  showToast("Privacy Policy updated successfully!");
+                }}
+                className="space-y-5"
+              >
+                <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4">
+                  <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                    Page Header &amp; Disclaimer
+                  </h3>
+                  <div>
+                    <label className="block text-xs text-neutral-300 font-medium mb-1">
+                      Header Badge
+                    </label>
+                    <input
+                      name="privacyBadge"
+                      defaultValue={content.privacyPolicy.badge}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-neutral-300 font-medium mb-1">
+                      Page Title
+                    </label>
+                    <input
+                      name="privacyTitle"
+                      defaultValue={content.privacyPolicy.title}
+                      required
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-neutral-300 font-medium mb-1">
+                      Introductory Description
+                    </label>
+                    <textarea
+                      name="privacyDescription"
+                      rows={2}
+                      defaultValue={content.privacyPolicy.description}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-neutral-300 font-medium mb-1">
+                      Disclaimer Heading
+                    </label>
+                    <input
+                      name="privacyDisclaimerTitle"
+                      defaultValue={content.privacyPolicy.disclaimerTitle}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-neutral-300 font-medium mb-1">
+                      Disclaimer Text
+                    </label>
+                    <textarea
+                      name="privacyDisclaimerText"
+                      rows={3}
+                      defaultValue={content.privacyPolicy.disclaimerText}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                    />
+                  </div>
+                </div>
+
+                {content.privacyPolicy.sections.map((section, index) => (
+                  <div
+                    key={`privacy-section-${index}`}
+                    className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4"
+                  >
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                      Policy Section {index + 1}
+                    </h3>
+                    <div>
+                      <label className="block text-xs text-neutral-300 font-medium mb-1">
+                        Section Heading
+                      </label>
+                      <input
+                        name={`privacyHeading${index}`}
+                        defaultValue={section.heading}
+                        required
+                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-neutral-300 font-medium mb-1">
+                        Paragraphs (separate paragraphs with a blank line)
+                      </label>
+                      <textarea
+                        name={`privacyParagraphs${index}`}
+                        rows={5}
+                        defaultValue={section.paragraphs.join("\n\n")}
+                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-neutral-300 font-medium mb-1">
+                        Optional Bullet Points (one per line)
+                      </label>
+                      <textarea
+                        name={`privacyBullets${index}`}
+                        rows={3}
+                        defaultValue={(section.bulletItems ?? []).join("\n")}
+                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4">
+                  <label className="block text-xs text-neutral-300 font-medium">
+                    Last Updated / Revision Note
+                    <input
+                      name="privacyLastUpdated"
+                      defaultValue={content.privacyPolicy.lastUpdated}
+                      className="mt-1 w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                    />
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-brand-purple hover:bg-brand-purple/90 text-white rounded-xl text-xs font-semibold shadow-md transition-all cursor-pointer"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Save Privacy Policy</span>
+                </button>
+              </form>
+            </div>
+          )}
+
           {/* ========================================================= */}
-          {/* TAB 10: BACKUP, EXPORT & FACTORY RESET */}
+          {/* TAB 11: BACKUP, EXPORT & FACTORY RESET */}
           {/* ========================================================= */}
           {activeTab === "backup" && (
             <div className="space-y-6 animate-fade-in">
