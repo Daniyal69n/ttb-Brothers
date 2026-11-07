@@ -154,13 +154,13 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar: Copyright & Compliance */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-black-40">
+        <div className="pt-8 flex flex-col flex-wrap sm:flex-row items-center justify-between gap-4 text-xs text-black-40">
           <div>
             &copy; {currentYear} {companyData.name}. All rights reserved.
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex max-w-full flex-wrap items-center justify-center gap-x-4 gap-y-3 sm:gap-6">
             {/* Certification badges */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
               {/* ISO */}
               <div className="flex items-center gap-1.5">
                 <div className="relative w-10 h-10 shrink-0">
@@ -174,7 +174,7 @@ export function Footer() {
                 </div>
                 <span className="text-[11px] text-black-40 whitespace-nowrap">ISO 45001:2008</span>
               </div>
-              <span className="text-black-60">•</span>
+              <span className="hidden text-black-60 sm:inline">•</span>
               {/* ICCI */}
               <div className="flex items-center gap-1.5">
                 <div className="relative w-14 h-12 shrink-0">
@@ -188,7 +188,7 @@ export function Footer() {
                 </div>
                 <span className="text-[11px] text-black-40 whitespace-nowrap">ICCI Member</span>
               </div>
-              <span className="text-black-60">•</span>
+              <span className="hidden text-black-60 sm:inline">•</span>
               {/* PEC */}
               <div className="flex items-center gap-1.5">
                 <div className="relative w-10 h-14 shrink-0">

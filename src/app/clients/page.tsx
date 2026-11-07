@@ -3,12 +3,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { ClientLogoGrid } from "@/components/sections/ClientLogoGrid";
-import { ClientEditorialNote } from "@/components/sections/ClientEditorialNote";
+import {
+  ClientLogoGrid,
+  ClientLogoMarquee,
+} from "@/components/sections/ClientLogoGrid";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { Badge } from "@/components/ui/Badge";
 import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
-import { ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Our Clients & Partners | T & T Brothers (TTB)",
@@ -24,13 +26,10 @@ export default function ClientsPage() {
         <ManagedPageHeader page="clients" />
       </section>
 
-      {/* 2. Source Verification Banner */}
-      <section className="bg-brand-purple/10 border-b border-brand-purple/20 py-4 animate-fade-in">
+      {/* 2. Scrolling Client Logos */}
+      <section className="py-8 sm:py-10 bg-white dark:bg-black border-b border-black-20 dark:border-black-70">
         <Container>
-          <div className="flex items-start sm:items-center gap-3 text-xs text-black dark:text-black-20">
-            <ShieldCheck className="w-4 h-4 text-brand-purple shrink-0 mt-0.5 sm:mt-0 animate-pulse" />
-            <p><ClientEditorialNote /></p>
-          </div>
+          <ClientLogoMarquee />
         </Container>
       </section>
 

@@ -219,4 +219,5 @@ body {
   .image-zoom-box:hover .zoom-target {
     transform: none !important;
   }
+
 }

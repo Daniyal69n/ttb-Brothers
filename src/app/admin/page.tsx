@@ -84,6 +84,8 @@ export default function AdminPage() {
     deleteClient,
     updateCompany,
     updateHero,
+    updateHsseStatistics,
+    updateCompanyFactSheet,
     updateAboutUs,
     addService,
     updateService,
@@ -427,15 +429,15 @@ export default function AdminPage() {
     <div className="min-h-screen bg-[#0c0c0e] text-neutral-100 flex flex-col">
       {/* Toast Notification */}
       {visibleToast && (
-        <div className="fixed bottom-6 right-6 z-50 bg-brand-purple text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-sm font-medium animate-fade-in border border-white/20">
+        <div className="fixed bottom-3 left-3 right-3 sm:bottom-6 sm:left-auto sm:right-6 z-50 bg-brand-purple text-white px-5 py-3 rounded-xl shadow-2xl flex items-center justify-center gap-2.5 text-center text-sm font-medium animate-fade-in border border-white/20 sm:max-w-md">
           <Check className="w-4 h-4 text-white shrink-0" />
-          <span>{visibleToast}</span>
+          <span className="min-w-0">{visibleToast}</span>
         </div>
       )}
 
       {/* Admin Top Header */}
-      <header className="sticky top-0 z-40 bg-black/95 backdrop-blur-xl border-b border-neutral-800 px-4 sm:px-8 py-3.5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <header className="sticky top-0 z-40 bg-black/95 backdrop-blur-xl border-b border-neutral-800 px-3 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           <div className="relative h-9 w-14 shrink-0">
             <Image
               src="/images/company/ttb-logo.png"
@@ -445,24 +447,24 @@ export default function AdminPage() {
               sizes="60px"
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-white text-base">TTB Corporate CMS</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-purple/20 text-brand-purple border border-brand-purple/30">
+              <span className="whitespace-nowrap font-bold text-white text-sm sm:text-base">TTB Corporate CMS</span>
+              <span className="hidden sm:inline-flex text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-purple/20 text-brand-purple border border-brand-purple/30">
                 Live Admin
               </span>
             </div>
-            <p className="text-[11px] text-neutral-400">
+            <p className="hidden sm:block text-[11px] text-neutral-400">
               Universal Page Editor &amp; Data Synchronizer
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-3">
           <Link
             href="/"
             target="_blank"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-xs text-neutral-200 transition-colors"
+            className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-xs text-neutral-200 transition-colors"
           >
             <Eye className="w-3.5 h-3.5 text-brand-purple" />
             <span className="hidden sm:inline">View Public Site</span>
@@ -472,7 +474,7 @@ export default function AdminPage() {
           <button
             type="button"
             onClick={exportJson}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-xs text-neutral-200 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-xs text-neutral-200 transition-colors cursor-pointer"
             title="Download full content JSON backup"
           >
             <Download className="w-3.5 h-3.5 text-emerald-400" />
@@ -482,7 +484,7 @@ export default function AdminPage() {
           <button
             type="button"
             onClick={handleLogout}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 text-xs text-red-200 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 text-xs text-red-200 transition-colors cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Logout</span>
@@ -491,10 +493,10 @@ export default function AdminPage() {
       </header>
 
       {/* Main Admin Workspace */}
-      <div className="flex-1 flex flex-col md:flex-row">
+      <div className="flex-1 flex flex-col lg:flex-row">
         {/* Sidebar Navigation */}
-        <aside className="w-full md:w-64 bg-black/50 border-r border-neutral-800/80 p-3 sm:p-4 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-y-auto shrink-0">
-          <div className="hidden md:block text-[11px] font-mono uppercase tracking-wider text-neutral-500 px-3 py-2">
+        <aside className="w-full lg:w-64 bg-black/50 border-b lg:border-b-0 lg:border-r border-neutral-800/80 p-3 sm:p-4 grid grid-cols-2 sm:grid-cols-3 lg:flex lg:flex-col gap-1 overflow-y-visible lg:overflow-y-auto lg:shrink-0">
+          <div className="hidden lg:block text-[11px] font-mono uppercase tracking-wider text-neutral-500 px-3 py-2">
             Page Editors
           </div>
 
@@ -519,19 +521,19 @@ export default function AdminPage() {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id as AdminTab)}
-                className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap text-left ${
+                className={`flex min-w-0 items-center justify-between gap-2 px-2 sm:px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all cursor-pointer text-left lg:whitespace-nowrap ${
                   active
                     ? "bg-brand-purple text-white font-semibold shadow-md shadow-brand-purple/20"
                     : "text-neutral-400 hover:text-white hover:bg-neutral-900"
                 }`}
               >
-                <div className="flex items-center gap-2.5">
+                <div className="flex min-w-0 items-center gap-2 sm:gap-2.5">
                   <Icon className="w-4 h-4 shrink-0" />
-                  <span>{tab.label}</span>
+                  <span className="min-w-0 leading-tight">{tab.label}</span>
                 </div>
                 {tab.count !== null && (
                   <span
-                    className={`text-[10px] font-mono px-1.5 py-0.5 rounded-md ${
+                    className={`hidden sm:inline-flex text-[10px] font-mono px-1.5 py-0.5 rounded-md ${
                       active ? "bg-white/20 text-white" : "bg-neutral-800 text-neutral-400"
                     }`}
                   >
@@ -544,7 +546,7 @@ export default function AdminPage() {
         </aside>
 
         {/* Tab Content Canvas */}
-        <main className="flex-1 p-4 sm:p-8 overflow-y-auto max-w-6xl mx-auto w-full">
+        <main className="min-w-0 flex-1 p-4 sm:p-8 overflow-y-auto max-w-6xl mx-auto w-full">
           {/* ========================================================= */}
           {/* TAB 1: OVERVIEW / DASHBOARD */}
           {/* ========================================================= */}
@@ -1268,6 +1270,291 @@ export default function AdminPage() {
                 >
                   <Save className="w-4 h-4" />
                   <span>Save Homepage Hero</span>
+                </button>
+              </form>
+
+              <form
+                key={
+                  isHydrated
+                    ? content.lastUpdated ?? "content-ready"
+                    : "content-loading"
+                }
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const form = e.currentTarget;
+                  updateHsseStatistics({
+                    exposureHours: (
+                      form.elements.namedItem("exposureHours") as HTMLInputElement
+                    ).valueAsNumber,
+                    nmPi: (
+                      form.elements.namedItem("nmPi") as HTMLInputElement
+                    ).valueAsNumber,
+                    training: (
+                      form.elements.namedItem("training") as HTMLInputElement
+                    ).valueAsNumber,
+                    incidents: (
+                      form.elements.namedItem("incidents") as HTMLInputElement
+                    ).valueAsNumber,
+                    recognitionAndReward: (
+                      form.elements.namedItem(
+                        "recognitionAndReward"
+                      ) as HTMLInputElement
+                    ).valueAsNumber,
+                  });
+                  showToast("HSSE statistics updated successfully!");
+                }}
+                className="space-y-5"
+              >
+                <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4">
+                  <div>
+                    <h3 className="text-sm font-bold text-white">
+                      Monthly HSSE Statistics
+                    </h3>
+                    <p className="text-xs text-neutral-400 mt-1">
+                      Update the numbers shown on the homepage. The heading automatically uses the previous month.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    {[
+                      {
+                        name: "exposureHours",
+                        label: "Exposure Hours",
+                        value: content.hsseStatistics.exposureHours,
+                      },
+                      {
+                        name: "nmPi",
+                        label: "NM/PI",
+                        value: content.hsseStatistics.nmPi,
+                      },
+                      {
+                        name: "training",
+                        label: "Training",
+                        value: content.hsseStatistics.training,
+                      },
+                      {
+                        name: "incidents",
+                        label: "Incidents",
+                        value: content.hsseStatistics.incidents,
+                      },
+                      {
+                        name: "recognitionAndReward",
+                        label: "R&R",
+                        value: content.hsseStatistics.recognitionAndReward,
+                      },
+                    ].map((statistic) => (
+                      <div key={statistic.name}>
+                        <label
+                          htmlFor={`hsse-${statistic.name}`}
+                          className="block text-xs text-neutral-300 font-medium mb-1"
+                        >
+                          {statistic.label}
+                        </label>
+                        <input
+                          id={`hsse-${statistic.name}`}
+                          type="number"
+                          name={statistic.name}
+                          min="0"
+                          step="any"
+                          required
+                          defaultValue={statistic.value}
+                          className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-brand-purple hover:bg-brand-purple/90 text-white rounded-xl text-xs font-semibold shadow-md transition-all cursor-pointer"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Save HSSE Statistics</span>
+                </button>
+              </form>
+
+              <form
+                key={
+                  isHydrated
+                    ? content.lastUpdated ?? "content-ready"
+                    : "content-loading"
+                }
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const form = e.currentTarget;
+                  const rows = content.companyFactSheet.rows.map((_, index) => ({
+                    label: (
+                      form.elements.namedItem(
+                        `factSheetLabel-${index}`
+                      ) as HTMLInputElement
+                    ).value,
+                    value: (
+                      form.elements.namedItem(
+                        `factSheetValue-${index}`
+                      ) as HTMLInputElement
+                    ).value,
+                  }));
+
+                  updateCompanyFactSheet({
+                    heading: (
+                      form.elements.namedItem(
+                        "factSheetHeading"
+                      ) as HTMLInputElement
+                    ).value,
+                    badge: (
+                      form.elements.namedItem(
+                        "factSheetBadge"
+                      ) as HTMLInputElement
+                    ).value,
+                    rows,
+                    buttonText: (
+                      form.elements.namedItem(
+                        "factSheetButtonText"
+                      ) as HTMLInputElement
+                    ).value,
+                    buttonLink: (
+                      form.elements.namedItem(
+                        "factSheetButtonLink"
+                      ) as HTMLInputElement
+                    ).value,
+                  });
+                  showToast("Company Fact Sheet updated successfully!");
+                }}
+                className="space-y-5"
+              >
+                <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-5">
+                  <div>
+                    <h3 className="text-sm font-bold text-white">
+                      Homepage Company Fact Sheet
+                    </h3>
+                    <p className="text-xs text-neutral-400 mt-1">
+                      Edit the card title, badge, all table labels and values, and its contact button.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="factSheetHeading"
+                        className="block text-xs text-neutral-300 font-medium mb-1"
+                      >
+                        Table Heading
+                      </label>
+                      <input
+                        id="factSheetHeading"
+                        type="text"
+                        name="factSheetHeading"
+                        required
+                        defaultValue={content.companyFactSheet.heading}
+                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="factSheetBadge"
+                        className="block text-xs text-neutral-300 font-medium mb-1"
+                      >
+                        Badge Text
+                      </label>
+                      <input
+                        id="factSheetBadge"
+                        type="text"
+                        name="factSheetBadge"
+                        required
+                        defaultValue={content.companyFactSheet.badge}
+                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-semibold text-neutral-300">
+                      Fact Sheet Rows
+                    </h4>
+                    {content.companyFactSheet.rows.map((row, index) => (
+                      <div
+                        key={`fact-sheet-row-${index}`}
+                        className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                      >
+                        <div>
+                          <label
+                            htmlFor={`factSheetLabel-${index}`}
+                            className="block text-xs text-neutral-400 mb-1"
+                          >
+                            Row {index + 1} Label
+                          </label>
+                          <input
+                            id={`factSheetLabel-${index}`}
+                            type="text"
+                            name={`factSheetLabel-${index}`}
+                            required
+                            defaultValue={row.label}
+                            className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                          />
+                        </div>
+                        <div>
+                          <label
+                            htmlFor={`factSheetValue-${index}`}
+                            className="block text-xs text-neutral-400 mb-1"
+                          >
+                            Row {index + 1} Value
+                          </label>
+                          <input
+                            id={`factSheetValue-${index}`}
+                            type="text"
+                            name={`factSheetValue-${index}`}
+                            required
+                            defaultValue={row.value}
+                            className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="factSheetButtonText"
+                        className="block text-xs text-neutral-300 font-medium mb-1"
+                      >
+                        Button Text
+                      </label>
+                      <input
+                        id="factSheetButtonText"
+                        type="text"
+                        name="factSheetButtonText"
+                        required
+                        defaultValue={content.companyFactSheet.buttonText}
+                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="factSheetButtonLink"
+                        className="block text-xs text-neutral-300 font-medium mb-1"
+                      >
+                        Button Link
+                      </label>
+                      <input
+                        id="factSheetButtonLink"
+                        type="text"
+                        name="factSheetButtonLink"
+                        required
+                        defaultValue={content.companyFactSheet.buttonLink}
+                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-brand-purple hover:bg-brand-purple/90 text-white rounded-xl text-xs font-semibold shadow-md transition-all cursor-pointer"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Save Company Fact Sheet</span>
                 </button>
               </form>
             </div>
@@ -2877,7 +3164,7 @@ export default function AdminPage() {
               }}
               className="space-y-4"
             >
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div>
                   <label className="block text-xs text-neutral-300 font-medium mb-1">
                     Letter
@@ -2890,7 +3177,7 @@ export default function AdminPage() {
                     required
                   />
                 </div>
-                <div className="col-span-3">
+                <div className="sm:col-span-3">
                   <label className="block text-xs text-neutral-300 font-medium mb-1">
                     Service Title *
                   </label>

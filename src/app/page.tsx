@@ -7,7 +7,12 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { HomeFeaturedServices } from "@/components/sections/HomeFeaturedServices";
 import { HomeFeaturedValues } from "@/components/sections/HomeFeaturedValues";
 import { HomeFeaturedProjects } from "@/components/sections/HomeFeaturedProjects";
-import { ClientLogoGrid } from "@/components/sections/ClientLogoGrid";
+import { CompanyFactSheet } from "@/components/sections/CompanyFactSheet";
+import { HsseStatistics } from "@/components/sections/HsseStatistics";
+import {
+  ClientLogoGrid,
+  ClientLogoMarquee,
+} from "@/components/sections/ClientLogoGrid";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { DynamicText } from "@/components/ui/DynamicText";
@@ -32,7 +37,17 @@ export default function HomePage() {
       {/* 1. Hero Section */}
       <Hero />
 
-      {/* 2. Professional Introduction & History */}
+      {/* 2. Monthly HSSE Statistics */}
+      <HsseStatistics />
+
+      {/* 3. Client Logo Carousel */}
+      <section className="py-8 sm:py-10 bg-white dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
+        <Container>
+          <ClientLogoMarquee />
+        </Container>
+      </section>
+
+      {/* 4. Professional Introduction & History */}
       <section className="py-20 bg-white dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -99,76 +114,12 @@ export default function HomePage() {
               </div>
             </AnimateOnScroll>
 
-            {/* Fact Matrix Card */}
-            <AnimateOnScroll variant="fade-left" delay={150} className="lg:col-span-5 bg-black-20/10 dark:bg-black-70/20 rounded-2xl border border-black-20 dark:border-black-70 p-6 sm:p-8 space-y-6 card-lift hover:shadow-xl hover:border-brand-purple/50 transition-all duration-300">
-              <div className="flex items-center justify-between pb-4 border-b border-black-20 dark:border-black-70">
-                <span className="text-xs font-mono uppercase tracking-wider text-black-50">
-                  Company Fact Sheet
-                </span>
-                <span className="text-xs font-semibold text-brand-purple bg-brand-purple/10 px-2.5 py-0.5 rounded">
-                  Official Record
-                </span>
-              </div>
-
-              <div className="space-y-4 text-sm divide-y divide-black-20/60 dark:divide-black-70/60">
-                <div className="pt-3 first:pt-0 flex justify-between items-center">
-                  <span className="text-black-60 dark:text-black-40">Company Name</span>
-                  <span className="font-semibold text-black dark:text-white text-right">
-                    T &amp; T Brothers (TTB)
-                  </span>
-                </div>
-
-                <div className="pt-3 flex justify-between items-center">
-                  <span className="text-black-60 dark:text-black-40">Established</span>
-                  <span className="font-semibold text-black dark:text-white text-right">
-                    1988 (35+ Yrs)
-                  </span>
-                </div>
-
-                <div className="pt-3 flex justify-between items-center">
-                  <span className="text-black-60 dark:text-black-40">Membership</span>
-                  <span className="font-semibold text-black dark:text-white text-right">
-                    ICCI member
-                  </span>
-                </div>
-
-                <div className="pt-3 flex justify-between items-center">
-                  <span className="text-black-60 dark:text-black-40">Certification</span>
-                  <span className="font-semibold text-black dark:text-white text-right">
-                    ISO 45001:2008
-                  </span>
-                </div>
-
-                <div className="pt-3 flex justify-between items-center">
-                  <span className="text-black-60 dark:text-black-40">Workforce</span>
-                  <span className="font-semibold text-black dark:text-white text-right">
-                    ~60 Qualified Personnel
-                  </span>
-                </div>
-
-                <div className="pt-3 flex justify-between items-center">
-                  <span className="text-black-60 dark:text-black-40">Offices</span>
-                  <span className="font-semibold text-black dark:text-white text-right">
-                    Peshawar &amp; Islamabad
-                  </span>
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <Link
-                  href="/contact-us/"
-                  className="group w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold bg-brand-purple text-white hover:opacity-95 active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-brand-purple/20 hover:-translate-y-0.5"
-                >
-                  Contact Head Office
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
-                </Link>
-              </div>
-            </AnimateOnScroll>
+            <CompanyFactSheet />
           </div>
         </Container>
       </section>
 
-      {/* 3. Core Service Portfolios Preview */}
+      {/* 5. Core Service Portfolios Preview */}
       <section className="py-20 bg-black-20/10 dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
           <AnimateOnScroll variant="fade-up">
@@ -193,7 +144,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* 4. Company Values Preview */}
+      {/* 6. Company Values Preview */}
       <section className="py-20 bg-white dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
           <AnimateOnScroll variant="fade-up">
@@ -218,7 +169,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* 5. Selected Projects Portfolio Preview */}
+      {/* 7. Selected Projects Portfolio Preview */}
       <section className="py-20 bg-black-20/10 dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
           <AnimateOnScroll variant="fade-up">
@@ -243,7 +194,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* 6. Major Clients Highlight */}
+      {/* 8. Major Clients Highlight */}
       <section className="py-20 bg-white dark:bg-black border-b border-black-20 dark:border-black-70 overflow-hidden">
         <Container>
           <AnimateOnScroll variant="fade-up">
@@ -270,7 +221,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* 7. Contact CTA & Inquiry Desk */}
+      {/* 9. Contact CTA & Inquiry Desk */}
       <section className="py-20 bg-black-20/10 dark:bg-black overflow-hidden">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">

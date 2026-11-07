@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useContent } from "@/context/ContentContext";
 import { Building2, CheckCircle2 } from "lucide-react";
@@ -77,6 +77,107 @@ export function ClientLogoGrid() {
             </div>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+export function ClientLogoMarquee() {
+  const { content } = useContent();
+  const corporateClients = content.clients;
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
+  const trackRef = useRef<HTMLDivElement>(null);
+  const groupRef = useRef<HTMLDivElement>(null);
+  const pausedRef = useRef(false);
+
+  const handleImageError = (id: string) => {
+    setFailedImages((prev) => ({ ...prev, [id]: true }));
+  };
+
+  useEffect(() => {
+    const track = trackRef.current;
+    const group = groupRef.current;
+    if (
+      !track ||
+      !group ||
+      group.offsetWidth === 0 ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    let offset = 0;
+    let previousTime = 0;
+    let frame = 0;
+    const speed = 42;
+    const animate = (time: number) => {
+      if (previousTime && !pausedRef.current) {
+        offset = (offset + ((time - previousTime) * speed) / 1000) % group.offsetWidth;
+        track.style.transform = `translate3d(-${offset}px, 0, 0)`;
+      }
+      previousTime = time;
+      frame = window.requestAnimationFrame(animate);
+    };
+
+    frame = window.requestAnimationFrame(animate);
+    return () => window.cancelAnimationFrame(frame);
+  }, [corporateClients.length]);
+
+  const setPaused = (paused: boolean) => {
+    pausedRef.current = paused;
+  };
+
+  return (
+    <div
+      className="w-full overflow-hidden"
+      role="region"
+      aria-label="TTB client and partner logos"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false);
+      }}
+    >
+      <div ref={trackRef} className="flex w-max">
+        {[0, 1].map((setIndex) => (
+          <div
+            key={setIndex}
+            ref={setIndex === 0 ? groupRef : undefined}
+            className="flex shrink-0 items-center"
+            style={{
+              gap: "clamp(2rem, 5vw, 4rem)",
+              paddingRight: "clamp(2rem, 5vw, 4rem)",
+            }}
+            aria-hidden={setIndex === 1}
+          >
+            {corporateClients.map((client) => {
+              return (
+                <div
+                  key={`${setIndex}-${client.id}`}
+                  className="relative flex h-[90px] w-[170px] shrink-0 items-center justify-center sm:h-[110px] sm:w-[220px]"
+                  title={client.name}
+                >
+                  {failedImages[client.id] || !client.logoUrl ? (
+                    <div className="flex items-center justify-center text-center text-sm font-bold text-black-60 dark:text-black-40">
+                      {client.name}
+                    </div>
+                  ) : (
+                    <Image
+                      src={client.logoUrl}
+                      alt={setIndex === 0 ? `${client.name} logo` : ""}
+                      width={220}
+                      height={110}
+                      className="h-full w-full object-contain"
+                      onError={() => handleImageError(client.id)}
+                      sizes="220px"
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ))}
       </div>
     </div>
   );

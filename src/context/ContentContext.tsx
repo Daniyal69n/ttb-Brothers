@@ -35,6 +35,22 @@ export interface HeroContent {
   secondaryCtaLink: string;
 }
 
+export interface HsseStatisticsContent {
+  exposureHours: number;
+  nmPi: number;
+  training: number;
+  incidents: number;
+  recognitionAndReward: number;
+}
+
+export interface CompanyFactSheetContent {
+  heading: string;
+  badge: string;
+  rows: { label: string; value: string }[];
+  buttonText: string;
+  buttonLink: string;
+}
+
 export interface AboutUsContent {
   badge: string;
   title: string;
@@ -70,6 +86,8 @@ export interface PrivacyPolicyContent {
 export interface SiteContent {
   company: CompanyInfo;
   hero: HeroContent;
+  hsseStatistics: HsseStatisticsContent;
+  companyFactSheet: CompanyFactSheetContent;
   aboutUs: AboutUsContent;
   privacyPolicy: PrivacyPolicyContent;
   projectsIntro: typeof projectsIntroduction;
@@ -104,6 +122,27 @@ const defaultContent: SiteContent = {
     primaryCtaLink: "/services/",
     secondaryCtaText: "Corporate Profile",
     secondaryCtaLink: "/about-us/",
+  },
+  hsseStatistics: {
+    exposureHours: 0,
+    nmPi: 0,
+    training: 0,
+    incidents: 0,
+    recognitionAndReward: 0,
+  },
+  companyFactSheet: {
+    heading: "Company Fact Sheet",
+    badge: "Official Record",
+    rows: [
+      { label: "Company Name", value: "T & T Brothers (TTB)" },
+      { label: "Established", value: "1988 (35+ Yrs)" },
+      { label: "Membership", value: "ICCI member" },
+      { label: "Certification", value: "ISO 45001:2008" },
+      { label: "Workforce", value: "~60 Qualified Personnel" },
+      { label: "Offices", value: "Peshawar & Islamabad" },
+    ],
+    buttonText: "Contact Head Office",
+    buttonLink: "/contact-us/",
   },
   aboutUs: {
     badge: "Corporate Identity & Purpose",
@@ -220,6 +259,10 @@ interface ContentContextType {
   // Company & About
   updateCompany: (company: Partial<CompanyInfo>) => void;
   updateHero: (hero: Partial<HeroContent>) => void;
+  updateHsseStatistics: (statistics: Partial<HsseStatisticsContent>) => void;
+  updateCompanyFactSheet: (
+    factSheet: Partial<CompanyFactSheetContent>
+  ) => void;
   updateAboutUs: (aboutUs: Partial<AboutUsContent>) => void;
   updatePrivacyPolicy: (privacyPolicy: Partial<PrivacyPolicyContent>) => void;
 
@@ -259,17 +302,56 @@ interface ContentContextType {
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
+function getNonNegativeNumber(value: unknown, fallback: number): number {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0
+    ? value
+    : fallback;
+}
+
 function mergeContentWithDefaults(parsed: Partial<SiteContent>): SiteContent {
   const savedPrivacyPolicy = parsed.privacyPolicy;
   const savedPrivacySections = Array.isArray(savedPrivacyPolicy?.sections)
     ? savedPrivacyPolicy.sections
     : defaultContent.privacyPolicy.sections;
+  const savedHsseStatistics = parsed.hsseStatistics;
 
   return {
     ...defaultContent,
     ...parsed,
     company: { ...defaultContent.company, ...(parsed.company || {}) },
     hero: { ...defaultContent.hero, ...(parsed.hero || {}) },
+    hsseStatistics: {
+      exposureHours: getNonNegativeNumber(
+        savedHsseStatistics?.exposureHours,
+        defaultContent.hsseStatistics.exposureHours
+      ),
+      nmPi: getNonNegativeNumber(
+        savedHsseStatistics?.nmPi,
+        defaultContent.hsseStatistics.nmPi
+      ),
+      training: getNonNegativeNumber(
+        savedHsseStatistics?.training,
+        defaultContent.hsseStatistics.training
+      ),
+      incidents: getNonNegativeNumber(
+        savedHsseStatistics?.incidents,
+        defaultContent.hsseStatistics.incidents
+      ),
+      recognitionAndReward: getNonNegativeNumber(
+        savedHsseStatistics?.recognitionAndReward,
+        defaultContent.hsseStatistics.recognitionAndReward
+      ),
+    },
+    companyFactSheet: {
+      ...defaultContent.companyFactSheet,
+      ...(parsed.companyFactSheet || {}),
+      rows: Array.isArray(parsed.companyFactSheet?.rows)
+        ? parsed.companyFactSheet.rows.filter(
+            (row): row is { label: string; value: string } =>
+              typeof row?.label === "string" && typeof row?.value === "string"
+          )
+        : defaultContent.companyFactSheet.rows,
+    },
     aboutUs: { ...defaultContent.aboutUs, ...(parsed.aboutUs || {}) },
     privacyPolicy: {
       ...defaultContent.privacyPolicy,
@@ -590,6 +672,30 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const updateHsseStatistics = (
+    partial: Partial<HsseStatisticsContent>
+  ) => {
+    saveContent({
+      ...contentRef.current,
+      hsseStatistics: {
+        ...contentRef.current.hsseStatistics,
+        ...partial,
+      },
+    });
+  };
+
+  const updateCompanyFactSheet = (
+    partial: Partial<CompanyFactSheetContent>
+  ) => {
+    saveContent({
+      ...contentRef.current,
+      companyFactSheet: {
+        ...contentRef.current.companyFactSheet,
+        ...partial,
+      },
+    });
+  };
+
   const updateAboutUs = (partial: Partial<AboutUsContent>) => {
     saveContent({
       ...contentRef.current,
@@ -777,6 +883,8 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         updateClientsIntro,
         updateCompany,
         updateHero,
+        updateHsseStatistics,
+        updateCompanyFactSheet,
         updateAboutUs,
         updatePrivacyPolicy,
         addService,
