@@ -30,8 +30,9 @@ Open `http://localhost:3000`. To use the admin or load shared content, configure
    - `SUPABASE_SERVICE_ROLE_KEY`: the service-role key from Supabase API settings. Keep it secret; never use a `NEXT_PUBLIC_` prefix.
    - `ADMIN_PASSWORD`: a long, unique admin password.
    - `ADMIN_SESSION_SECRET`: a random secret of at least 32 characters. Generate one with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
+   - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, and `SMTP_PASSWORD`: the cPanel mailbox SMTP settings for the contact form. Use the mailbox password, not the hosting account password.
 4. Restart the dev server and sign in at `/admin/`. Edits are saved centrally; images are uploaded to Supabase Storage. If publishing fails, the admin reports an error instead of treating local changes as published.
-5. Add those same four variables to the hosting provider's server environment.
+5. Add the same server variables to the hosting provider's private environment. Never expose SMTP credentials with a `NEXT_PUBLIC_` prefix.
 
 The first admin edit publishes the bundled default content if the database is empty. Edits saved by the previous browser-only version are not automatically transferred. Export them from that version before replacing it, then use **Backup & Sync → Import Content Backup**.
 
@@ -39,7 +40,7 @@ The Supabase service-role key and admin credentials must only exist in server en
 
 ## Contact Form
 
-The contact form can use an external form service configured through the admin page or open the visitor's default email client as a fallback.
+The contact form sends inquiries from the server through the `info@ttb.org.pk` cPanel mailbox using SMTP. For Hostinger email, use `smtp.hostinger.com` on port `465`, the full mailbox address as `SMTP_USER`, and that mailbox's password as `SMTP_PASSWORD`. Set these in `.env.local` for local development and in the hosting provider's private server environment for deployment. Never put SMTP credentials in client-side variables or send them in chat. Restart the dev server after changing `.env.local`.
 
 ## Deployment
 

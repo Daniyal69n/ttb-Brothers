@@ -972,8 +972,6 @@ export default function AdminPage() {
                   const officeHoursNotice = (form.elements.namedItem("officeHoursNotice") as HTMLInputElement).value;
                   const peshawarStreet = (form.elements.namedItem("peshawarStreet") as HTMLInputElement).value;
                   const islamabadStreet = (form.elements.namedItem("islamabadStreet") as HTMLInputElement).value;
-                  const formEndpoint = (form.elements.namedItem("formEndpoint") as HTMLInputElement).value;
-
                   updateCompany({
                     phoneMobile: "",
                     phone: "",
@@ -997,8 +995,6 @@ export default function AdminPage() {
 
                   updateContactIntro({ officeHoursNotice });
                   updateContactConfig({
-                    formEndpoint,
-                    formServiceConfigured: Boolean(formEndpoint),
                     notificationEmail: emailGeneral,
                     directorEmail: emailGeneral,
                     supportPhone: "",
@@ -1079,11 +1075,11 @@ export default function AdminPage() {
                   </div>
                 </div>
 
-                {/* 3. Office Hours & Form Endpoint */}
+                {/* 3. Office Hours & Email Delivery */}
                 <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4">
                   <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <Clock className="w-4 h-4 text-brand-purple" />
-                    Office Hours &amp; Form Settings
+                    Office Hours &amp; Email Delivery
                   </h3>
 
                   <div className="space-y-4">
@@ -1099,18 +1095,9 @@ export default function AdminPage() {
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-xs text-neutral-300 font-medium mb-1">
-                        Online Form Endpoint URL (e.g. Formspree / Webhook / Mailto)
-                      </label>
-                      <input
-                        type="text"
-                        name="formEndpoint"
-                        placeholder="https://formspree.io/f/YOUR_ENDPOINT (Leave blank for mailto fallback)"
-                        defaultValue={content.contactConfig.formEndpoint}
-                        className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
-                      />
-                    </div>
+                    <p className="text-xs text-neutral-400">
+                      Website inquiries are emailed to info@ttb.org.pk through the configured cPanel mailbox.
+                    </p>
                   </div>
                 </div>
 

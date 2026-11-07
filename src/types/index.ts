@@ -113,8 +113,6 @@ export interface JobOpening {
 }
 
 export interface ContactConfig {
-  formEndpoint: string;
-  formServiceConfigured: boolean;
   notificationEmail: string;
   directorEmail: string;
   supportPhone: string;

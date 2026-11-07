@@ -1,10 +1,6 @@
 import { ContactConfig } from "@/types";
 
 export const contactConfig: ContactConfig = {
-  // Configured via environment variable or static endpoint (e.g. "https://formspree.io/f/YOUR_ID")
-  // If left empty (""), the Contact Form gracefully generates a direct mailto action to info@ttb.org.pk with pre-filled fields.
-  formEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT || "",
-  formServiceConfigured: Boolean(process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT),
   notificationEmail: "info@ttb.org.pk",
   directorEmail: "info@ttb.org.pk",
   supportPhone: "",
