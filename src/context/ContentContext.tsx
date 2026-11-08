@@ -107,6 +107,7 @@ export interface SiteContent {
   contactIntro: typeof contactPageContent;
   teamIntro: typeof teamIntroduction;
   team: TeamMember[];
+  galleryImages: string[];
   lastUpdated?: string;
 }
 
@@ -232,6 +233,14 @@ const defaultContent: SiteContent = {
   contactIntro: contactPageContent,
   teamIntro: teamIntroduction,
   team: coreTeamMembers,
+  galleryImages: [
+    "/images/projects/total-wash-project.jpg",
+    "/images/projects/total-wash-bay-detail.jpg",
+    "/images/projects/total-quartz-retail-interior.jpg",
+    "/images/projects/sana-filling-station-shop.jpg",
+    "/images/projects/total-service-center-shop.jpg",
+    "/images/projects/fuel-dispensers-canopy-strip.jpg",
+  ],
 };
 
 interface ContentContextType {
@@ -298,6 +307,10 @@ interface ContentContextType {
   updateTeamMember: (id: string, member: Partial<TeamMember>) => void;
   deleteTeamMember: (id: string) => void;
   updateTeamIntro: (intro: Partial<typeof teamIntroduction>) => void;
+
+  // Gallery
+  addGalleryImage: (imageUrl: string) => void;
+  deleteGalleryImage: (index: number) => void;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -399,6 +412,11 @@ function mergeContentWithDefaults(parsed: Partial<SiteContent>): SiteContent {
     contactIntro: { ...defaultContent.contactIntro, ...(parsed.contactIntro || {}) },
     teamIntro: { ...defaultContent.teamIntro, ...(parsed.teamIntro || {}) },
     team: Array.isArray(parsed.team) ? parsed.team : defaultContent.team,
+    galleryImages: Array.isArray(parsed.galleryImages)
+      ? parsed.galleryImages.filter(
+          (imageUrl): imageUrl is string => typeof imageUrl === "string"
+        )
+      : defaultContent.galleryImages,
   };
 }
 
@@ -862,6 +880,22 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const addGalleryImage = (imageUrl: string) => {
+    saveContent({
+      ...contentRef.current,
+      galleryImages: [...contentRef.current.galleryImages, imageUrl],
+    });
+  };
+
+  const deleteGalleryImage = (index: number) => {
+    saveContent({
+      ...contentRef.current,
+      galleryImages: contentRef.current.galleryImages.filter(
+        (_, imageIndex) => imageIndex !== index
+      ),
+    });
+  };
+
   return (
     <ContentContext.Provider
       value={{
@@ -905,6 +939,8 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         updateTeamMember,
         deleteTeamMember,
         updateTeamIntro,
+        addGalleryImage,
+        deleteGalleryImage,
       }}
     >
       {children}

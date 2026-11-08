@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { GalleryCarousel } from "@/components/sections/GalleryCarousel";
 import { ContentProvider } from "@/context/ContentContext";
 import { siteConfig } from "@/content/company";
 
@@ -60,6 +61,7 @@ export default function RootLayout({
         <ContentProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
+          <GalleryCarousel />
           <Footer />
         </ContentProvider>
       </body>

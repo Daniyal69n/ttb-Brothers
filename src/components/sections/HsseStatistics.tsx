@@ -76,11 +76,17 @@ function AnimatedNumber({ value }: { value: number }) {
 export function HsseStatistics() {
   const { content } = useContent();
   const today = new Date();
+  const previousMonthDate = new Date(
+    today.getFullYear(),
+    today.getMonth() - 1,
+    1
+  );
   const previousMonth = new Intl.DateTimeFormat("en-US", {
     month: "short",
   })
-    .format(new Date(today.getFullYear(), today.getMonth() - 1, 1))
+    .format(previousMonthDate)
     .toUpperCase();
+  const previousYear = previousMonthDate.getFullYear();
 
   const statistics = [
     { label: "Exposure Hours", value: content.hsseStatistics.exposureHours },
@@ -98,8 +104,11 @@ export function HsseStatistics() {
       <Container>
         <div className="text-center mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-            <span className="text-brand-purple">{previousMonth}</span> HSSE Statistic
+            HSSE Statistic
           </h2>
+          <p className="mt-3 text-base sm:text-lg font-semibold tracking-wide text-brand-purple">
+            {previousMonth}, {previousYear}
+          </p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
