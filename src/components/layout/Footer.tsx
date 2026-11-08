@@ -37,7 +37,7 @@ export function Footer() {
                   src="/images/company/ttb-logo.png"
                   alt="T&T Brothers (TTB) Logo"
                   fill
-                  className="object-contain group-hover:scale-105 transition-transform duration-200"
+                  className="object-contain brightness-[2.4] group-hover:scale-105 transition-transform duration-200"
                   sizes="88px"
                 />
               </div>
