@@ -104,6 +104,8 @@ export default function AdminPage() {
     deleteTeamMember,
     addGalleryImage,
     deleteGalleryImage,
+    addValuesGalleryImage,
+    deleteValuesGalleryImage,
   } = useContent();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -1266,10 +1268,10 @@ export default function AdminPage() {
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <h3 className="text-base font-bold text-white">
-                      Photo Carousel Before Footer
+                      Homepage Photo Carousel
                     </h3>
                     <p className="mt-1 text-xs text-neutral-400">
-                      Add photos to the site-wide carousel. Images are resized for the frame and rotate automatically.
+                      Manage the separate photo carousel shown before the footer on the homepage.
                     </p>
                   </div>
                   <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-brand-purple px-4 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-brand-purple/90">
@@ -1332,7 +1334,7 @@ export default function AdminPage() {
                   </div>
                 ) : (
                   <p className="rounded-xl border border-dashed border-neutral-700 px-4 py-8 text-center text-xs text-neutral-400">
-                    No carousel photos yet. Upload one or more images to show the carousel before the footer.
+                    No homepage carousel photos yet. Upload images to show the carousel before the footer.
                   </p>
                 )}
               </section>
@@ -1889,6 +1891,7 @@ export default function AdminPage() {
                   </div>
                 ))}
               </div>
+
             </div>
           )}
 
@@ -1969,6 +1972,81 @@ export default function AdminPage() {
                   </div>
                 ))}
               </div>
+
+              <section className="space-y-5 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <h3 className="text-base font-bold text-white">
+                      Our Values Photo Carousel
+                    </h3>
+                    <p className="mt-1 text-xs text-neutral-400">
+                      Manage images shown before the footer on the Our Values page. These are separate from the homepage carousel.
+                    </p>
+                  </div>
+                  <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-brand-purple px-4 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-brand-purple/90">
+                    <Upload className="h-4 w-4" />
+                    <span>Upload Photos</span>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      multiple
+                      className="hidden"
+                      onChange={(event) => {
+                        const files = Array.from(event.target.files ?? []);
+                        event.target.value = "";
+                        files.forEach((file) => {
+                          handleImageFile(file, (dataUrl) => {
+                            void uploadImage(dataUrl, addValuesGalleryImage);
+                          });
+                        });
+                      }}
+                    />
+                  </label>
+                </div>
+
+                {content.valuesGalleryImages.length > 0 ? (
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {content.valuesGalleryImages.map((imageUrl, index) => (
+                      <div
+                        key={`${imageUrl}-${index}`}
+                        className="overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950"
+                      >
+                        <div className="relative aspect-video bg-neutral-900">
+                          <Image
+                            src={imageUrl}
+                            alt={`Our Values gallery image ${index + 1}`}
+                            fill
+                            unoptimized
+                            className="object-contain"
+                          />
+                        </div>
+                        <div className="flex items-center justify-between gap-3 p-3">
+                          <span className="text-xs text-neutral-400">
+                            Image {index + 1}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (confirm("Remove this photo from the Our Values carousel?")) {
+                                deleteValuesGalleryImage(index);
+                                showToast("Our Values carousel photo removed.");
+                              }
+                            }}
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-red-900/60 px-2.5 py-1.5 text-xs text-red-300 transition-colors hover:bg-red-950/50"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="rounded-xl border border-dashed border-neutral-700 px-4 py-8 text-center text-xs text-neutral-400">
+                    No Our Values carousel photos yet. Upload one or more images to display the carousel on the Our Values page.
+                  </p>
+                )}
+              </section>
             </div>
           )}
 

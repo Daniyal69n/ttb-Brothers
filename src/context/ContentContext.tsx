@@ -108,6 +108,7 @@ export interface SiteContent {
   teamIntro: typeof teamIntroduction;
   team: TeamMember[];
   galleryImages: string[];
+  valuesGalleryImages: string[];
   lastUpdated?: string;
 }
 
@@ -241,6 +242,14 @@ const defaultContent: SiteContent = {
     "/images/projects/total-service-center-shop.jpg",
     "/images/projects/fuel-dispensers-canopy-strip.jpg",
   ],
+  valuesGalleryImages: [
+    "/images/values/staff-recognition.jpg",
+    "/images/values/16.jpeg",
+    "/images/values/18.jpeg",
+    "/images/values/22.jpeg",
+    "/images/values/33 (5).jpeg",
+    "/images/values/33 (10).jpeg",
+  ],
 };
 
 interface ContentContextType {
@@ -311,6 +320,8 @@ interface ContentContextType {
   // Gallery
   addGalleryImage: (imageUrl: string) => void;
   deleteGalleryImage: (index: number) => void;
+  addValuesGalleryImage: (imageUrl: string) => void;
+  deleteValuesGalleryImage: (index: number) => void;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -417,6 +428,11 @@ function mergeContentWithDefaults(parsed: Partial<SiteContent>): SiteContent {
           (imageUrl): imageUrl is string => typeof imageUrl === "string"
         )
       : defaultContent.galleryImages,
+    valuesGalleryImages: Array.isArray(parsed.valuesGalleryImages)
+      ? parsed.valuesGalleryImages.filter(
+          (imageUrl): imageUrl is string => typeof imageUrl === "string"
+        )
+      : defaultContent.valuesGalleryImages,
   };
 }
 
@@ -896,6 +912,22 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const addValuesGalleryImage = (imageUrl: string) => {
+    saveContent({
+      ...contentRef.current,
+      valuesGalleryImages: [...contentRef.current.valuesGalleryImages, imageUrl],
+    });
+  };
+
+  const deleteValuesGalleryImage = (index: number) => {
+    saveContent({
+      ...contentRef.current,
+      valuesGalleryImages: contentRef.current.valuesGalleryImages.filter(
+        (_, imageIndex) => imageIndex !== index
+      ),
+    });
+  };
+
   return (
     <ContentContext.Provider
       value={{
@@ -941,6 +973,8 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         updateTeamIntro,
         addGalleryImage,
         deleteGalleryImage,
+        addValuesGalleryImage,
+        deleteValuesGalleryImage,
       }}
     >
       {children}

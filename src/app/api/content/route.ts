@@ -19,6 +19,9 @@ function isSiteContent(value: unknown): value is Record<string, unknown> {
     Array.isArray(content.services) &&
     Array.isArray(content.values) &&
     Array.isArray(content.team) &&
+    (content.valuesGalleryImages === undefined ||
+      (Array.isArray(content.valuesGalleryImages) &&
+        content.valuesGalleryImages.every((imageUrl) => typeof imageUrl === "string"))) &&
     typeof content.careers === "object" &&
     content.careers !== null
   );

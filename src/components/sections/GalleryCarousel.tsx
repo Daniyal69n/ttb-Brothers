@@ -9,10 +9,13 @@ import { Container } from "@/components/ui/Container";
 
 const AUTOPLAY_INTERVAL = 5000;
 
-export function GalleryCarousel() {
-  const pathname = usePathname();
-  const { content } = useContent();
-  const images = content.galleryImages;
+interface PhotoCarouselProps {
+  images: string[];
+  ariaLabel: string;
+  title: string;
+}
+
+function PhotoCarousel({ images, ariaLabel, title }: PhotoCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -26,7 +29,7 @@ export function GalleryCarousel() {
     return () => window.clearInterval(intervalId);
   }, [images.length]);
 
-  if (pathname !== "/" || images.length === 0) return null;
+  if (images.length === 0) return null;
 
   const visibleIndex = activeIndex % images.length;
   const activeImage = images[visibleIndex];
@@ -36,7 +39,7 @@ export function GalleryCarousel() {
 
   return (
     <section
-      aria-label="Company photo gallery"
+      aria-label={ariaLabel}
       className="border-t border-black-20 bg-white py-12 dark:border-black-70 dark:bg-black sm:py-16"
     >
       <Container>
@@ -46,7 +49,7 @@ export function GalleryCarousel() {
               T &amp; T Brothers
             </p>
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-black dark:text-white sm:text-3xl">
-              Our Work in Pictures
+              {title}
             </h2>
           </div>
 
@@ -54,7 +57,7 @@ export function GalleryCarousel() {
             <Image
               key={activeImage}
               src={activeImage}
-              alt={`T & T Brothers company gallery image ${visibleIndex + 1}`}
+              alt={`T & T Brothers image ${visibleIndex + 1} from ${title}`}
               fill
               sizes="(max-width: 1280px) 100vw, 1152px"
               unoptimized
@@ -104,5 +107,34 @@ export function GalleryCarousel() {
         </div>
       </Container>
     </section>
+  );
+}
+
+export function GalleryCarousel() {
+  const pathname = usePathname();
+  const { content } = useContent();
+
+  if (pathname !== "/" || content.galleryImages.length === 0) return null;
+
+  return (
+    <PhotoCarousel
+      images={content.galleryImages}
+      ariaLabel="Company photo gallery"
+      title="Our Work in Pictures"
+    />
+  );
+}
+
+export function ValuesGalleryCarousel() {
+  const { content } = useContent();
+
+  if (content.valuesGalleryImages.length === 0) return null;
+
+  return (
+    <PhotoCarousel
+      images={content.valuesGalleryImages}
+      ariaLabel="Our values photo gallery"
+      title="Our Values in Action"
+    />
   );
 }

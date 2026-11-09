@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ValuesGrid } from "@/components/sections/ValuesGrid";
+import { ValuesGalleryCarousel } from "@/components/sections/GalleryCarousel";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
 import { ArrowRight, HardHat, Award, Users, Camera } from "lucide-react";
@@ -130,6 +131,8 @@ export default function OurValuesPage() {
           </AnimateOnScroll>
         </Container>
       </section>
+
+      <ValuesGalleryCarousel />
     </div>
   );
 }
