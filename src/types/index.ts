@@ -112,6 +112,16 @@ export interface JobOpening {
   description: string;
 }
 
+export interface NewsItem {
+  id: string;
+  title: string;
+  category: string;
+  summary: string;
+  imagePath: string;
+  publishedAt: string;
+  createdAt?: string;
+}
+
 export interface ContactConfig {
   notificationEmail: string;
   directorEmail: string;

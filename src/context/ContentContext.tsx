@@ -10,6 +10,7 @@ import {
   JobOpening,
   ContactConfig,
   TeamMember,
+  NewsItem,
 } from "@/types";
 
 import { companyData, directorMessage } from "@/content/company";
@@ -103,6 +104,18 @@ export interface SiteContent {
     jobs: JobOpening[];
     culture: { title: string; description: string }[];
   };
+  newsIntro: {
+    title: string;
+    description: string;
+  };
+  newsHero: {
+    title: string;
+    description: string;
+    images: string[];
+    imagePath?: string;
+  };
+  news: NewsItem[];
+  newsCarouselIds: string[];
   contactConfig: ContactConfig;
   contactIntro: typeof contactPageContent;
   teamIntro: typeof teamIntroduction;
@@ -230,6 +243,19 @@ const defaultContent: SiteContent = {
     jobs: currentOpenings,
     culture: culturePrinciples,
   },
+  newsIntro: {
+    title: "News",
+    description:
+      "Stay up to date with the latest news, events, and stories from T & T Brothers.",
+  },
+  newsHero: {
+    title: "News & Stories",
+    description:
+      "The latest updates, events, and stories from T & T Brothers.",
+    images: [],
+  },
+  news: [],
+  newsCarouselIds: [],
   contactConfig: contactConfig,
   contactIntro: contactPageContent,
   teamIntro: teamIntroduction,
@@ -306,6 +332,14 @@ interface ContentContextType {
   updateJob: (id: string, job: Partial<JobOpening>) => void;
   deleteJob: (id: string) => void;
   updateCareersIntro: (intro: Partial<typeof careersIntroduction>) => void;
+
+  // News
+  addNewsItem: (newsItem: NewsItem) => void;
+  updateNewsItem: (id: string, newsItem: Partial<NewsItem>) => void;
+  deleteNewsItem: (id: string) => void;
+  updateNewsIntro: (intro: Partial<SiteContent["newsIntro"]>) => void;
+  updateNewsHero: (hero: Partial<SiteContent["newsHero"]>) => void;
+  updateNewsCarousel: (newsIds: string[]) => void;
 
   // Contact
   updateContactConfig: (config: Partial<ContactConfig>) => void;
@@ -419,6 +453,26 @@ function mergeContentWithDefaults(parsed: Partial<SiteContent>): SiteContent {
         ? parsed.careers.culture
         : defaultContent.careers.culture,
     },
+    newsIntro: {
+      ...defaultContent.newsIntro,
+      ...(parsed.newsIntro || {}),
+    },
+    newsHero: {
+      ...defaultContent.newsHero,
+      ...(parsed.newsHero || {}),
+      images: Array.isArray(parsed.newsHero?.images)
+        ? parsed.newsHero.images.filter(
+            (imagePath): imagePath is string => typeof imagePath === "string"
+          )
+        : typeof parsed.newsHero?.imagePath === "string" &&
+            parsed.newsHero.imagePath.length > 0
+          ? [parsed.newsHero.imagePath]
+          : defaultContent.newsHero.images,
+    },
+    news: Array.isArray(parsed.news) ? parsed.news : defaultContent.news,
+    newsCarouselIds: Array.isArray(parsed.newsCarouselIds)
+      ? parsed.newsCarouselIds.filter((id): id is string => typeof id === "string")
+      : defaultContent.newsCarouselIds,
     contactConfig: { ...defaultContent.contactConfig, ...(parsed.contactConfig || {}) },
     contactIntro: { ...defaultContent.contactIntro, ...(parsed.contactIntro || {}) },
     teamIntro: { ...defaultContent.teamIntro, ...(parsed.teamIntro || {}) },
@@ -450,7 +504,13 @@ function isSiteContent(value: unknown): value is SiteContent {
     Array.isArray(parsed.values) &&
     Array.isArray(parsed.team) &&
     typeof parsed.careers === "object" &&
-    parsed.careers !== null
+    parsed.careers !== null &&
+    (parsed.news === undefined || Array.isArray(parsed.news)) &&
+    (parsed.newsIntro === undefined ||
+      (typeof parsed.newsIntro === "object" && parsed.newsIntro !== null)) &&
+    (parsed.newsHero === undefined ||
+      (typeof parsed.newsHero === "object" && parsed.newsHero !== null)) &&
+    (parsed.newsCarouselIds === undefined || Array.isArray(parsed.newsCarouselIds))
   );
 }
 
@@ -851,6 +911,56 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  // News
+  const addNewsItem = (newsItem: NewsItem) => {
+    saveContent({
+      ...contentRef.current,
+      news: [newsItem, ...contentRef.current.news],
+    });
+  };
+
+  const updateNewsItem = (id: string, partial: Partial<NewsItem>) => {
+    saveContent({
+      ...contentRef.current,
+      news: contentRef.current.news.map((item) =>
+        item.id === id ? { ...item, ...partial } : item
+      ),
+    });
+  };
+
+  const deleteNewsItem = (id: string) => {
+    saveContent({
+      ...contentRef.current,
+      news: contentRef.current.news.filter((item) => item.id !== id),
+      newsCarouselIds: contentRef.current.newsCarouselIds.filter(
+        (newsId) => newsId !== id
+      ),
+    });
+  };
+
+  const updateNewsIntro = (intro: Partial<SiteContent["newsIntro"]>) => {
+    saveContent({
+      ...contentRef.current,
+      newsIntro: { ...contentRef.current.newsIntro, ...intro },
+    });
+  };
+
+  const updateNewsHero = (hero: Partial<SiteContent["newsHero"]>) => {
+    saveContent({
+      ...contentRef.current,
+      newsHero: { ...contentRef.current.newsHero, ...hero },
+    });
+  };
+
+  const updateNewsCarousel = (newsIds: string[]) => {
+    saveContent({
+      ...contentRef.current,
+      newsCarouselIds: newsIds.filter((id) =>
+        contentRef.current.news.some((item) => item.id === id)
+      ),
+    });
+  };
+
   // Contact
   const updateContactConfig = (config: Partial<ContactConfig>) => {
     saveContent({
@@ -965,6 +1075,12 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         updateJob,
         deleteJob,
         updateCareersIntro,
+        addNewsItem,
+        updateNewsItem,
+        deleteNewsItem,
+        updateNewsIntro,
+        updateNewsHero,
+        updateNewsCarousel,
         updateContactConfig,
         updateContactIntro,
         addTeamMember,

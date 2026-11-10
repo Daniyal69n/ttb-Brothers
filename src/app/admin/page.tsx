@@ -4,7 +4,15 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useContent } from "@/context/ContentContext";
-import { ProjectItem, ClientItem, ValueItem, ServiceCategory, JobOpening, TeamMember } from "@/types";
+import {
+  ProjectItem,
+  ClientItem,
+  ValueItem,
+  ServiceCategory,
+  JobOpening,
+  TeamMember,
+  NewsItem,
+} from "@/types";
 import {
   Unlock,
   Plus,
@@ -37,6 +45,7 @@ import {
   Camera,
   Users,
   User,
+  Newspaper,
 } from "lucide-react";
 
 type AdminTab =
@@ -49,6 +58,7 @@ type AdminTab =
   | "services"
   | "values"
   | "careers"
+  | "news"
   | "team"
   | "privacy"
   | "backup";
@@ -96,6 +106,12 @@ export default function AdminPage() {
     addJob,
     updateJob,
     deleteJob,
+    addNewsItem,
+    updateNewsItem,
+    deleteNewsItem,
+    updateNewsIntro,
+    updateNewsHero,
+    updateNewsCarousel,
     updateContactConfig,
     updateContactIntro,
     updatePrivacyPolicy,
@@ -137,6 +153,13 @@ export default function AdminPage() {
   const [editingJob, setEditingJob] = useState<JobOpening | null>(null);
   const [isAddingJob, setIsAddingJob] = useState(false);
 
+  const [editingNews, setEditingNews] = useState<NewsItem | null>(null);
+  const [isAddingNews, setIsAddingNews] = useState(false);
+  const [newsImagePreview, setNewsImagePreview] = useState("");
+  const [newsHeroImagesDraft, setNewsHeroImagesDraft] = useState<string[] | null>(null);
+  const [newsHeroImageUrl, setNewsHeroImageUrl] = useState("");
+  const [newsHeroUploadsInProgress, setNewsHeroUploadsInProgress] = useState(0);
+
   const [editingTeamMember, setEditingTeamMember] = useState<TeamMember | null>(null);
   const [isAddingTeamMember, setIsAddingTeamMember] = useState(false);
   const [teamImagePreview, setTeamImagePreview] = useState<string>("");
@@ -152,17 +175,20 @@ export default function AdminPage() {
   // Helper to read and compress image from user device
   const handleImageFile = (
     file: File,
-    onSuccess: (dataUrl: string) => void
+    onSuccess: (dataUrl: string) => void,
+    onError?: () => void
   ) => {
     if (!file) return;
     if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
       alert("Please select a JPEG, PNG, or WebP image.");
+      onError?.();
       return;
     }
 
     const reader = new FileReader();
     reader.onerror = () => {
       alert("Could not read image file from your device.");
+      onError?.();
     };
     reader.onload = (e) => {
       const src = e.target?.result as string;
@@ -201,7 +227,11 @@ export default function AdminPage() {
     reader.readAsDataURL(file);
   };
 
-  const uploadImage = async (dataUrl: string, onUploaded: (url: string) => void) => {
+  const uploadImage = async (
+    dataUrl: string,
+    onUploaded: (url: string) => void,
+    onError?: () => void
+  ) => {
     try {
       const image = await fetch(dataUrl).then((response) => response.blob());
       const formData = new FormData();
@@ -219,6 +249,7 @@ export default function AdminPage() {
       showToast("Image uploaded to shared storage.");
     } catch (error) {
       showToast(error instanceof Error ? error.message : "Image upload failed.");
+      onError?.();
     }
   };
 
@@ -242,6 +273,18 @@ export default function AdminPage() {
   const openEditClient = (client: ClientItem) => {
     setEditingClient(client);
     setClientLogoPreview(client.logoUrl || "/images/clients/shell-pakistan-logo.png");
+  };
+
+  const openAddNews = () => {
+    setEditingNews(null);
+    setNewsImagePreview("");
+    setIsAddingNews(true);
+  };
+
+  const openEditNews = (item: NewsItem) => {
+    setIsAddingNews(false);
+    setEditingNews(item);
+    setNewsImagePreview(item.imagePath);
   };
 
   const showToast = (msg: string) => {
@@ -514,6 +557,7 @@ export default function AdminPage() {
             { id: "services", label: "Services Page", icon: Layers, count: content.services.length },
             { id: "values", label: "Our Values Page", icon: Award, count: content.values.length },
             { id: "careers", label: "Careers & Jobs", icon: Briefcase, count: content.careers.jobs.length },
+            { id: "news", label: "News Page", icon: Newspaper, count: content.news.length },
             { id: "team", label: "Core Team", icon: Users, count: content.team?.length ?? 0 },
             { id: "privacy", label: "Privacy Policy", icon: ShieldCheck, count: null },
             { id: "backup", label: "Backup & Sync", icon: RotateCcw, count: null },
@@ -2143,6 +2187,388 @@ export default function AdminPage() {
             </div>
           )}
 
+          {activeTab === "news" && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-800">
+                <div>
+                  <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                    <Newspaper className="w-6 h-6 text-brand-purple" />
+                    <span>News &amp; Updates</span>
+                  </h2>
+                  <p className="text-xs text-neutral-400 mt-1">
+                    Publish news, events, and other stories. Newest posts appear first, with 12 stories per page.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={openAddNews}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-purple hover:bg-brand-purple/90 text-white rounded-xl text-xs font-semibold shadow-md transition-all cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Add News</span>
+                  </button>
+                  <Link
+                    href="/news/"
+                    target="_blank"
+                    className="inline-flex items-center gap-1 px-3 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-xl text-xs transition-colors"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>View News</span>
+                  </Link>
+                </div>
+              </div>
+
+              <form
+                key={`${content.newsHero.title}-${content.lastUpdated ?? ""}`}
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  const formData = new FormData(event.currentTarget);
+                  const title = String(formData.get("newsHeroTitle") || "").trim();
+                  const description = String(formData.get("newsHeroDescription") || "").trim();
+                  updateNewsHero({
+                    title,
+                    description,
+                    images: newsHeroImagesDraft ?? content.newsHero.images,
+                  });
+                  setNewsHeroImagesDraft(null);
+                  setNewsHeroImageUrl("");
+                  showToast("News hero and carousel settings saved.");
+                }}
+                className="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-5 space-y-4"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-white">News Hero Settings</h3>
+                  <p className="mt-1 text-xs text-neutral-400">
+                    Set the hero text and manage its rotating background images separately from news posts.
+                  </p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="block text-xs font-medium text-neutral-300">
+                    Hero headline
+                    <input
+                      name="newsHeroTitle"
+                      defaultValue={content.newsHero.title}
+                      required
+                      className="mt-1 w-full rounded-xl border border-neutral-700 bg-neutral-950 px-3.5 py-2.5 text-xs text-white focus:border-brand-purple focus:outline-none"
+                    />
+                  </label>
+                  <label className="block text-xs font-medium text-neutral-300">
+                    Hero description
+                    <textarea
+                      name="newsHeroDescription"
+                      defaultValue={content.newsHero.description}
+                      rows={2}
+                      required
+                      className="mt-1 w-full rounded-xl border border-neutral-700 bg-neutral-950 px-3.5 py-2.5 text-xs text-white focus:border-brand-purple focus:outline-none"
+                    />
+                  </label>
+                  <label className="block text-xs font-medium text-neutral-300 sm:col-span-2">
+                    Add image by URL
+                    <input
+                      type="url"
+                      value={newsHeroImageUrl}
+                      onChange={(event) => setNewsHeroImageUrl(event.currentTarget.value)}
+                      placeholder="https://... (optional)"
+                      className="mt-1 w-full rounded-xl border border-neutral-700 bg-neutral-950 px-3.5 py-2.5 text-xs text-white focus:border-brand-purple focus:outline-none"
+                    />
+                    <span className="mt-1 block text-[10px] text-neutral-500">
+                      You can also upload several photos at once below.
+                    </span>
+                  </label>
+                  <div className="sm:col-span-2 flex justify-end">
+                    <button
+                      type="button"
+                      disabled={!newsHeroImageUrl.trim()}
+                      onClick={() => {
+                        const imageUrl = newsHeroImageUrl.trim();
+                        setNewsHeroImagesDraft((images) => [
+                          ...(images ?? content.newsHero.images),
+                          imageUrl,
+                        ]);
+                        setNewsHeroImageUrl("");
+                      }}
+                      className="rounded-xl bg-neutral-800 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-neutral-700 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      Add image URL
+                    </button>
+                  </div>
+                  <label className="block text-xs font-medium text-neutral-300 sm:col-span-2">
+                    Upload hero carousel images
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      multiple
+                      onChange={(event) => {
+                        const files = Array.from(event.currentTarget.files ?? []);
+                        event.currentTarget.value = "";
+                        if (files.length === 0) return;
+                        setNewsHeroUploadsInProgress((count) => count + files.length);
+                        files.forEach((file) => {
+                          const finishUpload = () =>
+                            setNewsHeroUploadsInProgress((count) => Math.max(0, count - 1));
+                          handleImageFile(
+                            file,
+                            (dataUrl) => {
+                              void uploadImage(
+                                dataUrl,
+                                (imageUrl) => {
+                                  setNewsHeroImagesDraft((images) => [
+                                    ...(images ?? content.newsHero.images),
+                                    imageUrl,
+                                  ]);
+                                  finishUpload();
+                                },
+                                finishUpload
+                              );
+                            },
+                            finishUpload
+                          );
+                        });
+                      }}
+                      className="mt-1 block w-full text-xs text-neutral-400 file:mr-3 file:rounded-lg file:border-0 file:bg-neutral-800 file:px-3 file:py-2 file:text-xs file:text-white hover:file:bg-neutral-700"
+                    />
+                    <span className="mt-1 block text-[10px] text-neutral-500">
+                      Select multiple JPEG, PNG, or WebP images. They will rotate in the hero slideshow.
+                    </span>
+                  </label>
+                </div>
+                {(() => {
+                  const heroImages = newsHeroImagesDraft ?? content.newsHero.images;
+                  return heroImages.length > 0 ? (
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                      {heroImages.map((imageUrl, index) => (
+                        <div
+                          key={`${imageUrl}-${index}`}
+                          className="overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950"
+                        >
+                          <div className="relative aspect-video bg-neutral-900">
+                            <Image
+                              src={imageUrl}
+                              alt={`News hero slide ${index + 1}`}
+                              fill
+                              unoptimized
+                              className="object-cover"
+                              sizes="(max-width: 640px) 50vw, 33vw"
+                            />
+                          </div>
+                          <div className="flex items-center justify-between gap-2 p-2.5">
+                            <span className="text-[10px] text-neutral-400">
+                              Slide {index + 1}
+                            </span>
+                            <button
+                              type="button"
+                              aria-label={`Remove hero slide ${index + 1}`}
+                              onClick={() =>
+                                setNewsHeroImagesDraft(
+                                  heroImages.filter((_, imageIndex) => imageIndex !== index)
+                                )
+                              }
+                              className="inline-flex items-center gap-1 rounded-lg border border-red-900/60 px-2 py-1 text-[10px] text-red-300 transition-colors hover:bg-red-950/50"
+                            >
+                              <Trash2 className="h-3 w-3" />
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="rounded-xl border border-dashed border-neutral-700 px-4 py-8 text-center text-xs text-neutral-400">
+                      No hero images yet. Upload multiple images to create a rotating hero carousel.
+                    </p>
+                  );
+                })()}
+                {newsHeroUploadsInProgress > 0 && (
+                  <p className="text-xs text-brand-purple">
+                    Uploading {newsHeroUploadsInProgress}{" "}
+                    {newsHeroUploadsInProgress === 1 ? "image" : "images"}...
+                  </p>
+                )}
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    disabled={newsHeroUploadsInProgress > 0}
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-brand-purple px-4 py-2 text-xs font-semibold text-white hover:bg-brand-purple/90"
+                  >
+                    <Save className="h-3.5 w-3.5" />
+                    Save Hero Carousel
+                  </button>
+                </div>
+              </form>
+
+              <section className="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-5 space-y-4">
+                <div>
+                  <h3 className="text-sm font-bold text-white">Featured News Carousel</h3>
+                  <p className="mt-1 text-xs text-neutral-400">
+                    Select which published stories appear in the carousel. Adding news does not change this selection.
+                  </p>
+                </div>
+                {content.news.length === 0 ? (
+                  <p className="rounded-xl border border-dashed border-neutral-700 px-4 py-6 text-center text-xs text-neutral-400">
+                    Add a news item first, then select it here for the carousel.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {content.news.map((item) => {
+                      const selected = content.newsCarouselIds.includes(item.id);
+                      return (
+                        <label
+                          key={item.id}
+                          className="flex cursor-pointer items-start gap-3 rounded-xl border border-neutral-800 bg-neutral-950/70 p-3 hover:border-neutral-700"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selected}
+                            onChange={(event) => {
+                              const nextIds = event.currentTarget.checked
+                                ? [...content.newsCarouselIds, item.id]
+                                : content.newsCarouselIds.filter((id) => id !== item.id);
+                              updateNewsCarousel(nextIds);
+                              showToast(
+                                event.currentTarget.checked
+                                  ? `Added "${item.title}" to the carousel.`
+                                  : `Removed "${item.title}" from the carousel.`
+                              );
+                            }}
+                            className="mt-0.5 h-4 w-4 accent-brand-purple"
+                          />
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-xs font-semibold text-white">{item.title}</span>
+                            <span className="mt-1 block text-[10px] text-neutral-500">
+                              {item.category} · {item.publishedAt}
+                            </span>
+                          </span>
+                          {selected && (
+                            <span className="text-[10px] font-semibold text-brand-purple">In carousel</span>
+                          )}
+                        </label>
+                      );
+                    })}
+                  </div>
+                )}
+              </section>
+
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  const formData = new FormData(event.currentTarget);
+                  updateNewsIntro({
+                    title: String(formData.get("newsIntroTitle") || "").trim(),
+                    description: String(formData.get("newsIntroDescription") || "").trim(),
+                  });
+                  showToast("Updated the News page heading and description.");
+                }}
+                className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4"
+              >
+                <h3 className="text-sm font-bold text-white">News page heading</h3>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="block text-xs text-neutral-300 font-medium">
+                    Heading
+                    <input
+                      name="newsIntroTitle"
+                      defaultValue={content.newsIntro.title}
+                      required
+                      className="mt-1 w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                    />
+                  </label>
+                  <label className="block text-xs text-neutral-300 font-medium">
+                    Description
+                    <textarea
+                      name="newsIntroDescription"
+                      defaultValue={content.newsIntro.description}
+                      rows={2}
+                      required
+                      className="mt-1 w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                    />
+                  </label>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-xs font-semibold transition-colors"
+                  >
+                    <Save className="w-3.5 h-3.5" />
+                    Save Heading
+                  </button>
+                </div>
+              </form>
+
+              {content.news.length === 0 ? (
+                <div className="p-8 rounded-2xl bg-neutral-900/30 border border-neutral-800 text-center space-y-3">
+                  <Newspaper className="w-8 h-8 text-neutral-500 mx-auto" />
+                  <h4 className="text-sm font-bold text-white">No news published yet</h4>
+                  <p className="text-xs text-neutral-400 max-w-md mx-auto">
+                    Add a story to publish it on the News page. Choose a label such as News, Event, or Announcement.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {[...content.news]
+                    .sort((a, b) => {
+                      const dateDifference =
+                        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+                      return dateDifference || (b.createdAt || "").localeCompare(a.createdAt || "");
+                    })
+                    .map((item) => (
+                      <article
+                        key={item.id}
+                        className="p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 flex flex-col sm:flex-row sm:items-center gap-4"
+                      >
+                        <div className="relative w-full sm:w-28 aspect-[4/3] shrink-0 rounded-lg overflow-hidden bg-neutral-800">
+                          {item.imagePath ? (
+                            <Image
+                              src={item.imagePath}
+                              alt={item.title}
+                              fill
+                              unoptimized
+                              className="object-cover"
+                              sizes="112px"
+                            />
+                          ) : null}
+                        </div>
+                        <div className="min-w-0 flex-1 space-y-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-[10px] px-2 py-0.5 rounded bg-brand-purple/20 text-brand-purple font-semibold">
+                              {item.category}
+                            </span>
+                            <span className="text-[10px] text-neutral-500">
+                              {item.publishedAt}
+                            </span>
+                          </div>
+                          <h3 className="text-sm font-bold text-white">{item.title}</h3>
+                          <p className="text-xs text-neutral-400 line-clamp-2">{item.summary}</p>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => openEditNews(item)}
+                            aria-label={`Edit ${item.title}`}
+                            className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white transition-colors cursor-pointer"
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (confirm(`Delete news item "${item.title}"?`)) {
+                                deleteNewsItem(item.id);
+                                showToast(`Deleted news item: ${item.title}`);
+                              }
+                            }}
+                            aria-label={`Delete ${item.title}`}
+                            className="p-2 rounded-lg bg-red-950/30 hover:bg-red-900/50 text-red-400 hover:text-red-200 transition-colors cursor-pointer"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </article>
+                    ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* ========================================================= */}
           {/* TAB: CORE TEAM */}
           {/* ========================================================= */}
@@ -3659,6 +4085,184 @@ export default function AdminPage() {
                   className="px-5 py-2.5 rounded-xl bg-brand-purple hover:bg-brand-purple/90 text-white text-xs font-semibold shadow-md"
                 >
                   Save Vacancy
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {(isAddingNews || editingNews) && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="news-editor-title"
+        >
+          <div className="w-full max-w-2xl bg-neutral-900 border border-neutral-700 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6">
+            <div className="flex items-center justify-between border-b border-neutral-800 pb-4">
+              <h3 id="news-editor-title" className="text-lg font-bold text-white flex items-center gap-2">
+                <Newspaper className="w-5 h-5 text-brand-purple" />
+                <span>{editingNews ? "Edit News Item" : "Add News Item"}</span>
+              </h3>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsAddingNews(false);
+                  setEditingNews(null);
+                }}
+                aria-label="Close news editor"
+                className="p-1 rounded-lg hover:bg-neutral-800 text-neutral-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form
+              key={editingNews?.id ?? "new-news"}
+              onSubmit={(event) => {
+                event.preventDefault();
+                const formData = new FormData(event.currentTarget);
+                const title = String(formData.get("newsTitle") || "").trim();
+                const category = String(formData.get("newsCategory") || "").trim();
+                const summary = String(formData.get("newsSummary") || "").trim();
+                const publishedAt = String(formData.get("newsDate") || "");
+
+                const saveNewsItem = (imagePath: string) => {
+                  const item: NewsItem = {
+                    id: editingNews?.id ?? `news-${Date.now()}`,
+                    title,
+                    category,
+                    summary,
+                    imagePath,
+                    publishedAt,
+                    createdAt: editingNews?.createdAt || new Date().toISOString(),
+                  };
+
+                  if (editingNews) {
+                    updateNewsItem(editingNews.id, item);
+                    showToast(`Updated news item: ${title}`);
+                  } else {
+                    addNewsItem(item);
+                    showToast(`Published news item: ${title}`);
+                  }
+                  setIsAddingNews(false);
+                  setEditingNews(null);
+                };
+
+                if (!newsImagePreview.trim()) {
+                  showToast("Add an image URL or upload a news image.");
+                  return;
+                }
+                if (newsImagePreview.startsWith("data:image/")) {
+                  uploadImage(newsImagePreview, saveNewsItem);
+                  return;
+                }
+                saveNewsItem(newsImagePreview.trim());
+              }}
+              className="space-y-4"
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
+                <label className="block text-xs text-neutral-300 font-medium">
+                  Headline *
+                  <input
+                    name="newsTitle"
+                    defaultValue={editingNews?.title || ""}
+                    placeholder="Write the news headline"
+                    required
+                    className="mt-1 w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                  />
+                </label>
+                <label className="block text-xs text-neutral-300 font-medium">
+                  Category / Label *
+                  <input
+                    name="newsCategory"
+                    defaultValue={editingNews?.category || "News"}
+                    placeholder="News, Event, Announcement..."
+                    required
+                    className="mt-1 w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                  />
+                </label>
+                <label className="block text-xs text-neutral-300 font-medium sm:col-span-2">
+                  Publication date *
+                  <input
+                    name="newsDate"
+                    type="date"
+                    defaultValue={editingNews?.publishedAt || new Date().toISOString().slice(0, 10)}
+                    required
+                    className="mt-1 w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                  />
+                </label>
+                <label className="block text-xs text-neutral-300 font-medium sm:col-span-2">
+                  Short description *
+                  <textarea
+                    name="newsSummary"
+                    defaultValue={editingNews?.summary || ""}
+                    rows={3}
+                    maxLength={500}
+                    placeholder="Write two or three lines about this story."
+                    required
+                    className="mt-1 w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                  />
+                </label>
+                <label className="block text-xs text-neutral-300 font-medium sm:col-span-2">
+                  Image URL or uploaded image *
+                  <input
+                    name="newsImagePath"
+                    type="text"
+                    value={newsImagePreview}
+                    onChange={(event) => setNewsImagePreview(event.currentTarget.value)}
+                    placeholder="/images/news/story.jpg or https://..."
+                    required
+                    className="mt-1 w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-purple"
+                  />
+                  <span className="mt-1 block text-[10px] text-neutral-500">
+                    Upload a JPEG, PNG, or WebP image, or paste an existing image URL.
+                  </span>
+                </label>
+                <label className="block text-xs text-neutral-300 font-medium sm:col-span-2">
+                  Upload image
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={(event) => {
+                      const file = event.currentTarget.files?.[0];
+                      if (file) handleImageFile(file, setNewsImagePreview);
+                    }}
+                    className="mt-1 block w-full text-xs text-neutral-400 file:mr-3 file:rounded-lg file:border-0 file:bg-neutral-800 file:px-3 file:py-2 file:text-xs file:text-white hover:file:bg-neutral-700"
+                  />
+                </label>
+              </div>
+
+              {newsImagePreview && (
+                <div className="relative aspect-[16/7] w-full overflow-hidden rounded-xl bg-neutral-800">
+                  <Image
+                    src={newsImagePreview}
+                    alt="News image preview"
+                    fill
+                    unoptimized
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 672px"
+                  />
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-neutral-800">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsAddingNews(false);
+                    setEditingNews(null);
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-xs text-neutral-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded-xl bg-brand-purple hover:bg-brand-purple/90 text-white text-xs font-semibold shadow-md"
+                >
+                  {editingNews ? "Save Changes" : "Publish News"}
                 </button>
               </div>
             </form>

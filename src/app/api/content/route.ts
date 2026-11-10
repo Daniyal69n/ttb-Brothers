@@ -19,6 +19,12 @@ function isSiteContent(value: unknown): value is Record<string, unknown> {
     Array.isArray(content.services) &&
     Array.isArray(content.values) &&
     Array.isArray(content.team) &&
+    Array.isArray(content.news) &&
+    typeof content.newsIntro === "object" &&
+    content.newsIntro !== null &&
+    typeof content.newsHero === "object" &&
+    content.newsHero !== null &&
+    Array.isArray(content.newsCarouselIds) &&
     (content.valuesGalleryImages === undefined ||
       (Array.isArray(content.valuesGalleryImages) &&
         content.valuesGalleryImages.every((imageUrl) => typeof imageUrl === "string"))) &&
