@@ -116,7 +116,7 @@ export default function NewsPage() {
           <div className="max-w-3xl space-y-4">
             <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
               <Newspaper className="h-4 w-4" />
-              TTB News &amp; Stories
+              {content.newsHero.badge}
             </p>
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
               {content.newsHero.title}

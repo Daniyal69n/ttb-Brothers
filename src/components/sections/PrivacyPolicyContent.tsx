@@ -5,6 +5,7 @@ import { Info } from "lucide-react";
 import { useContent } from "@/context/ContentContext";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
+import { ManagedPageCarousel } from "@/components/sections/ManagedPageCarousel";
 
 export function PrivacyPolicyContent() {
   const { content } = useContent();
@@ -16,8 +17,9 @@ export function PrivacyPolicyContent() {
 
   return (
     <div className="flex flex-col">
-      <section className="bg-black text-white py-16 md:py-20 border-b border-black-70 overflow-hidden">
-        <Container>
+      <section className="relative bg-black text-white py-16 md:py-20 border-b border-black-70 overflow-hidden">
+        <ManagedPageCarousel page="privacy" />
+        <Container className="relative z-30">
           <div className="max-w-3xl space-y-4">
             <div className="animate-fade-in-down">
               <Badge variant="accent">{policy.badge}</Badge>

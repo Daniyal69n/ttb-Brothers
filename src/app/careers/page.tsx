@@ -11,6 +11,7 @@ import {
 } from "@/content/careers";
 import { CareersOpeningsList } from "@/components/sections/CareersOpeningsList";
 import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
+import { ManagedPageCarousel } from "@/components/sections/ManagedPageCarousel";
 import { DynamicIcon } from "@/components/ui/IconHelper";
 import { Mail, ArrowRight } from "lucide-react";
 
@@ -24,7 +25,8 @@ export default function CareersPage() {
   return (
     <div className="flex flex-col">
       {/* 1. Header */}
-      <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+      <section className="relative bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+        <ManagedPageCarousel page="careers" />
         <ManagedPageHeader page="careers" />
       </section>
 

@@ -5,6 +5,7 @@ import { ContactForm } from "@/components/sections/ContactForm";
 import { ContactUsDirectory } from "@/components/sections/ContactUsDirectory";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
+import { ManagedPageCarousel } from "@/components/sections/ManagedPageCarousel";
 
 export const metadata: Metadata = {
   title: "Contact Us | T & T Brothers (TTB)",
@@ -16,7 +17,8 @@ export default function ContactUsPage() {
   return (
     <div className="flex flex-col">
       {/* 1. Page Header */}
-      <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+      <section className="relative bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+        <ManagedPageCarousel page="contact" />
         <ManagedPageHeader page="contact" />
       </section>
 

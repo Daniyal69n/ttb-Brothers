@@ -25,6 +25,7 @@ import {
 } from "@/content/careers";
 import { contactConfig, contactPageContent } from "@/content/contact";
 import { coreTeamMembers, teamIntroduction } from "@/content/team";
+import { defaultPageHeroImages, HeroCarouselPage } from "@/content/hero";
 
 export interface HeroContent {
   badge: string;
@@ -109,11 +110,13 @@ export interface SiteContent {
     description: string;
   };
   newsHero: {
+    badge: string;
     title: string;
     description: string;
     images: string[];
     imagePath?: string;
   };
+  pageHeroImages: Record<HeroCarouselPage, string[]>;
   news: NewsItem[];
   newsCarouselIds: string[];
   contactConfig: ContactConfig;
@@ -249,11 +252,13 @@ const defaultContent: SiteContent = {
       "Stay up to date with the latest news, events, and stories from T & T Brothers.",
   },
   newsHero: {
+    badge: "TTB News & Stories",
     title: "News & Stories",
     description:
       "The latest updates, events, and stories from T & T Brothers.",
     images: [],
   },
+  pageHeroImages: defaultPageHeroImages,
   news: [],
   newsCarouselIds: [],
   contactConfig: contactConfig,
@@ -356,6 +361,9 @@ interface ContentContextType {
   deleteGalleryImage: (index: number) => void;
   addValuesGalleryImage: (imageUrl: string) => void;
   deleteValuesGalleryImage: (index: number) => void;
+  updatePageHeroImages: (page: HeroCarouselPage, images: string[]) => void;
+  addPageHeroImage: (page: HeroCarouselPage, imageUrl: string) => void;
+  deletePageHeroImage: (page: HeroCarouselPage, index: number) => void;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -469,6 +477,16 @@ function mergeContentWithDefaults(parsed: Partial<SiteContent>): SiteContent {
           ? [parsed.newsHero.imagePath]
           : defaultContent.newsHero.images,
     },
+    pageHeroImages: Object.fromEntries(
+      (Object.keys(defaultPageHeroImages) as HeroCarouselPage[]).map((page) => [
+        page,
+        Array.isArray(parsed.pageHeroImages?.[page])
+          ? parsed.pageHeroImages[page].filter(
+              (imageUrl): imageUrl is string => typeof imageUrl === "string"
+            )
+          : defaultPageHeroImages[page],
+      ])
+    ) as SiteContent["pageHeroImages"],
     news: Array.isArray(parsed.news) ? parsed.news : defaultContent.news,
     newsCarouselIds: Array.isArray(parsed.newsCarouselIds)
       ? parsed.newsCarouselIds.filter((id): id is string => typeof id === "string")
@@ -510,6 +528,10 @@ function isSiteContent(value: unknown): value is SiteContent {
       (typeof parsed.newsIntro === "object" && parsed.newsIntro !== null)) &&
     (parsed.newsHero === undefined ||
       (typeof parsed.newsHero === "object" && parsed.newsHero !== null)) &&
+    (parsed.pageHeroImages === undefined ||
+      (typeof parsed.pageHeroImages === "object" &&
+        parsed.pageHeroImages !== null &&
+        !Array.isArray(parsed.pageHeroImages))) &&
     (parsed.newsCarouselIds === undefined || Array.isArray(parsed.newsCarouselIds))
   );
 }
@@ -1038,6 +1060,38 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const updatePageHeroImages = (page: HeroCarouselPage, images: string[]) => {
+    saveContent({
+      ...contentRef.current,
+      pageHeroImages: {
+        ...contentRef.current.pageHeroImages,
+        [page]: images,
+      },
+    });
+  };
+
+  const addPageHeroImage = (page: HeroCarouselPage, imageUrl: string) => {
+    saveContent({
+      ...contentRef.current,
+      pageHeroImages: {
+        ...contentRef.current.pageHeroImages,
+        [page]: [...contentRef.current.pageHeroImages[page], imageUrl],
+      },
+    });
+  };
+
+  const deletePageHeroImage = (page: HeroCarouselPage, index: number) => {
+    saveContent({
+      ...contentRef.current,
+      pageHeroImages: {
+        ...contentRef.current.pageHeroImages,
+        [page]: contentRef.current.pageHeroImages[page].filter(
+          (_, imageIndex) => imageIndex !== index
+        ),
+      },
+    });
+  };
+
   return (
     <ContentContext.Provider
       value={{
@@ -1091,6 +1145,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         deleteGalleryImage,
         addValuesGalleryImage,
         deleteValuesGalleryImage,
+        updatePageHeroImages,
+        addPageHeroImage,
+        deletePageHeroImage,
       }}
     >
       {children}

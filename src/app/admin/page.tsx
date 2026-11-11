@@ -4,6 +4,9 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useContent } from "@/context/ContentContext";
+import type { SiteContent } from "@/context/ContentContext";
+import type { HeroCarouselPage } from "@/content/hero";
+import { PageHeroEditor } from "@/components/admin/PageHeroEditor";
 import {
   ProjectItem,
   ClientItem,
@@ -77,6 +80,84 @@ function splitParagraphs(value: string) {
     .filter(Boolean);
 }
 
+const HERO_EDITOR_LABELS: Record<HeroCarouselPage, string> = {
+  home: "Home",
+  about: "About Us",
+  values: "Our Values",
+  team: "Core Team",
+  clients: "Clients",
+  services: "Services",
+  projects: "Projects",
+  careers: "Careers",
+  contact: "Contact Us",
+  privacy: "Privacy Policy",
+};
+
+function getHeroEditorContent(content: SiteContent, page: HeroCarouselPage) {
+  switch (page) {
+    case "home":
+      return {
+        badge: content.hero.badge,
+        title: content.hero.headline,
+        description: content.hero.description,
+      };
+    case "about":
+      return {
+        badge: content.aboutUs.badge,
+        title: content.aboutUs.title,
+        description: content.aboutUs.subtitle,
+      };
+    case "values":
+      return {
+        badge: content.valuesIntro.badge,
+        title: content.valuesIntro.title,
+        description: content.valuesIntro.subtitle,
+      };
+    case "team":
+      return {
+        badge: content.teamIntro.badge,
+        title: content.teamIntro.title,
+        description: content.teamIntro.subtitle,
+      };
+    case "clients":
+      return {
+        badge: content.clientsIntro.badge,
+        title: content.clientsIntro.title,
+        description: content.clientsIntro.subtitle,
+      };
+    case "services":
+      return {
+        badge: content.servicesIntro.badge,
+        title: content.servicesIntro.title,
+        description: content.servicesIntro.subtitle,
+      };
+    case "projects":
+      return {
+        badge: content.projectsIntro.badge,
+        title: content.projectsIntro.title,
+        description: content.projectsIntro.subtitle,
+      };
+    case "careers":
+      return {
+        badge: content.careersIntro.badge,
+        title: content.careersIntro.title,
+        description: content.careersIntro.subtitle,
+      };
+    case "contact":
+      return {
+        badge: content.contactIntro.badge,
+        title: content.contactIntro.title,
+        description: content.contactIntro.subtitle,
+      };
+    case "privacy":
+      return {
+        badge: content.privacyPolicy.badge,
+        title: content.privacyPolicy.title,
+        description: content.privacyPolicy.description,
+      };
+  }
+}
+
 export default function AdminPage() {
   const {
     content,
@@ -94,6 +175,12 @@ export default function AdminPage() {
     deleteClient,
     updateCompany,
     updateHero,
+    updateProjectsIntro,
+    updateClientsIntro,
+    updateServicesIntro,
+    updateValuesIntro,
+    updateCareersIntro,
+    updateTeamIntro,
     updateHsseStatistics,
     updateCompanyFactSheet,
     updateAboutUs,
@@ -122,6 +209,8 @@ export default function AdminPage() {
     deleteGalleryImage,
     addValuesGalleryImage,
     deleteValuesGalleryImage,
+    addPageHeroImage,
+    deletePageHeroImage,
   } = useContent();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -292,6 +381,83 @@ export default function AdminPage() {
     setTimeout(() => {
       setToastMessage(null);
     }, 3500);
+  };
+
+  const saveHeroCopy = (
+    page: HeroCarouselPage,
+    badge: string,
+    title: string,
+    description: string
+  ) => {
+    switch (page) {
+      case "home":
+        updateHero({ badge, headline: title, description });
+        break;
+      case "about":
+        updateAboutUs({ badge, title, subtitle: description });
+        break;
+      case "values":
+        updateValuesIntro({ badge, title, subtitle: description });
+        break;
+      case "team":
+        updateTeamIntro({ badge, title, subtitle: description });
+        break;
+      case "clients":
+        updateClientsIntro({ badge, title, subtitle: description });
+        break;
+      case "services":
+        updateServicesIntro({ badge, title, subtitle: description });
+        break;
+      case "projects":
+        updateProjectsIntro({ badge, title, subtitle: description });
+        break;
+      case "careers":
+        updateCareersIntro({ badge, title, subtitle: description });
+        break;
+      case "contact":
+        updateContactIntro({ badge, title, subtitle: description });
+        break;
+      case "privacy":
+        updatePrivacyPolicy({ badge, title, description });
+        break;
+    }
+    showToast(`${HERO_EDITOR_LABELS[page]} hero updated.`);
+  };
+
+  const addHeroImage = (page: HeroCarouselPage, imageUrl: string) => {
+    addPageHeroImage(page, imageUrl);
+  };
+
+  const deleteHeroImage = (page: HeroCarouselPage, index: number) => {
+    deletePageHeroImage(page, index);
+  };
+
+  const renderPageHeroEditor = (
+    page: HeroCarouselPage,
+    showCopy = true
+  ) => {
+    const copy = getHeroEditorContent(content, page);
+    return (
+      <PageHeroEditor
+        key={page}
+        pageLabel={HERO_EDITOR_LABELS[page]}
+        copy={copy}
+        images={content.pageHeroImages[page]}
+        showCopy={showCopy}
+        onSaveCopy={(badge, title, description) =>
+          saveHeroCopy(page, badge, title, description)
+        }
+        onAddImage={(imageUrl) => addHeroImage(page, imageUrl)}
+        onDeleteImage={(index) => deleteHeroImage(page, index)}
+        onUploadImage={(file, onUploaded, onError) =>
+          handleImageFile(
+            file,
+            (dataUrl) => void uploadImage(dataUrl, onUploaded, onError),
+            onError
+          )
+        }
+      />
+    );
   };
 
   useEffect(() => {
@@ -471,7 +637,6 @@ export default function AdminPage() {
       c.industry.toLowerCase().includes(clientSearch.toLowerCase())
   );
   const visibleToast = toastMessage ?? persistenceError;
-
   return (
     <div className="min-h-screen bg-[#0c0c0e] text-neutral-100 flex flex-col">
       {/* Toast Notification */}
@@ -790,6 +955,8 @@ export default function AdminPage() {
                 </div>
               </div>
 
+              {renderPageHeroEditor("projects")}
+
               {/* Search filter */}
               <div className="relative">
                 <Search className="w-4 h-4 text-neutral-500 absolute left-3.5 top-3" />
@@ -903,6 +1070,8 @@ export default function AdminPage() {
                 </div>
               </div>
 
+              {renderPageHeroEditor("clients")}
+
               {/* Search */}
               <div className="relative">
                 <Search className="w-4 h-4 text-neutral-500 absolute left-3.5 top-3" />
@@ -1009,6 +1178,8 @@ export default function AdminPage() {
                   <span>View Contact Page</span>
                 </Link>
               </div>
+
+              {renderPageHeroEditor("contact")}
 
               {/* Form for Contact Details */}
               <form
@@ -1160,7 +1331,6 @@ export default function AdminPage() {
             </div>
           )}
 
-          {/* ========================================================= */}
           {/* TAB 5: HOME & HERO EDITOR */}
           {/* ========================================================= */}
           {activeTab === "home" && (
@@ -1184,6 +1354,8 @@ export default function AdminPage() {
                   <span>View Homepage</span>
                 </Link>
               </div>
+
+              {renderPageHeroEditor("home", false)}
 
               <form
                 onSubmit={(e) => {
@@ -1695,6 +1867,8 @@ export default function AdminPage() {
                 </Link>
               </div>
 
+              {renderPageHeroEditor("about")}
+
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -1878,6 +2052,8 @@ export default function AdminPage() {
                 </div>
               </div>
 
+              {renderPageHeroEditor("services")}
+
               <div className="space-y-4">
                 {content.services.map((svc) => (
                   <div
@@ -1974,6 +2150,8 @@ export default function AdminPage() {
                   </Link>
                 </div>
               </div>
+
+              {renderPageHeroEditor("values")}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {content.values.map((val) => (
@@ -2130,6 +2308,8 @@ export default function AdminPage() {
                 </div>
               </div>
 
+              {renderPageHeroEditor("careers")}
+
               {content.careers.jobs.length === 0 ? (
                 <div className="p-8 rounded-2xl bg-neutral-900/30 border border-neutral-800 text-center space-y-3">
                   <Briefcase className="w-8 h-8 text-neutral-500 mx-auto" />
@@ -2224,9 +2404,11 @@ export default function AdminPage() {
                 onSubmit={(event) => {
                   event.preventDefault();
                   const formData = new FormData(event.currentTarget);
+                  const badge = String(formData.get("newsHeroBadge") || "").trim();
                   const title = String(formData.get("newsHeroTitle") || "").trim();
                   const description = String(formData.get("newsHeroDescription") || "").trim();
                   updateNewsHero({
+                    badge,
                     title,
                     description,
                     images: newsHeroImagesDraft ?? content.newsHero.images,
@@ -2244,6 +2426,14 @@ export default function AdminPage() {
                   </p>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="block text-xs font-medium text-neutral-300">
+                    Hero badge
+                    <input
+                      name="newsHeroBadge"
+                      defaultValue={content.newsHero.badge}
+                      className="mt-1 w-full rounded-xl border border-neutral-700 bg-neutral-950 px-3.5 py-2.5 text-xs text-white focus:border-brand-purple focus:outline-none"
+                    />
+                  </label>
                   <label className="block text-xs font-medium text-neutral-300">
                     Hero headline
                     <input
@@ -2598,6 +2788,8 @@ export default function AdminPage() {
                 </button>
               </div>
 
+              {renderPageHeroEditor("team")}
+
               {/* Member grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {(content.team ?? [])
@@ -2888,6 +3080,8 @@ export default function AdminPage() {
                   <span>View Privacy Policy</span>
                 </Link>
               </div>
+
+              {renderPageHeroEditor("privacy", false)}
 
               <form
                 onSubmit={(e) => {

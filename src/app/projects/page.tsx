@@ -22,8 +22,6 @@ export default function ProjectsPage() {
       <section className="relative bg-black text-white overflow-hidden" style={{ minHeight: "480px" }}>
         {/* Background slideshow */}
         <ProjectsHero />
-        {/* Dark overlay so text is always readable */}
-        <div className="absolute inset-0 bg-black/60 z-10" />
         {/* Content */}
         <div className="relative z-20 flex items-center" style={{ minHeight: "480px" }}>
           <ManagedPageHeader

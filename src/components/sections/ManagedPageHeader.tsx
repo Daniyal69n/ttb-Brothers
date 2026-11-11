@@ -37,7 +37,7 @@ export function ManagedPageHeader({
   }[page];
 
   return (
-    <Container className={className}>
+    <Container className={`relative z-30 ${className ?? ""}`}>
       <div className={contentClassName ?? "max-w-3xl space-y-4"}>
         <div className="animate-fade-in-down">
           <Badge variant="accent">{pageContent.badge}</Badge>

@@ -4,6 +4,7 @@ import React from "react";
 import { useContent } from "@/context/ContentContext";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
+import { ManagedPageCarousel } from "@/components/sections/ManagedPageCarousel";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import Image from "next/image";
 import { User } from "lucide-react";
@@ -25,9 +26,10 @@ export default function CoreTeamPage() {
   return (
     <div className="flex flex-col">
       {/* Header */}
-      <section className="bg-black text-white py-16 md:py-24 border-b border-black-70">
+      <section className="relative bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+        <ManagedPageCarousel page="team" />
         <Container>
-          <div className="max-w-3xl space-y-4">
+          <div className="relative z-30 max-w-3xl space-y-4">
             <div className="animate-fade-in-down">
               <Badge variant="accent">{intro.badge}</Badge>
             </div>

@@ -7,6 +7,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { DynamicText } from "@/components/ui/DynamicText";
 import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
+import { ManagedPageCarousel } from "@/components/sections/ManagedPageCarousel";
 import { companyData, directorMessage } from "@/content/company";
 import {
   CheckCircle2,
@@ -27,7 +28,8 @@ export default function AboutUsPage() {
   return (
     <div className="flex flex-col">
       {/* 1. Page Header */}
-      <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+      <section className="relative bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+        <ManagedPageCarousel page="about" />
         <ManagedPageHeader page="about" />
       </section>
 

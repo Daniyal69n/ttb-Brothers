@@ -7,6 +7,7 @@ import { ValuesGrid } from "@/components/sections/ValuesGrid";
 import { ValuesGalleryCarousel } from "@/components/sections/GalleryCarousel";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
+import { ManagedPageCarousel } from "@/components/sections/ManagedPageCarousel";
 import { ArrowRight, HardHat, Award, Users, Camera } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -19,7 +20,8 @@ export default function OurValuesPage() {
   return (
     <div className="flex flex-col">
       {/* 1. Header */}
-      <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+      <section className="relative bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+        <ManagedPageCarousel page="values" />
         <ManagedPageHeader page="values" />
       </section>
 

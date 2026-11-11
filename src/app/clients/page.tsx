@@ -10,6 +10,7 @@ import {
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { Badge } from "@/components/ui/Badge";
 import { ManagedPageHeader } from "@/components/sections/ManagedPageHeader";
+import { ManagedPageCarousel } from "@/components/sections/ManagedPageCarousel";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -22,7 +23,8 @@ export default function ClientsPage() {
   return (
     <div className="flex flex-col">
       {/* 1. Header */}
-      <section className="bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+      <section className="relative bg-black text-white py-16 md:py-24 border-b border-black-70 overflow-hidden">
+        <ManagedPageCarousel page="clients" />
         <ManagedPageHeader page="clients" />
       </section>
 
